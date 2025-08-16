@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vritthi Sphere</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+                'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+                sans-serif;
+            background-color: #0d1117;
+            color: #e0e0e0;
+        }
+
+        /* Gradients and Custom Backgrounds */
+        .header-gradient, .footer-gradient {
+            background: linear-gradient(135deg, #21262d 0%, #30363d 100%);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+        .section-bg {
+             background: linear-gradient(135deg, #21262d 0%, #30363d 100%);
+             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+        .stat-card-gradient {
+            background: linear-gradient(135deg, #3730a3 0%, #5b21b6 100%);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+        .stat-card-gradient:hover {
+            transform: translateY(-5px);
+        }
+        .topic-card-bg {
+            background: linear-gradient(135deg, #161b22 0%, #21262d 100%);
+            border: 1px solid #30363d;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        .topic-card-bg:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            border-color: #58a6ff;
+        }
+        .company-card-bg {
+            background-color: #161b22;
+            border: 1px solid #30363d;
+            transition: all 0.3s ease;
+        }
+        .company-card-bg:hover {
+             border-color: #58a6ff;
+             transform: translateY(-3px);
+        }
+
+        /* Buttons */
+        .btn-gradient {
+            background: linear-gradient(135deg, #da7633 0%, #fb8500 100%);
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+        .btn-gradient:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(251, 133, 0, 0.3);
+            filter: brightness(1.1);
+        }
+        
+        /* Search Input */
+        .search-input {
+            background-color: #21262d;
+            border: 2px solid #30363d;
+            transition: border-color 0.3s ease;
+        }
+        .search-input:focus {
+            outline: none;
+            border-color: #58a6ff;
+        }
+        .search-input::placeholder {
+            color: #8b949e;
+        }
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body class="pt-5">
+
+    <div class="container max-w-7xl mx-auto px-4">
+
+        <!-- Header -->
+        <header class="header-gradient text-center p-8 md:p-10 rounded-xl mb-10">
+            <h1 class="text-4xl md:text-5xl font-bold text-[#58a6ff] mb-4">Vritthi Sphere</h1>
+            <p class="text-lg text-[#8b949e] max-w-3xl mx-auto">Your one-stop destination for cracking technical interviews. Dive into topic-wise DSA questions, company-specific guides, and essential interview resources.</p>
+        </header>
+
+        <!-- Stats Section -->
+        <section class="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-10">
+            <div id="topics-count" class="stat-card-gradient p-6 rounded-xl text-center">
+                <div class="text-5xl font-bold text-white mb-2">9</div>
+                <div class="text-lg text-indigo-200">Topics</div>
+            </div>
+            <div id="companies-count" class="stat-card-gradient p-6 rounded-xl text-center">
+                <div class="text-5xl font-bold text-white mb-2">3</div>
+                <div class="text-lg text-indigo-200">Companies</div>
+            </div>
+             <div id="resources-count" class="stat-card-gradient p-6 rounded-xl text-center">
+                <div class="text-5xl font-bold text-white mb-2">3</div>
+                <div class="text-lg text-indigo-200">Core Subjects</div>
+            </div>
+        </section>
+
+        <!-- Search Section -->
+        <section class="mb-10 flex justify-center">
+            <div class="relative w-full max-w-lg">
+                <input type="text" id="topicSearch" class="search-input w-full p-4 pl-5 pr-12 rounded-full text-lg" placeholder="Search topics...">
+                <span class="absolute right-5 top-1/2 -translate-y-1/2 text-xl text-[#8b949e]">🔍</span>
+            </div>
+        </section>
+
+        <!-- Main Content Sections -->
+        <main>
+            <!-- DSA Topics Section -->
+            <section id="dsa-topics" class="section-bg rounded-xl p-6 md:p-8 mb-10">
+                <h2 class="text-3xl font-bold text-white mb-6 text-center">Data Structures & Algorithms</h2>
+                <div id="topics-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                    <a href="dsa/arrays.html" class="topic-card-bg block p-6 rounded-xl">
+                        <h3 class="text-xl font-semibold text-[#f0f6fc] mb-2">Arrays</h3>
+                        <p class="text-[#8b949e]">Master fundamental array operations.</p>
+                    </a>
+                    <a href="dsa/two-pointers.html" class="topic-card-bg block p-6 rounded-xl">
+                        <h3 class="text-xl font-semibold text-[#f0f6fc] mb-2">Two Pointers</h3>
+                        <p class="text-[#8b949e]">Solve problems efficiently with this approach.</p>
+                    </a>
+                    <a href="dsa/sliding-window.html" class="topic-card-bg block p-6 rounded-xl">
+                        <h3 class="text-xl font-semibold text-[#f0f6fc] mb-2">Sliding Window</h3>
+                        <p class="text-[#8b949e]">Tackle subarray and substring problems.</p>
+                    </a>
+                    <a href="dsa/stack.html" class="topic-card-bg block p-6 rounded-xl">
+                        <h3 class="text-xl font-semibold text-[#f0f6fc] mb-2">Stack</h3>
+                        <p class="text-[#8b949e]">Understand LIFO principles and applications.</p>
+                    </a>
+                    <a href="dsa/binary-search.html" class="topic-card-bg block p-6 rounded-xl">
+                        <h3 class="text-xl font-semibold text-[#f0f6fc] mb-2">Binary Search</h3>
+                        <p class="text-[#8b949e]">Find elements with logarithmic time complexity.</p>
+                    </a>
+                    <a href="dsa/linked-list.html" class="topic-card-bg block p-6 rounded-xl">
+                        <h3 class="text-xl font-semibold text-[#f0f6fc] mb-2">Linked List</h3>
+                        <p class="text-[#8b949e]">Explore dynamic data structures.</p>
+                    </a>
+                    <a href="dsa/trees.html" class="topic-card-bg block p-6 rounded-xl">
+                        <h3 class="text-xl font-semibold text-[#f0f6fc] mb-2">Trees</h3>
+                        <p class="text-[#8b949e]">Learn about hierarchical data and traversals.</p>
+                    </a>
+                    <a href="dsa/graphs.html" class="topic-card-bg block p-6 rounded-xl">
+                        <h3 class="text-xl font-semibold text-[#f0f6fc] mb-2">Graphs</h3>
+                        <p class="text-[#8b949e]">Dive into nodes, edges, and algorithms.</p>
+                    </a>
+                    <a href="dsa/dynamic-programming.html" class="topic-card-bg block p-6 rounded-xl">
+                        <h3 class="text-xl font-semibold text-[#f0f6fc] mb-2">Dynamic Programming</h3>
+                        <p class="text-[#8b949e]">Solve complex problems by breaking them down.</p>
+                    </a>
+                </div>
+                <div class="text-center mt-8">
+                    <a href="dsa.html" class="btn-gradient inline-block text-white font-bold py-3 px-8 rounded-full">View More Topics</a>
+                </div>
+            </section>
+
+            <!-- Company Lists Section -->
+            <section id="companies" class="section-bg rounded-xl p-6 md:p-8 mb-10">
+                <h2 class="text-3xl font-bold text-white mb-6 text-center">Target Companies</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                    <div class="company-card-bg p-6 rounded-xl text-center">
+                        <img src="https://placehold.co/80x80/161b22/8b949e?text=Logo" alt="Company Logo" class="w-20 h-20 rounded-full mb-4 mx-auto border-2 border-[#30363d]">
+                        <h3 class="font-bold text-xl mb-2 text-white">Tech Giant Inc.</h3>
+                        <div class="flex justify-center space-x-4 text-[#8b949e] text-xl">
+                            <a href="#" class="hover:text-[#58a6ff]"><i class="fas fa-globe"></i></a>
+                            <a href="#" class="hover:text-[#58a6ff]"><i class="fab fa-linkedin"></i></a>
+                            <a href="#" class="hover:text-[#58a6ff]"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+                    <div class="company-card-bg p-6 rounded-xl text-center">
+                        <img src="https://placehold.co/80x80/161b22/8b949e?text=Logo" alt="Company Logo" class="w-20 h-20 rounded-full mb-4 mx-auto border-2 border-[#30363d]">
+                        <h3 class="font-bold text-xl mb-2 text-white">Fintech Solutions</h3>
+                        <div class="flex justify-center space-x-4 text-[#8b949e] text-xl">
+                            <a href="#" class="hover:text-[#58a6ff]"><i class="fas fa-globe"></i></a>
+                            <a href="#" class="hover:text-[#58a6ff]"><i class="fab fa-linkedin"></i></a>
+                            <a href="#" class="hover:text-[#58a6ff]"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+                    <div class="company-card-bg p-6 rounded-xl text-center">
+                        <img src="https://placehold.co/80x80/161b22/8b949e?text=Logo" alt="Company Logo" class="w-20 h-20 rounded-full mb-4 mx-auto border-2 border-[#30363d]">
+                        <h3 class="font-bold text-xl mb-2 text-white">Startup Unicorn</h3>
+                        <div class="flex justify-center space-x-4 text-[#8b949e] text-xl">
+                            <a href="#" class="hover:text-[#58a6ff]"><i class="fas fa-globe"></i></a>
+                            <a href="#" class="hover:text-[#58a6ff]"><i class="fab fa-linkedin"></i></a>
+                            <a href="#" class="hover:text-[#58a6ff]"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center mt-8">
+                    <a href="#" class="btn-gradient inline-block text-white font-bold py-3 px-8 rounded-full">View More Companies</a>
+                </div>
+            </section>
+
+            <!-- Other Interview Prep Links -->
+            <section id="interview-prep" class="section-bg rounded-xl p-6 md:p-8">
+                <h2 class="text-3xl font-bold text-white mb-6 text-center">Core Subjects & Prep Links</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div>
+                        <h3 class="font-bold text-xl mb-4 text-[#58a6ff]">Operating Systems</h3>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-[#8b949e] hover:text-[#58a6ff] hover:underline">Process & Thread Management</a></li>
+                            <li><a href="#" class="text-[#8b949e] hover:text-[#58a6ff] hover:underline">Memory Management</a></li>
+                            <li><a href="#" class="text-[#8b949e] hover:text-[#58a6ff] hover:underline">Concurrency & Deadlocks</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-xl mb-4 text-[#58a6ff]">DBMS</h3>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-[#8b949e] hover:text-[#58a6ff] hover:underline">SQL Queries Masterclass</a></li>
+                            <li><a href="#" class="text-[#8b949e] hover:text-[#58a6ff] hover:underline">Normalization & Indexing</a></li>
+                            <li><a href="#" class="text-[#8b949e] hover:text-[#58a6ff] hover:underline">ACID Properties</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-xl mb-4 text-[#58a6ff]">Computer Networks</h3>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-[#8b949e] hover:text-[#58a6ff] hover:underline">OSI & TCP/IP Models</a></li>
+                            <li><a href="#" class="text-[#8b949e] hover:text-[#58a6ff] hover:underline">Common Protocols (HTTP, DNS)</a></li>
+                            <li><a href="#" class="text-[#8b949e] hover:text-[#58a6ff] hover:underline">Network Security Basics</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="text-center mt-8">
+                    <a href="#" class="btn-gradient inline-block text-white font-bold py-3 px-8 rounded-full">View More Resources</a>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer-gradient text-center p-8 rounded-xl mt-10 mb-5">
+            <p class="text-[#f0f6fc] font-semibold text-lg">&copy; 2025 PrepHub</p>
+            <p class="text-[#8b949e]">Built to help you succeed.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Search functionality
+        const searchInput = document.getElementById('topicSearch');
+        const topicsGrid = document.getElementById('topics-grid');
+        const topicCards = topicsGrid.querySelectorAll('.topic-card-bg');
+
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase().trim();
+            
+            topicCards.forEach(card => {
+                const topicTitle = card.querySelector('h3').textContent.toLowerCase();
+                const isMatch = topicTitle.includes(searchTerm);
+                card.classList.toggle('hidden', !isMatch);
+            });
+        });
+    </script>
+</body>
+</html>
