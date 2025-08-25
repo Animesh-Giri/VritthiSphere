@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programming Questions Collection</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+                'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+                sans-serif;
+            line-height: 1.6;
+            color: #e0e0e0;
+            background-color: #0d1117;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #21262d 0%, #30363d 100%);
+            color: #f0f6fc;
+            padding: 40px 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+        
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+            color: #58a6ff;
+            text-align: center;
+            letter-spacing: -0.02em;
+        }
+        
+        .header-info {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-top: 15px;
+        }
+        
+        .header-info p {
+            font-size: 1.1rem;
+            color: #8b949e;
+            margin: 0;
+        }
+        
+        .header-info strong {
+            color: #f0f6fc;
+            font-weight: 600;
+        }
+        
+        .stats-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #3730a3 0%, #5b21b6 100%);
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            font-size: 1.2rem;
+            color: #e0e7ff;
+            font-weight: 500;
+        }
+        
+        .search-section {
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .search-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 15px 50px 15px 20px;
+            font-size: 1.1rem;
+            border: 2px solid #30363d;
+            border-radius: 25px;
+            background-color: #21262d;
+            color: #e0e0e0;
+            transition: border-color 0.3s ease;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: #58a6ff;
+        }
+        
+        .search-input::placeholder {
+            color: #8b949e;
+        }
+        
+        .search-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #8b949e;
+            font-size: 1.2rem;
+        }
+        
+        .topics-section {
+            background: linear-gradient(135deg, #21262d 0%, #30363d 100%);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+        
+        .topics-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .topics-header h2 {
+            color: #f0f6fc;
+            font-size: 2rem;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        
+        .topics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+        }
+        
+        .topic-card {
+            background: linear-gradient(135deg, #161b22 0%, #21262d 100%);
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .topic-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            border-color: #58a6ff;
+        }
+        
+        .topic-header {
+            margin-bottom: 15px;
+        }
+        
+        .topic-title {
+            color: #f0f6fc;
+            font-size: 1.3rem;
+            font-weight: 600;
+            text-transform: capitalize;
+            margin: 0;
+        }
+        
+        .topic-stats {
+            margin-bottom: 20px;
+        }
+        
+        .question-count {
+            background: linear-gradient(135deg, #58a6ff 0%, #79c0ff 100%);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .topic-actions {
+            text-align: center;
+        }
+        
+        .view-questions-btn {
+            background: linear-gradient(135deg, #da7633 0%, #fb8500 100%);
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-block;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .view-questions-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(251, 133, 0, 0.3);
+            filter: brightness(1.1);
+        }
+        
+        .footer {
+            background: linear-gradient(135deg, #21262d 0%, #30363d 100%);
+            color: #8b949e;
+            text-align: center;
+            padding: 30px;
+            margin-top: 50px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+        
+        .footer p {
+            margin: 8px 0;
+            font-size: 1rem;
+        }
+        
+        .footer p:first-child {
+            color: #f0f6fc;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .header {
+                padding: 30px 20px;
+            }
+            
+            .header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .topics-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .topics-section {
+                padding: 20px;
+            }
+            
+            .stats-section {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Programming Questions Collection</h1>
+            <div class="header-info">
+                <p><strong>Generated by:</strong> pushkar</p>
+                <p><strong>Date:</strong> August 24, 2025</p>
+            </div>
+        </header>
+        
+        <div class="stats-section">
+            <div class="stat-card">
+                <div class="stat-number">53</div>
+                <div class="stat-label">Topics</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">5555</div>
+                <div class="stat-label">Total Questions</div>
+            </div>
+        </div>
+        
+        <div class="search-section">
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="Search topics..." id="topicSearch">
+                <span class="search-icon">🔍</span>
+            </div>
+        </div>
+        
+        <div class="topics-section">
+            <div class="topics-header">
+                <span style="font-size: 1.5rem;">📚</span>
+                <h2>Topics</h2>
+            </div>
+            <div class="topics-grid" id="topicsGrid">
+                
+			<div class="topic-card">
+				<div class="topic-header">
+					<h3 class="topic-title">array</h3>
+				</div>
+				<div class="topic-stats">
+					<span class="question-count">1689 questions</span>
+				</div>
+				<div class="topic-actions">
+					<a href="array.html" class="view-questions-btn">View Questions</a>
+				</div>
+			</div>
+			<div class="topic-card">
+				<div class="topic-header">
+					<h3 class="topic-title">backtracking</h3>
+				</div>
+				<div class="topic-stats">
+					<span class="question-count">132 questions</span>
+				</div>
+				<div class="topic-actions">
+					<a href="backtracking.html" class="view-questions-btn">View Questions</a>
+				</div>
+			</div>
+			<div class="topic-card">
+				<div class="topic-header">
+					<h3 class="topic-title">bitmask</h3>
+				</div>
+				<div class="topic-stats">
+					<span class="question-count">67 questions</span>
+				</div>
+				<div class="topic-actions">
+					<a href="bitmask.html" class="view-questions-btn">View Questions</a>
+				</div>
+			</div>
+			<div class="topic-card">
+				<div class="topic-header">
+					<h3 class="topic-title">counting</h3>
+				</div>
+				<div class="topic-stats">
+					<span class="question-count">150 questions</span>
+				</div>
+				<div class="topic-actions">
+					<a href="counting.html" class="view-questions-btn">View Questions</a>
+				</div>
+			</div>
+			<div class="topic-card">
+				<div class="topic-header">
+					<h3 class="topic-title">enumeration</h3>
+				</div>
+				<div class="topic-stats">
+					<span class="question-count">118 questions</span>
+				</div>
+				<div class="topic-actions">
+					<a href="enumeration.html" class="view-questions-btn">View Questions</a>
+				</div>
+			</div>
+			<div class="topic-card">
+				<div class="topic-header">
+					<h3 class="topic-title">graph</h3>
+				</div>
+				<div class="topic-stats">
+					<span class="question-count">252 questions</span>
+				</div>
+				<div class="topic-actions">
+					<a href="graph.html" class="view-questions-btn">View Questions</a>
+				</div>
+			</div>
+			<div class="topic-card">
+				<div class="topic-header">
+					<h3 class="topic-title">greedy</h3>
+				</div>
+				<div class="topic-stats">
+					<span class="question-count">485 questions</span>
+				</div>
+				<div class="topic-actions">
+					<a href="greedy.html" class="view-questions-btn">View Questions</a>
+				</div>
+			</div>
+			<div class="topic-card">
+				<div class="topic-header">
+					<h3 class="topic-title">heap</h3>
+				</div>
+				<div class="topic-stats">
+					<span class="question-count">41 questions</span>
+				</div>
+				<div class="topic-actions">
+					<a href="heap.html" class="view-questions-btn">View Questions</a>
+				</div>
+			</div>
+			<div class="topic-card">
+				<div class="topic-header">
+					<h3 class="topic-title">iterator</h3>
+				</div>
+				<div class="topic-stats">
+					<span class="question-count">5 questions</span>
+				</div>
+				<div class="topic-actions">
+					<a href="iterator.html" class="view-questions-btn">View Questions</a>
+				</div>
+			</div>
+			<div class="topic-card">
+				<div class="topic-header">
+					<h3 class="topic-title">matrix</h3>
+				</div>
+				<div class="topic-stats">
+					<span class="question-count">362 questions</span>
+				</div>
+				<div class="topic-actions">
+					<a href="matrix.html" class="view-questions-btn">View Questions</a>
+				</div>
+			</div>
+			<div class="topic-card">
+				<div class="topic-header">
+					<h3 class="topic-title">memoization</h3>
+				</div>
+				<div class="topic-stats">
+					<span class="question-count">42 questions</span>
+				</div>
+				<div class="topic-actions">
+					<a href="memoization.html" class="view-questions-btn">View Questions</a>
+				</div>
+			</div>
+			<div class="topic-card">
+				<div class="topic-header">
+					<h3 class="topic-title">queue</h3>
+				</div>
+				<div class="topic-stats">
+					<span class="question-count">85 questions</span>
+				</div>
+				<div class="topic-actions">
+					<a href="queue.html" class="view-questions-btn">View Questions</a>
+				</div>
+			</div>
+			<div class="topic-card">
+				<div class="topic-header">
+					<h3 class="topic-title">quickselect</h3>
+				</div>
+				<div class="topic-stats">
+					<span class="question-count">7 questions</span>
+				</div>
+				<div class="topic-actions">
+					<a href="quickselect.html" class="view-questions-btn">View Questions</a>
+				</div>
+			</div>
+			<div class="topic-card">
+				<div class="topic-header">
+					<h3 class="topic-title">randomized</h3>
+				</div>
+				<div class="topic-stats">
+					<span class="question-count">12 questions</span>
+				</div>
+				<div class="topic-actions">
+					<a href="randomized.html" class="view-questions-btn">View Questions</a>
+				</div>
+			</div>
+			<div class="topic-card">
+				<div class="topic-header">
+					<h3 class="topic-title">recursion</h3>
+				</div>
+				<div class="topic-stats">
+					<span class="question-count">131 questions</span>
+				</div>
+				<div class="topic-actions">
+					<a href="recursion.html" class="view-questions-btn">View Questions</a>
+				</div>
+			</div>
+			<div class="topic-card">
+				<div class="topic-header">
+					<h3 class="topic-title">sorting</h3>
+				</div>
+				<div class="topic-stats">
+					<span class="question-count">608 questions</span>
+				</div>
+				<div class="topic-actions">
+					<a href="sorting.html" class="view-questions-btn">View Questions</a>
+				</div>
+			</div>
+			<div class="topic-card">
+				<div class="topic-header">
+					<h3 class="topic-title">stack</h3>
+				</div>
+				<div class="topic-stats">
+					<span class="question-count">230 questions</span>
+				</div>
+				<div class="topic-actions">
+					<a href="stack.html" class="view-questions-btn">View Questions</a>
+				</div>
+			</div>
+			<div class="topic-card">
+				<div class="topic-header">
+					<h3 class="topic-title">string</h3>
+				</div>
+				<div class="topic-stats">
+					<span class="question-count">701 questions</span>
+				</div>
+				<div class="topic-actions">
+					<a href="string.html" class="view-questions-btn">View Questions</a>
+				</div>
+			</div>
+			<div class="topic-card">
+				<div class="topic-header">
+					<h3 class="topic-title">tree</h3>
+				</div>
+				<div class="topic-stats">
+					<span class="question-count">365 questions</span>
+				</div>
+				<div class="topic-actions">
+					<a href="tree.html" class="view-questions-btn">View Questions</a>
+				</div>
+			</div>
+			<div class="topic-card">
+				<div class="topic-header">
+					<h3 class="topic-title">trie</h3>
+				</div>
+				<div class="topic-stats">
+					<span class="question-count">73 questions</span>
+				</div>
+				<div class="topic-actions">
+					<a href="trie.html" class="view-questions-btn">View Questions</a>
+				</div>
+			</div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Generated by pushkar</p>
+            <p>Programming Questions Collection</p>
+        </div>
+    </div>
+    
+    <script>
+        // Search functionality
+        const searchInput = document.getElementById('topicSearch');
+        const topicsGrid = document.getElementById('topicsGrid');
+        const topicCards = topicsGrid.querySelectorAll('.topic-card');
+        
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase().trim();
+            
+            topicCards.forEach(card => {
+                const topicTitle = card.querySelector('.topic-title').textContent.toLowerCase();
+                const isMatch = topicTitle.includes(searchTerm);
+                card.classList.toggle('hidden', !isMatch);
+            });
+        });
+        
+        // Add scroll-to-top functionality
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 300) {
+                if (!document.querySelector('.scroll-top')) {
+                    const scrollTop = document.createElement('button');
+                    scrollTop.className = 'scroll-top';
+                    scrollTop.innerHTML = '↑';
+                    scrollTop.style.cssText = 'position: fixed; bottom: 20px; right: 20px; background: #58a6ff; color: white; border: none; border-radius: 50%; width: 50px; height: 50px; cursor: pointer; font-size: 20px; z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.3); transition: all 0.3s ease;';
+                    scrollTop.addEventListener('click', () => window.scrollTo({top: 0, behavior: 'smooth'}));
+                    document.body.appendChild(scrollTop);
+                }
+            } else {
+                const scrollTop = document.querySelector('.scroll-top');
+                if (scrollTop) scrollTop.remove();
+            }
+        });
+    </script>
+</body>
+</html>

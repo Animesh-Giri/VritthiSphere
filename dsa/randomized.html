@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>randomized - Programming Questions</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+                'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+                sans-serif;
+            line-height: 1.6;
+            color: #e0e0e0;
+            background-color: #0d1117;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #161b22;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #21262d 0%, #30363d 100%);
+            color: #f0f6fc;
+            padding: 40px 30px;
+            border-bottom: 2px solid #30363d;
+        }
+        
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+            color: #58a6ff;
+            text-transform: capitalize;
+            letter-spacing: -0.02em;
+        }
+        
+        .header-info {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-top: 15px;
+        }
+        
+        .header-info p {
+            font-size: 1.1rem;
+            color: #8b949e;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .header-info strong {
+            color: #f0f6fc;
+            font-weight: 600;
+        }
+        
+        .header-badge {
+            background-color: #238636;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .content {
+            padding: 40px 30px;
+        }
+        
+        .toc {
+            background: linear-gradient(135deg, #21262d 0%, #30363d 100%);
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 40px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .toc h2 {
+            color: #58a6ff;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .toc ul {
+            list-style: none;
+            max-height: 400px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            word-wrap: break-word;
+        }
+        
+        .toc li {
+            padding: 12px 0;
+            border-bottom: 1px solid #30363d;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.2s ease;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+        
+        .toc li:last-child {
+            border-bottom: none;
+        }
+        
+        .toc li:hover {
+            background-color: rgba(88, 166, 255, 0.1);
+            border-radius: 6px;
+            margin: 0 -10px;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+        
+        .toc-link {
+            color: #e0e0e0;
+            text-decoration: none;
+            flex: 1;
+            font-weight: 500;
+            transition: color 0.2s ease;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            margin-right: 10px;
+        }
+        
+        .toc-link:hover {
+            color: #58a6ff;
+        }
+        
+        .toc-platform {
+            color: #8b949e;
+            font-size: 0.85rem;
+            background-color: #30363d;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-weight: 500;
+            flex-shrink: 0;
+        }
+        
+        .question-card {
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            padding: 30px;
+            background: linear-gradient(135deg, #21262d 0%, #161b22 100%);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .question-title-section {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .question-title {
+            margin: 0;
+        }
+        
+        .question-title a {
+            color: #58a6ff;
+            text-decoration: none;
+            font-size: 1.4rem;
+            font-weight: 600;
+            line-height: 1.3;
+            transition: color 0.2s ease;
+        }
+        
+        .question-title a:hover {
+            color: #79c0ff;
+            text-decoration: underline;
+        }
+        
+        .question-meta {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+        
+        .platform-badge {
+            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .difficulty-badge {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .difficulty-badge.easy {
+            background: linear-gradient(135deg, #238636 0%, #2ea043 100%);
+        }
+        
+        .difficulty-badge.medium {
+            background: linear-gradient(135deg, #da7633 0%, #fb8500 100%);
+        }
+        
+        .difficulty-badge.hard {
+            background: linear-gradient(135deg, #da3633 0%, #f85149 100%);
+        }
+        
+        .availability-badge {
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        
+        .availability-badge.solution {
+            background: linear-gradient(135deg, #7c3aed 0%, #8b5cf6 100%);
+        }
+        
+        .availability-badge.explanation {
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+        }
+        
+        .topics-section {
+            margin-bottom: 25px;
+            padding: 20px;
+            background-color: #0d1117;
+            border-radius: 8px;
+            border: 1px solid #30363d;
+        }
+        
+        .topics-section strong {
+            color: #f0f6fc;
+            font-weight: 600;
+        }
+        
+        .topic-badge {
+            background: linear-gradient(135deg, #30363d 0%, #21262d 100%);
+            color: #e0e0e0;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin-right: 8px;
+            margin-bottom: 6px;
+            display: inline-block;
+            font-weight: 500;
+            border: 1px solid #30363d;
+            transition: all 0.2s ease;
+        }
+        
+        .topic-badge:hover {
+            background: linear-gradient(135deg, #58a6ff 0%, #79c0ff 100%);
+            color: white;
+            transform: translateY(-1px);
+        }
+        
+        .content-section {
+            background-color: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+        
+        .solution-section, .explanation-section {
+            margin: 25px 0;
+        }
+        
+        .solution-section h3, .explanation-section h3 {
+            color: #58a6ff;
+            margin-bottom: 15px;
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+        
+        /* Enhanced content styling */
+        .content-section h1, .content-section h2, .content-section h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: #f0f6fc;
+            font-weight: 600;
+        }
+        
+        .content-section p {
+            margin-bottom: 15px;
+            color: #e0e0e0;
+            line-height: 1.7;
+        }
+        
+        .content-section ul, .content-section ol {
+            margin-left: 25px;
+            margin-bottom: 15px;
+        }
+        
+        .content-section li {
+            margin-bottom: 8px;
+        }
+        
+        .content-section pre {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 20px;
+            overflow-x: auto;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin: 15px 0;
+            color: #e0e0e0;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .content-section code {
+            background-color: #21262d;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            padding: 0.3em 0.5em;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            color: #f85149;
+            border: 1px solid #30363d;
+        }
+        
+        .content-section pre code {
+            background-color: transparent;
+            padding: 0;
+            color: #e0e0e0;
+            border: none;
+        }
+        
+        .content-section a {
+            color: #58a6ff;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        
+        .content-section a:hover {
+            color: #79c0ff;
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .header {
+                padding: 30px 20px;
+            }
+            
+            .header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .header-info {
+                gap: 15px;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .content {
+                padding: 25px 20px;
+            }
+            
+            .question-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .question-meta {
+                width: 100%;
+            }
+            
+            .toc {
+                padding: 20px;
+            }
+            
+            .question-card {
+                padding: 25px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>randomized</h1>
+            <div class="header-info">
+                <p><strong>Total Questions:</strong> <span class="header-badge">12</span></p>
+                <p><strong>Generated by:</strong> pushkar</p>
+                <p><strong>Date:</strong> August 24, 2025</p>
+            </div>
+        </header>
+        
+        <div class="content">
+            <div class="toc">
+                <h2>📋 Table of Contents</h2>
+                <ul>
+                    <li><a href="#question-0" class="toc-link">Best Position for a Service Centre</a> <span class="toc-platform">LeetCode</span></li>
+<li><a href="#question-1" class="toc-link">Generate Random Point in a Circle</a> <span class="toc-platform">LeetCode</span></li>
+<li><a href="#question-2" class="toc-link">Implement Rand10() Using Rand7()</a> <span class="toc-platform">LeetCode</span></li>
+<li><a href="#question-3" class="toc-link">Insert Delete GetRandom O(1)</a> <span class="toc-platform">LeetCode</span></li>
+<li><a href="#question-4" class="toc-link">Insert Delete GetRandom O(1) - Duplicates allowed</a> <span class="toc-platform">LeetCode</span></li>
+<li><a href="#question-5" class="toc-link">Linked List Random Node</a> <span class="toc-platform">LeetCode</span></li>
+<li><a href="#question-6" class="toc-link">Random Flip Matrix</a> <span class="toc-platform">LeetCode</span></li>
+<li><a href="#question-7" class="toc-link">Random Pick Index</a> <span class="toc-platform">LeetCode</span></li>
+<li><a href="#question-8" class="toc-link">Random Pick with Blacklist</a> <span class="toc-platform">LeetCode</span></li>
+<li><a href="#question-9" class="toc-link">Random Pick with Weight</a> <span class="toc-platform">LeetCode</span></li>
+<li><a href="#question-10" class="toc-link">Random Point in Non-overlapping Rectangles</a> <span class="toc-platform">LeetCode</span></li>
+<li><a href="#question-11" class="toc-link">Shuffle an Array</a> <span class="toc-platform">LeetCode</span></li>
+                </ul>
+            </div>
+            
+            <div class="question-card" id="question-0">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.leetcode.com/problems/best-position-for-a-service-centre/description" target="_blank" rel="noopener noreferrer">Best Position for a Service Centre</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">LeetCode</span>
+						<span class="difficulty-badge hard">Hard</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">array</span> <span class="topic-badge">geometry</span> <span class="topic-badge">math</span> <span class="topic-badge">randomized</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p>A delivery company wants to build a new service center in a new city. The company knows the positions of all the customers in this city on a 2D-Map and wants to build the new center in a position such that <strong>the sum of the euclidean distances to all customers is minimum</strong>.</p>
+
+<p>Given an array <code>positions</code> where <code>positions[i] = [x<sub>i</sub>, y<sub>i</sub>]</code> is the position of the <code>ith</code> customer on the map, return <em>the minimum sum of the euclidean distances</em> to all customers.</p>
+
+<p>In other words, you need to choose the position of the service center <code>[x<sub>centre</sub>, y<sub>centre</sub>]</code> such that the following formula is minimized:</p>
+<img alt="" src="https://assets.leetcode.com/uploads/2020/06/25/q4_edited.jpg" />
+<p>Answers within <code>10<sup>-5</sup></code> of the actual value will be accepted.</p>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://assets.leetcode.com/uploads/2020/06/25/q4_e1.jpg" style="width: 377px; height: 362px;" />
+<pre>
+<strong>Input:</strong> positions = [[0,1],[1,0],[1,2],[2,1]]
+<strong>Output:</strong> 4.00000
+<strong>Explanation:</strong> As shown, you can see that choosing [x<sub>centre</sub>, y<sub>centre</sub>] = [1, 1] will make the distance to each customer = 1, the sum of all distances is 4 which is the minimum possible we can achieve.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://assets.leetcode.com/uploads/2020/06/25/q4_e3.jpg" style="width: 419px; height: 419px;" />
+<pre>
+<strong>Input:</strong> positions = [[1,1],[3,3]]
+<strong>Output:</strong> 2.82843
+<strong>Explanation:</strong> The minimum possible sum of distances = sqrt(2) + sqrt(2) = 2.82843
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= positions.length &lt;= 50</code></li>
+	<li><code>positions[i].length == 2</code></li>
+	<li><code>0 &lt;= x<sub>i</sub>, y<sub>i</sub> &lt;= 100</code></li>
+</ul>
+</div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-1">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.leetcode.com/problems/generate-random-point-in-a-circle/description" target="_blank" rel="noopener noreferrer">Generate Random Point in a Circle</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">LeetCode</span>
+						<span class="difficulty-badge medium">Medium</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">geometry</span> <span class="topic-badge">math</span> <span class="topic-badge">randomized</span> <span class="topic-badge">rejection-sampling</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p>Given the radius and the position of the center of a circle, implement the function <code>randPoint</code> which generates a uniform random point inside the circle.</p>
+
+<p>Implement the <code>Solution</code> class:</p>
+
+<ul>
+	<li><code>Solution(double radius, double x_center, double y_center)</code> initializes the object with the radius of the circle <code>radius</code> and the position of the center <code>(x_center, y_center)</code>.</li>
+	<li><code>randPoint()</code> returns a random point inside the circle. A point on the circumference of the circle is considered to be in the circle. The answer is returned as an array <code>[x, y]</code>.</li>
+</ul>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+
+<pre>
+<strong>Input</strong>
+[&quot;Solution&quot;, &quot;randPoint&quot;, &quot;randPoint&quot;, &quot;randPoint&quot;]
+[[1.0, 0.0, 0.0], [], [], []]
+<strong>Output</strong>
+[null, [-0.02493, -0.38077], [0.82314, 0.38945], [0.36572, 0.17248]]
+
+<strong>Explanation</strong>
+Solution solution = new Solution(1.0, 0.0, 0.0);
+solution.randPoint(); // return [-0.02493, -0.38077]
+solution.randPoint(); // return [0.82314, 0.38945]
+solution.randPoint(); // return [0.36572, 0.17248]
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>0 &lt;&nbsp;radius &lt;= 10<sup>8</sup></code></li>
+	<li><code>-10<sup>7</sup> &lt;= x_center, y_center &lt;= 10<sup>7</sup></code></li>
+	<li>At most <code>3 * 10<sup>4</sup></code> calls will be made to <code>randPoint</code>.</li>
+</ul>
+</div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-2">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.leetcode.com/problems/implement-rand10-using-rand7/description" target="_blank" rel="noopener noreferrer">Implement Rand10() Using Rand7()</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">LeetCode</span>
+						<span class="difficulty-badge medium">Medium</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">math</span> <span class="topic-badge">probability-and-statistics</span> <span class="topic-badge">randomized</span> <span class="topic-badge">rejection-sampling</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p>Given the <strong>API</strong> <code>rand7()</code> that generates a uniform random integer in the range <code>[1, 7]</code>, write a function <code>rand10()</code> that generates a uniform random integer in the range <code>[1, 10]</code>. You can only call the API <code>rand7()</code>, and you shouldn&#39;t call any other API. Please <strong>do not</strong> use a language&#39;s built-in random API.</p>
+
+<p>Each test case will have one <strong>internal</strong> argument <code>n</code>, the number of times that your implemented function <code>rand10()</code> will be called while testing. Note that this is <strong>not an argument</strong> passed to <code>rand10()</code>.</p>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+<pre><strong>Input:</strong> n = 1
+<strong>Output:</strong> [2]
+</pre><p><strong class="example">Example 2:</strong></p>
+<pre><strong>Input:</strong> n = 2
+<strong>Output:</strong> [2,8]
+</pre><p><strong class="example">Example 3:</strong></p>
+<pre><strong>Input:</strong> n = 3
+<strong>Output:</strong> [3,8,10]
+</pre>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= n &lt;= 10<sup>5</sup></code></li>
+</ul>
+
+<p>&nbsp;</p>
+<p><strong>Follow up:</strong></p>
+
+<ul>
+	<li>What is the <a href="https://en.wikipedia.org/wiki/Expected_value" target="_blank">expected value</a> for the number of calls to <code>rand7()</code> function?</li>
+	<li>Could you minimize the number of calls to <code>rand7()</code>?</li>
+</ul>
+</div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-3">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.leetcode.com/problems/insert-delete-getrandom-o1/description" target="_blank" rel="noopener noreferrer">Insert Delete GetRandom O(1)</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">LeetCode</span>
+						<span class="difficulty-badge medium">Medium</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">array</span> <span class="topic-badge">design</span> <span class="topic-badge">hash-table</span> <span class="topic-badge">math</span> <span class="topic-badge">randomized</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p>Implement the <code>RandomizedSet</code> class:</p>
+
+<ul>
+	<li><code>RandomizedSet()</code> Initializes the <code>RandomizedSet</code> object.</li>
+	<li><code>bool insert(int val)</code> Inserts an item <code>val</code> into the set if not present. Returns <code>true</code> if the item was not present, <code>false</code> otherwise.</li>
+	<li><code>bool remove(int val)</code> Removes an item <code>val</code> from the set if present. Returns <code>true</code> if the item was present, <code>false</code> otherwise.</li>
+	<li><code>int getRandom()</code> Returns a random element from the current set of elements (it&#39;s guaranteed that at least one element exists when this method is called). Each element must have the <b>same probability</b> of being returned.</li>
+</ul>
+
+<p>You must implement the functions of the class such that each function works in&nbsp;<strong>average</strong>&nbsp;<code>O(1)</code>&nbsp;time complexity.</p>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+
+<pre>
+<strong>Input</strong>
+[&quot;RandomizedSet&quot;, &quot;insert&quot;, &quot;remove&quot;, &quot;insert&quot;, &quot;getRandom&quot;, &quot;remove&quot;, &quot;insert&quot;, &quot;getRandom&quot;]
+[[], [1], [2], [2], [], [1], [2], []]
+<strong>Output</strong>
+[null, true, false, true, 2, true, false, 2]
+
+<strong>Explanation</strong>
+RandomizedSet randomizedSet = new RandomizedSet();
+randomizedSet.insert(1); // Inserts 1 to the set. Returns true as 1 was inserted successfully.
+randomizedSet.remove(2); // Returns false as 2 does not exist in the set.
+randomizedSet.insert(2); // Inserts 2 to the set, returns true. Set now contains [1,2].
+randomizedSet.getRandom(); // getRandom() should return either 1 or 2 randomly.
+randomizedSet.remove(1); // Removes 1 from the set, returns true. Set now contains [2].
+randomizedSet.insert(2); // 2 was already in the set, so return false.
+randomizedSet.getRandom(); // Since 2 is the only number in the set, getRandom() will always return 2.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>-2<sup>31</sup> &lt;= val &lt;= 2<sup>31</sup> - 1</code></li>
+	<li>At most <code>2 *&nbsp;</code><code>10<sup>5</sup></code> calls will be made to <code>insert</code>, <code>remove</code>, and <code>getRandom</code>.</li>
+	<li>There will be <strong>at least one</strong> element in the data structure when <code>getRandom</code> is called.</li>
+</ul>
+</div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-4">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.leetcode.com/problems/insert-delete-getrandom-o1-duplicates-allowed/description" target="_blank" rel="noopener noreferrer">Insert Delete GetRandom O(1) - Duplicates allowed</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">LeetCode</span>
+						<span class="difficulty-badge hard">Hard</span>
+						<span class="availability-badge solution">Solution</span>
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">array</span> <span class="topic-badge">design</span> <span class="topic-badge">hash-table</span> <span class="topic-badge">math</span> <span class="topic-badge">randomized</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p><code>RandomizedCollection</code> is a data structure that contains a collection of numbers, possibly duplicates (i.e., a multiset). It should support inserting and removing specific elements and also reporting a random element.</p>
+
+<p>Implement the <code>RandomizedCollection</code> class:</p>
+
+<ul>
+	<li><code>RandomizedCollection()</code> Initializes the empty <code>RandomizedCollection</code> object.</li>
+	<li><code>bool insert(int val)</code> Inserts an item <code>val</code> into the multiset, even if the item is already present. Returns <code>true</code> if the item is not present, <code>false</code> otherwise.</li>
+	<li><code>bool remove(int val)</code> Removes an item <code>val</code> from the multiset if present. Returns <code>true</code> if the item is present, <code>false</code> otherwise. Note that if <code>val</code> has multiple occurrences in the multiset, we only remove one of them.</li>
+	<li><code>int getRandom()</code> Returns a random element from the current multiset of elements. The probability of each element being returned is <strong>linearly related</strong> to the number of the same values the multiset contains.</li>
+</ul>
+
+<p>You must implement the functions of the class such that each function works on <strong>average</strong> <code>O(1)</code> time complexity.</p>
+
+<p><strong>Note:</strong> The test cases are generated such that <code>getRandom</code> will only be called if there is <strong>at least one</strong> item in the <code>RandomizedCollection</code>.</p>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+
+<pre>
+<strong>Input</strong>
+[&quot;RandomizedCollection&quot;, &quot;insert&quot;, &quot;insert&quot;, &quot;insert&quot;, &quot;getRandom&quot;, &quot;remove&quot;, &quot;getRandom&quot;]
+[[], [1], [1], [2], [], [1], []]
+<strong>Output</strong>
+[null, true, false, true, 2, true, 1]
+
+<strong>Explanation</strong>
+RandomizedCollection randomizedCollection = new RandomizedCollection();
+randomizedCollection.insert(1);   // return true since the collection does not contain 1.
+                                  // Inserts 1 into the collection.
+randomizedCollection.insert(1);   // return false since the collection contains 1.
+                                  // Inserts another 1 into the collection. Collection now contains [1,1].
+randomizedCollection.insert(2);   // return true since the collection does not contain 2.
+                                  // Inserts 2 into the collection. Collection now contains [1,1,2].
+randomizedCollection.getRandom(); // getRandom should:
+                                  // - return 1 with probability 2/3, or
+                                  // - return 2 with probability 1/3.
+randomizedCollection.remove(1);   // return true since the collection contains 1.
+                                  // Removes 1 from the collection. Collection now contains [1,2].
+randomizedCollection.getRandom(); // getRandom should return 1 or 2, both equally likely.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>-2<sup>31</sup> &lt;= val &lt;= 2<sup>31</sup> - 1</code></li>
+	<li>At most <code>2 * 10<sup>5</sup></code> calls <strong>in total</strong> will be made to <code>insert</code>, <code>remove</code>, and <code>getRandom</code>.</li>
+	<li>There will be <strong>at least one</strong> element in the data structure when <code>getRandom</code> is called.</li>
+</ul>
+</div>
+			</div>
+			
+			<div class="solution-section">
+					<h3>Solution</h3>
+					<div class="content-section"><p>[TOC]</p>
+<h2 id="solution">Solution</h2>
+<hr />
+<h4 id="intuition">Intuition</h4>
+<p>We must support three operations with duplicates:</p>
+<ol>
+<li><code>insert</code></li>
+<li><code>remove</code></li>
+<li><code>getRandom</code></li>
+</ol>
+<p>To <code>getRandom</code> in <span class="math inline">\(O(1)\)</span> and have it scale linearly with the number of copies of a value. The simplest solution is to store all values in a list. Once all values are stored, all we have to do is pick a random index.</p>
+<p>We don't care about the order of our elements, so <code>insert</code> can be done in <span class="math inline">\(O(1)\)</span> using a dynamic array (<code>ArrayList</code> in Java or <code>list</code> in Python).</p>
+<p>The issue we run into is how to go about an <code>O(1)</code> remove. Generally we learn that removing an element from an array takes a place in <span class="math inline">\(O(N)\)</span>, unless it is the last element in which case it is <span class="math inline">\(O(1)\)</span>.</p>
+<p>The key here is that <em>we don't care about order</em>. For the purposes of this problem, if we want to remove the element at the <code>i</code>th index, we can simply swap the <code>i</code>th element and the last element, and perform an <span class="math inline">\(O(1)\)</span> pop (<em>technically</em> we don't have to swap, we just have to copy the last element into index <code>i</code> because it's popped anyway).</p>
+<p>With this in mind, the most difficult part of the problem becomes <em>finding</em> the index of the element we have to remove. All we have to do is have an accompanying data structure that maps the element values to their index.</p>
+<hr />
+<h3 id="approach-1-arraylist--hashmap">Approach 1: ArrayList + HashMap</h3>
+<p><strong>Algorithm</strong></p>
+<p>We will keep a <code>list</code> to store all our elements. In order to make finding the index of elements we want to remove <span class="math inline">\(O(1)\)</span>, we will use a <code>HashMap</code> or dictionary to map values to all indices that have those values. To make this work each value will be mapped to a set of indices. The tricky part is properly updating the <code>HashMap</code> as we modify the <code>list</code>.</p>
+<ul>
+<li><code>insert</code>: Append the element to the <code>list</code> and add the index to <code>HashMap[element]</code>.</li>
+<li><code>remove</code>: This is the tricky part. We find the index of the element using the <code>HashMap</code>.  We use the trick discussed in the intuition to remove the element from the <code>list</code> in <span class="math inline">\(O(1)\)</span>. Since the last element in the list gets moved around, we have to update its value in the <code>HashMap</code>. We also have to get rid of the index of the element we removed from the <code>HashMap</code>.</li>
+<li><code>getRandom</code>: Sample a random element from the list.</li>
+</ul>
+<p><strong>Implementation</strong><br />
+<a href="https://leetcode.com/playground/MQ3RGKXN/shared">code</a></p>
+<p><strong>Complexity Analysis</strong></p>
+<ul>
+<li>
+<p>Time complexity : <span class="math inline">\(O(N)\)</span>, with <span class="math inline">\(N\)</span> being the number of operations. All of our operations are <span class="math inline">\(O(1)\)</span>, giving <span class="math inline">\(N * O(1) = O(N)\)</span>.</p>
+</li>
+<li>
+<p>Space complexity : <span class="math inline">\(O(N)\)</span>, with <span class="math inline">\(N\)</span> being the number of operations. The worst case scenario is if we get <span class="math inline">\(N\)</span> <code>add</code> operations, in which case our <code>ArrayList</code> and our <code>HashMap</code> grow to size <span class="math inline">\(N\)</span>.</p>
+</li>
+</ul>
+</div>
+				</div>
+		</div>
+
+<div class="question-card" id="question-5">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.leetcode.com/problems/linked-list-random-node/description" target="_blank" rel="noopener noreferrer">Linked List Random Node</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">LeetCode</span>
+						<span class="difficulty-badge medium">Medium</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">linked-list</span> <span class="topic-badge">math</span> <span class="topic-badge">randomized</span> <span class="topic-badge">reservoir-sampling</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p>Given a singly linked list, return a random node&#39;s value from the linked list. Each node must have the <strong>same probability</strong> of being chosen.</p>
+
+<p>Implement the <code>Solution</code> class:</p>
+
+<ul>
+	<li><code>Solution(ListNode head)</code> Initializes the object with the head of the singly-linked list <code>head</code>.</li>
+	<li><code>int getRandom()</code> Chooses a node randomly from the list and returns its value. All the nodes of the list should be equally likely to be chosen.</li>
+</ul>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://assets.leetcode.com/uploads/2021/03/16/getrand-linked-list.jpg" style="width: 302px; height: 62px;" />
+<pre>
+<strong>Input</strong>
+[&quot;Solution&quot;, &quot;getRandom&quot;, &quot;getRandom&quot;, &quot;getRandom&quot;, &quot;getRandom&quot;, &quot;getRandom&quot;]
+[[[1, 2, 3]], [], [], [], [], []]
+<strong>Output</strong>
+[null, 1, 3, 2, 2, 3]
+
+<strong>Explanation</strong>
+Solution solution = new Solution([1, 2, 3]);
+solution.getRandom(); // return 1
+solution.getRandom(); // return 3
+solution.getRandom(); // return 2
+solution.getRandom(); // return 2
+solution.getRandom(); // return 3
+// getRandom() should return either 1, 2, or 3 randomly. Each element should have equal probability of returning.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li>The number of nodes in the linked list will be in the range <code>[1, 10<sup>4</sup>]</code>.</li>
+	<li><code>-10<sup>4</sup> &lt;= Node.val &lt;= 10<sup>4</sup></code></li>
+	<li>At most <code>10<sup>4</sup></code> calls will be made to <code>getRandom</code>.</li>
+</ul>
+
+<p>&nbsp;</p>
+<p><strong>Follow up:</strong></p>
+
+<ul>
+	<li>What if the linked list is extremely large and its length is unknown to you?</li>
+	<li>Could you solve this efficiently without using extra space?</li>
+</ul>
+</div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-6">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.leetcode.com/problems/random-flip-matrix/description" target="_blank" rel="noopener noreferrer">Random Flip Matrix</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">LeetCode</span>
+						<span class="difficulty-badge medium">Medium</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">hash-table</span> <span class="topic-badge">math</span> <span class="topic-badge">randomized</span> <span class="topic-badge">reservoir-sampling</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p>There is an <code>m x n</code> binary grid <code>matrix</code> with all the values set <code>0</code> initially. Design an algorithm to randomly pick an index <code>(i, j)</code> where <code>matrix[i][j] == 0</code> and flips it to <code>1</code>. All the indices <code>(i, j)</code> where <code>matrix[i][j] == 0</code> should be equally likely to be returned.</p>
+
+<p>Optimize your algorithm to minimize the number of calls made to the <strong>built-in</strong> random function of your language and optimize the time and space complexity.</p>
+
+<p>Implement the <code>Solution</code> class:</p>
+
+<ul>
+	<li><code>Solution(int m, int n)</code> Initializes the object with the size of the binary matrix <code>m</code> and <code>n</code>.</li>
+	<li><code>int[] flip()</code> Returns a random index <code>[i, j]</code> of the matrix where <code>matrix[i][j] == 0</code> and flips it to <code>1</code>.</li>
+	<li><code>void reset()</code> Resets all the values of the matrix to be <code>0</code>.</li>
+</ul>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+
+<pre>
+<strong>Input</strong>
+[&quot;Solution&quot;, &quot;flip&quot;, &quot;flip&quot;, &quot;flip&quot;, &quot;reset&quot;, &quot;flip&quot;]
+[[3, 1], [], [], [], [], []]
+<strong>Output</strong>
+[null, [1, 0], [2, 0], [0, 0], null, [2, 0]]
+
+<strong>Explanation</strong>
+Solution solution = new Solution(3, 1);
+solution.flip();  // return [1, 0], [0,0], [1,0], and [2,0] should be equally likely to be returned.
+solution.flip();  // return [2, 0], Since [1,0] was returned, [2,0] and [0,0]
+solution.flip();  // return [0, 0], Based on the previously returned indices, only [0,0] can be returned.
+solution.reset(); // All the values are reset to 0 and can be returned.
+solution.flip();  // return [2, 0], [0,0], [1,0], and [2,0] should be equally likely to be returned.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= m, n &lt;= 10<sup>4</sup></code></li>
+	<li>There will be at least one free cell for each call to <code>flip</code>.</li>
+	<li>At most <code>1000</code> calls will be made to <code>flip</code> and <code>reset</code>.</li>
+</ul>
+</div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-7">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.leetcode.com/problems/random-pick-index/description" target="_blank" rel="noopener noreferrer">Random Pick Index</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">LeetCode</span>
+						<span class="difficulty-badge medium">Medium</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">hash-table</span> <span class="topic-badge">math</span> <span class="topic-badge">randomized</span> <span class="topic-badge">reservoir-sampling</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p>Given an integer array <code>nums</code> with possible <strong>duplicates</strong>, randomly output the index of a given <code>target</code> number. You can assume that the given target number must exist in the array.</p>
+
+<p>Implement the <code>Solution</code> class:</p>
+
+<ul>
+	<li><code>Solution(int[] nums)</code> Initializes the object with the array <code>nums</code>.</li>
+	<li><code>int pick(int target)</code> Picks a random index <code>i</code> from <code>nums</code> where <code>nums[i] == target</code>. If there are multiple valid i&#39;s, then each index should have an equal probability of returning.</li>
+</ul>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+
+<pre>
+<strong>Input</strong>
+[&quot;Solution&quot;, &quot;pick&quot;, &quot;pick&quot;, &quot;pick&quot;]
+[[[1, 2, 3, 3, 3]], [3], [1], [3]]
+<strong>Output</strong>
+[null, 4, 0, 2]
+
+<strong>Explanation</strong>
+Solution solution = new Solution([1, 2, 3, 3, 3]);
+solution.pick(3); // It should return either index 2, 3, or 4 randomly. Each index should have equal probability of returning.
+solution.pick(1); // It should return 0. Since in the array only nums[0] is equal to 1.
+solution.pick(3); // It should return either index 2, 3, or 4 randomly. Each index should have equal probability of returning.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= nums.length &lt;= 2 * 10<sup>4</sup></code></li>
+	<li><code>-2<sup>31</sup> &lt;= nums[i] &lt;= 2<sup>31</sup> - 1</code></li>
+	<li><code>target</code> is an integer from <code>nums</code>.</li>
+	<li>At most <code>10<sup>4</sup></code> calls will be made to <code>pick</code>.</li>
+</ul>
+</div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-8">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.leetcode.com/problems/random-pick-with-blacklist/description" target="_blank" rel="noopener noreferrer">Random Pick with Blacklist</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">LeetCode</span>
+						<span class="difficulty-badge hard">Hard</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">array</span> <span class="topic-badge">binary-search</span> <span class="topic-badge">hash-table</span> <span class="topic-badge">math</span> <span class="topic-badge">randomized</span> <span class="topic-badge">sorting</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p>You are given an integer <code>n</code> and an array of <strong>unique</strong> integers <code>blacklist</code>. Design an algorithm to pick a random integer in the range <code>[0, n - 1]</code> that is <strong>not</strong> in <code>blacklist</code>. Any integer that is in the mentioned range and not in <code>blacklist</code> should be <strong>equally likely</strong> to be returned.</p>
+
+<p>Optimize your algorithm such that it minimizes the number of calls to the <strong>built-in</strong> random function of your language.</p>
+
+<p>Implement the <code>Solution</code> class:</p>
+
+<ul>
+	<li><code>Solution(int n, int[] blacklist)</code> Initializes the object with the integer <code>n</code> and the blacklisted integers <code>blacklist</code>.</li>
+	<li><code>int pick()</code> Returns a random integer in the range <code>[0, n - 1]</code> and not in <code>blacklist</code>.</li>
+</ul>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+
+<pre>
+<strong>Input</strong>
+[&quot;Solution&quot;, &quot;pick&quot;, &quot;pick&quot;, &quot;pick&quot;, &quot;pick&quot;, &quot;pick&quot;, &quot;pick&quot;, &quot;pick&quot;]
+[[7, [2, 3, 5]], [], [], [], [], [], [], []]
+<strong>Output</strong>
+[null, 0, 4, 1, 6, 1, 0, 4]
+
+<strong>Explanation</strong>
+Solution solution = new Solution(7, [2, 3, 5]);
+solution.pick(); // return 0, any integer from [0,1,4,6] should be ok. Note that for every call of pick,
+                 // 0, 1, 4, and 6 must be equally likely to be returned (i.e., with probability 1/4).
+solution.pick(); // return 4
+solution.pick(); // return 1
+solution.pick(); // return 6
+solution.pick(); // return 1
+solution.pick(); // return 0
+solution.pick(); // return 4
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= n &lt;= 10<sup>9</sup></code></li>
+	<li><code>0 &lt;= blacklist.length &lt;= min(10<sup>5</sup>, n - 1)</code></li>
+	<li><code>0 &lt;= blacklist[i] &lt; n</code></li>
+	<li>All the values of <code>blacklist</code> are <strong>unique</strong>.</li>
+	<li>At most <code>2 * 10<sup>4</sup></code> calls will be made to <code>pick</code>.</li>
+</ul>
+</div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-9">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.leetcode.com/problems/random-pick-with-weight/description" target="_blank" rel="noopener noreferrer">Random Pick with Weight</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">LeetCode</span>
+						<span class="difficulty-badge medium">Medium</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">array</span> <span class="topic-badge">binary-search</span> <span class="topic-badge">math</span> <span class="topic-badge">prefix-sum</span> <span class="topic-badge">randomized</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p>You are given a <strong>0-indexed</strong> array of positive integers <code>w</code> where <code>w[i]</code> describes the <strong>weight</strong> of the <code>i<sup>th</sup></code> index.</p>
+
+<p>You need to implement the function <code>pickIndex()</code>, which <strong>randomly</strong> picks an index in the range <code>[0, w.length - 1]</code> (<strong>inclusive</strong>) and returns it. The <strong>probability</strong> of picking an index <code>i</code> is <code>w[i] / sum(w)</code>.</p>
+
+<ul>
+	<li>For example, if <code>w = [1, 3]</code>, the probability of picking index <code>0</code> is <code>1 / (1 + 3) = 0.25</code> (i.e., <code>25%</code>), and the probability of picking index <code>1</code> is <code>3 / (1 + 3) = 0.75</code> (i.e., <code>75%</code>).</li>
+</ul>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+
+<pre>
+<strong>Input</strong>
+[&quot;Solution&quot;,&quot;pickIndex&quot;]
+[[[1]],[]]
+<strong>Output</strong>
+[null,0]
+
+<strong>Explanation</strong>
+Solution solution = new Solution([1]);
+solution.pickIndex(); // return 0. The only option is to return 0 since there is only one element in w.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input</strong>
+[&quot;Solution&quot;,&quot;pickIndex&quot;,&quot;pickIndex&quot;,&quot;pickIndex&quot;,&quot;pickIndex&quot;,&quot;pickIndex&quot;]
+[[[1,3]],[],[],[],[],[]]
+<strong>Output</strong>
+[null,1,1,1,1,0]
+
+<strong>Explanation</strong>
+Solution solution = new Solution([1, 3]);
+solution.pickIndex(); // return 1. It is returning the second element (index = 1) that has a probability of 3/4.
+solution.pickIndex(); // return 1
+solution.pickIndex(); // return 1
+solution.pickIndex(); // return 1
+solution.pickIndex(); // return 0. It is returning the first element (index = 0) that has a probability of 1/4.
+
+Since this is a randomization problem, multiple answers are allowed.
+All of the following outputs can be considered correct:
+[null,1,1,1,1,0]
+[null,1,1,1,1,1]
+[null,1,1,1,0,0]
+[null,1,1,1,0,1]
+[null,1,0,1,0,0]
+......
+and so on.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= w.length &lt;= 10<sup>4</sup></code></li>
+	<li><code>1 &lt;= w[i] &lt;= 10<sup>5</sup></code></li>
+	<li><code>pickIndex</code> will be called at most <code>10<sup>4</sup></code> times.</li>
+</ul>
+</div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-10">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.leetcode.com/problems/random-point-in-non-overlapping-rectangles/description" target="_blank" rel="noopener noreferrer">Random Point in Non-overlapping Rectangles</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">LeetCode</span>
+						<span class="difficulty-badge medium">Medium</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">array</span> <span class="topic-badge">binary-search</span> <span class="topic-badge">math</span> <span class="topic-badge">ordered-set</span> <span class="topic-badge">prefix-sum</span> <span class="topic-badge">randomized</span> <span class="topic-badge">reservoir-sampling</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p>You are given an array of non-overlapping axis-aligned rectangles <code>rects</code> where <code>rects[i] = [a<sub>i</sub>, b<sub>i</sub>, x<sub>i</sub>, y<sub>i</sub>]</code> indicates that <code>(a<sub>i</sub>, b<sub>i</sub>)</code> is the bottom-left corner point of the <code>i<sup>th</sup></code> rectangle and <code>(x<sub>i</sub>, y<sub>i</sub>)</code> is the top-right corner point of the <code>i<sup>th</sup></code> rectangle. Design an algorithm to pick a random integer point inside the space covered by one of the given rectangles. A point on the perimeter of a rectangle is included in the space covered by the rectangle.</p>
+
+<p>Any integer point inside the space covered by one of the given rectangles should be equally likely to be returned.</p>
+
+<p><strong>Note</strong> that an integer point is a point that has integer coordinates.</p>
+
+<p>Implement the <code>Solution</code> class:</p>
+
+<ul>
+	<li><code>Solution(int[][] rects)</code> Initializes the object with the given rectangles <code>rects</code>.</li>
+	<li><code>int[] pick()</code> Returns a random integer point <code>[u, v]</code> inside the space covered by one of the given rectangles.</li>
+</ul>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://assets.leetcode.com/uploads/2021/07/24/lc-pickrandomrec.jpg" style="width: 419px; height: 539px;" />
+<pre>
+<strong>Input</strong>
+[&quot;Solution&quot;, &quot;pick&quot;, &quot;pick&quot;, &quot;pick&quot;, &quot;pick&quot;, &quot;pick&quot;]
+[[[[-2, -2, 1, 1], [2, 2, 4, 6]]], [], [], [], [], []]
+<strong>Output</strong>
+[null, [1, -2], [1, -1], [-1, -2], [-2, -2], [0, 0]]
+
+<strong>Explanation</strong>
+Solution solution = new Solution([[-2, -2, 1, 1], [2, 2, 4, 6]]);
+solution.pick(); // return [1, -2]
+solution.pick(); // return [1, -1]
+solution.pick(); // return [-1, -2]
+solution.pick(); // return [-2, -2]
+solution.pick(); // return [0, 0]
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= rects.length &lt;= 100</code></li>
+	<li><code>rects[i].length == 4</code></li>
+	<li><code>-10<sup>9</sup> &lt;= a<sub>i</sub> &lt; x<sub>i</sub> &lt;= 10<sup>9</sup></code></li>
+	<li><code>-10<sup>9</sup> &lt;= b<sub>i</sub> &lt; y<sub>i</sub> &lt;= 10<sup>9</sup></code></li>
+	<li><code>x<sub>i</sub> - a<sub>i</sub> &lt;= 2000</code></li>
+	<li><code>y<sub>i</sub> - b<sub>i</sub> &lt;= 2000</code></li>
+	<li>All the rectangles do not overlap.</li>
+	<li>At most <code>10<sup>4</sup></code> calls will be made to <code>pick</code>.</li>
+</ul>
+</div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-11">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.leetcode.com/problems/shuffle-an-array/description" target="_blank" rel="noopener noreferrer">Shuffle an Array</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">LeetCode</span>
+						<span class="difficulty-badge medium">Medium</span>
+						<span class="availability-badge solution">Solution</span>
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">array</span> <span class="topic-badge">design</span> <span class="topic-badge">math</span> <span class="topic-badge">randomized</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p>Given an integer array <code>nums</code>, design an algorithm to randomly shuffle the array. All permutations of the array should be <strong>equally likely</strong> as a result of the shuffling.</p>
+
+<p>Implement the <code>Solution</code> class:</p>
+
+<ul>
+	<li><code>Solution(int[] nums)</code> Initializes the object with the integer array <code>nums</code>.</li>
+	<li><code>int[] reset()</code> Resets the array to its original configuration and returns it.</li>
+	<li><code>int[] shuffle()</code> Returns a random shuffling of the array.</li>
+</ul>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+
+<pre>
+<strong>Input</strong>
+[&quot;Solution&quot;, &quot;shuffle&quot;, &quot;reset&quot;, &quot;shuffle&quot;]
+[[[1, 2, 3]], [], [], []]
+<strong>Output</strong>
+[null, [3, 1, 2], [1, 2, 3], [1, 3, 2]]
+
+<strong>Explanation</strong>
+Solution solution = new Solution([1, 2, 3]);
+solution.shuffle();    // Shuffle the array [1,2,3] and return its result.
+                       // Any permutation of [1,2,3] must be equally likely to be returned.
+                       // Example: return [3, 1, 2]
+solution.reset();      // Resets the array back to its original configuration [1,2,3]. Return [1, 2, 3]
+solution.shuffle();    // Returns the random shuffling of array [1,2,3]. Example: return [1, 3, 2]
+
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= nums.length &lt;= 50</code></li>
+	<li><code>-10<sup>6</sup> &lt;= nums[i] &lt;= 10<sup>6</sup></code></li>
+	<li>All the elements of <code>nums</code> are <strong>unique</strong>.</li>
+	<li>At most <code>10<sup>4</sup></code> calls <strong>in total</strong> will be made to <code>reset</code> and <code>shuffle</code>.</li>
+</ul>
+</div>
+			</div>
+			
+			<div class="solution-section">
+					<h3>Solution</h3>
+					<div class="content-section"><p>[TOC]</p>
+<h3 id="initial-thoughts">Initial Thoughts</h3>
+<p>Normally I would display more than two approaches, but shuffling is<br />
+deceptively easy to do <em>almost</em> properly, and the Fisher-Yates algorithm is<br />
+both the canonical solution and asymptotically optimal.</p>
+<p>A few notes on randomness are necessary before beginning - both approaches<br />
+displayed below assume that the languages' pseudorandom number generators<br />
+(PRNGs) are sufficiently random. The sample code uses the simplest techniques<br />
+available for getting pseudorandom numbers, but for each possible permutation<br />
+of the array to be truly equally likely, more care must be taken. For<br />
+example, an array of length <span class="math inline">\(n\)</span> has <span class="math inline">\(n!\)</span> distinct permutations. Therefore, in<br />
+order to encode all permutations in an integer space, <span class="math inline">\(\lceil lg(n!)\rceil\)</span><br />
+bits are necessary, which may not be guaranteed by the default PRNG.</p>
+<h3 id="approach-1-brute-force-accepted">Approach #1 Brute Force [Accepted]</h3>
+<p><strong>Intuition</strong></p>
+<p>If we put each number in a &quot;hat&quot; and draw them out at random, the order in<br />
+which we draw them will define a random ordering.</p>
+<p><strong>Algorithm</strong></p>
+<p>The brute force algorithm essentially puts each number in the aforementioned<br />
+&quot;hat&quot;, and draws them at random (without replacement) until there are none<br />
+left. Mechanically, this is performed by copying the contents of <code>array</code> into<br />
+a second auxiliary array named <code>aux</code> before overwriting each element of<br />
+<code>array</code> with a randomly selected one from <code>aux</code>. After selecting each random<br />
+element, it is removed from <code>aux</code> to prevent duplicate draws. The<br />
+implementation of <code>reset</code> is simple, as we just store the original state of<br />
+<code>nums</code> on construction.</p>
+<p>The correctness of the algorithm follows from the fact that an element<br />
+(without loss of generality) is equally likely to be selected during all<br />
+iterations of the <code>for</code> loop. To prove this, observe that the probability of a<br />
+particular element <span class="math inline">\(e\)</span> being chosen on the <span class="math inline">\(k\)</span>th iteration (indexed from 0)<br />
+is simply <span class="math inline">\(P(e\)</span> being chosen during the <span class="math inline">\(k\)</span>th iteration<span class="math inline">\()\cdot P(e\)</span> not being<br />
+chosen before the <span class="math inline">\(k\)</span>th iteration<span class="math inline">\()\)</span>. Given that the array to be shuffled has</p>
+<p><span class="math display">\[
+\]</span></p>
+<p>\frac{1}{n-k} \cdot \prod_{i=1}^{k} \frac{n-i}{n-i+1}</p>
+<p><span class="math display">\[
+When expanded (and rearranged), it looks like this (for sufficiently large
+$$k$$):
+
+\]</span></p>
+<p>(\frac{n-1}{n}<br />
+\cdot \frac{n-2}{n-1}<br />
+\cdot (\ldots)<br />
+\cdot \frac{n-k+1}{n-k+2}<br />
+\cdot \frac{n-k}{n-k+1})<br />
+\cdot \frac{1}{n-k}</p>
+<p><span class="math display">\[
+For the base case ($$k = 0$$), it is trivial to see that
+$$\frac{1}{n-k} = \frac{1}{n}$$. For $$k > 0$$, the numerator of each fraction
+can be cancelled with the denominator of the next, leaving the $$n$$ from the
+0th draw as the only uncancelled denominator. Therefore, no matter on which
+draw an element is drawn, it is drawn with a $$\frac{1}{n}$$ chance, so each
+array permutation is equally likely to arise.
+
+[code](https://leetcode.com/playground/NMKmaSiN/shared)
+
+**Complexity Analysis**
+
+* Time complexity : $$\mathcal{O}(n^2)$$
+
+    The quadratic time complexity arises from the calls to `list.remove` (or
+    `list.pop`), which run in linear time. $$n$$ linear list removals occur,
+    which results in a fairly easy quadratic analysis.
+
+* Space complexity : $$\mathcal{O}(n)$$
+
+    Because the problem also asks us to implement `reset`, we must use linear
+    additional space to store the original array. Otherwise, it would be lost
+    upon the first call to `shuffle`.
+
+---
+
+### Approach #2 Fisher-Yates Algorithm [Accepted]
+
+**Intuition**
+
+We can cut down the time and space complexities of `shuffle` with a bit of
+cleverness - namely, by swapping elements around within the array itself, we
+can avoid the linear space cost of the auxiliary array and the linear time
+cost of list modification.
+
+**Algorithm**
+
+The Fisher-Yates algorithm is remarkably similar to the brute force solution.
+On each iteration of the algorithm, we generate a random integer between the
+current index and the last index of the array. Then, we swap the elements at
+the current index and the chosen index - this simulates drawing (and
+removing) the element from the hat, as the next range from which we select a
+random index will not include the most recently processed one. One small, yet important
+detail is that it is possible to swap an element with itself - otherwise, some
+array permutations would be more likely than others. To see this illustrated more
+clearly, consider the animation below:
+
+!?!../Documents/384_Shuffle_an_Array.json:697,161!?!
+
+[code](https://leetcode.com/playground/nhPu5mbP/shared)
+
+**Complexity Analysis**
+
+* Time complexity : $$\mathcal{O}(n)$$
+
+    The Fisher-Yates algorithm runs in linear time, as generating a random
+    index and swapping two values can be done in constant time.
+
+* Space complexity : $$\mathcal{O}(n)$$
+
+    Although we managed to avoid using linear space on the auxiliary array
+    from the brute force approach, we still need it for `reset`, so we're
+    stuck with linear space complexity.\]</span></p>
+</div>
+				</div>
+		</div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>Generated by pushkar</p>
+        <p>Programming Questions Collection</p>
+    </div>
+    
+    <script>
+        // Smooth scrolling for TOC links
+        document.querySelectorAll('.toc-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // Add scroll-to-top functionality
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 300) {
+                if (!document.querySelector('.scroll-top')) {
+                    const scrollTop = document.createElement('button');
+                    scrollTop.className = 'scroll-top';
+                    scrollTop.innerHTML = '↑';
+                    scrollTop.style.cssText = 'position: fixed; bottom: 20px; right: 20px; background: #58a6ff; color: white; border: none; border-radius: 50%; width: 50px; height: 50px; cursor: pointer; font-size: 20px; z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.3); transition: all 0.3s ease;';
+                    scrollTop.addEventListener('click', () => window.scrollTo({top: 0, behavior: 'smooth'}));
+                    document.body.appendChild(scrollTop);
+                }
+            } else {
+                const scrollTop = document.querySelector('.scroll-top');
+                if (scrollTop) scrollTop.remove();
+            }
+        });
+    </script>
+    
+    <style>
+        .footer {
+            background: linear-gradient(135deg, #21262d 0%, #30363d 100%);
+            color: #8b949e;
+            text-align: center;
+            padding: 30px;
+            margin-top: 50px;
+            border-top: 2px solid #30363d;
+        }
+        
+        .footer p {
+            margin: 8px 0;
+            font-size: 1rem;
+        }
+        
+        .footer p:first-child {
+            color: #f0f6fc;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+    </style>
+</body>
+</html>

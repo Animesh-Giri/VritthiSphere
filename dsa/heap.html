@@ -1,0 +1,2264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>heap - Programming Questions</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+                'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+                sans-serif;
+            line-height: 1.6;
+            color: #e0e0e0;
+            background-color: #0d1117;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #161b22;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #21262d 0%, #30363d 100%);
+            color: #f0f6fc;
+            padding: 40px 30px;
+            border-bottom: 2px solid #30363d;
+        }
+        
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+            color: #58a6ff;
+            text-transform: capitalize;
+            letter-spacing: -0.02em;
+        }
+        
+        .header-info {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-top: 15px;
+        }
+        
+        .header-info p {
+            font-size: 1.1rem;
+            color: #8b949e;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .header-info strong {
+            color: #f0f6fc;
+            font-weight: 600;
+        }
+        
+        .header-badge {
+            background-color: #238636;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .content {
+            padding: 40px 30px;
+        }
+        
+        .toc {
+            background: linear-gradient(135deg, #21262d 0%, #30363d 100%);
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 40px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .toc h2 {
+            color: #58a6ff;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .toc ul {
+            list-style: none;
+            max-height: 400px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            word-wrap: break-word;
+        }
+        
+        .toc li {
+            padding: 12px 0;
+            border-bottom: 1px solid #30363d;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.2s ease;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+        
+        .toc li:last-child {
+            border-bottom: none;
+        }
+        
+        .toc li:hover {
+            background-color: rgba(88, 166, 255, 0.1);
+            border-radius: 6px;
+            margin: 0 -10px;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+        
+        .toc-link {
+            color: #e0e0e0;
+            text-decoration: none;
+            flex: 1;
+            font-weight: 500;
+            transition: color 0.2s ease;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            margin-right: 10px;
+        }
+        
+        .toc-link:hover {
+            color: #58a6ff;
+        }
+        
+        .toc-platform {
+            color: #8b949e;
+            font-size: 0.85rem;
+            background-color: #30363d;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-weight: 500;
+            flex-shrink: 0;
+        }
+        
+        .question-card {
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            padding: 30px;
+            background: linear-gradient(135deg, #21262d 0%, #161b22 100%);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .question-title-section {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .question-title {
+            margin: 0;
+        }
+        
+        .question-title a {
+            color: #58a6ff;
+            text-decoration: none;
+            font-size: 1.4rem;
+            font-weight: 600;
+            line-height: 1.3;
+            transition: color 0.2s ease;
+        }
+        
+        .question-title a:hover {
+            color: #79c0ff;
+            text-decoration: underline;
+        }
+        
+        .question-meta {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+        
+        .platform-badge {
+            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .difficulty-badge {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .difficulty-badge.easy {
+            background: linear-gradient(135deg, #238636 0%, #2ea043 100%);
+        }
+        
+        .difficulty-badge.medium {
+            background: linear-gradient(135deg, #da7633 0%, #fb8500 100%);
+        }
+        
+        .difficulty-badge.hard {
+            background: linear-gradient(135deg, #da3633 0%, #f85149 100%);
+        }
+        
+        .availability-badge {
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        
+        .availability-badge.solution {
+            background: linear-gradient(135deg, #7c3aed 0%, #8b5cf6 100%);
+        }
+        
+        .availability-badge.explanation {
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+        }
+        
+        .topics-section {
+            margin-bottom: 25px;
+            padding: 20px;
+            background-color: #0d1117;
+            border-radius: 8px;
+            border: 1px solid #30363d;
+        }
+        
+        .topics-section strong {
+            color: #f0f6fc;
+            font-weight: 600;
+        }
+        
+        .topic-badge {
+            background: linear-gradient(135deg, #30363d 0%, #21262d 100%);
+            color: #e0e0e0;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin-right: 8px;
+            margin-bottom: 6px;
+            display: inline-block;
+            font-weight: 500;
+            border: 1px solid #30363d;
+            transition: all 0.2s ease;
+        }
+        
+        .topic-badge:hover {
+            background: linear-gradient(135deg, #58a6ff 0%, #79c0ff 100%);
+            color: white;
+            transform: translateY(-1px);
+        }
+        
+        .content-section {
+            background-color: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+        
+        .solution-section, .explanation-section {
+            margin: 25px 0;
+        }
+        
+        .solution-section h3, .explanation-section h3 {
+            color: #58a6ff;
+            margin-bottom: 15px;
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+        
+        /* Enhanced content styling */
+        .content-section h1, .content-section h2, .content-section h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: #f0f6fc;
+            font-weight: 600;
+        }
+        
+        .content-section p {
+            margin-bottom: 15px;
+            color: #e0e0e0;
+            line-height: 1.7;
+        }
+        
+        .content-section ul, .content-section ol {
+            margin-left: 25px;
+            margin-bottom: 15px;
+        }
+        
+        .content-section li {
+            margin-bottom: 8px;
+        }
+        
+        .content-section pre {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 20px;
+            overflow-x: auto;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin: 15px 0;
+            color: #e0e0e0;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .content-section code {
+            background-color: #21262d;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            padding: 0.3em 0.5em;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            color: #f85149;
+            border: 1px solid #30363d;
+        }
+        
+        .content-section pre code {
+            background-color: transparent;
+            padding: 0;
+            color: #e0e0e0;
+            border: none;
+        }
+        
+        .content-section a {
+            color: #58a6ff;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        
+        .content-section a:hover {
+            color: #79c0ff;
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .header {
+                padding: 30px 20px;
+            }
+            
+            .header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .header-info {
+                gap: 15px;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .content {
+                padding: 25px 20px;
+            }
+            
+            .question-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .question-meta {
+                width: 100%;
+            }
+            
+            .toc {
+                padding: 20px;
+            }
+            
+            .question-card {
+                padding: 25px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>heap</h1>
+            <div class="header-info">
+                <p><strong>Total Questions:</strong> <span class="header-badge">41</span></p>
+                <p><strong>Generated by:</strong> pushkar</p>
+                <p><strong>Date:</strong> August 24, 2025</p>
+            </div>
+        </header>
+        
+        <div class="content">
+            <div class="toc">
+                <h2>📋 Table of Contents</h2>
+                <ul>
+                    <li><a href="#question-0" class="toc-link">Adding Array Elements</a> <span class="toc-platform">GeeksForGeeks</span></li>
+<li><a href="#question-1" class="toc-link">Binary Heap Operations</a> <span class="toc-platform">GeeksForGeeks</span></li>
+<li><a href="#question-2" class="toc-link">BST to max heap</a> <span class="toc-platform">GeeksForGeeks</span></li>
+<li><a href="#question-3" class="toc-link">Design Twitter</a> <span class="toc-platform">GeeksForGeeks</span></li>
+<li><a href="#question-4" class="toc-link">Find median in a stream</a> <span class="toc-platform">GeeksForGeeks</span></li>
+<li><a href="#question-5" class="toc-link">Gadgets of Doraland</a> <span class="toc-platform">GeeksForGeeks</span></li>
+<li><a href="#question-6" class="toc-link">Game with String</a> <span class="toc-platform">GeeksForGeeks</span></li>
+<li><a href="#question-7" class="toc-link">Heap Sort</a> <span class="toc-platform">GeeksForGeeks</span></li>
+<li><a href="#question-8" class="toc-link">Height of Heap</a> <span class="toc-platform">GeeksForGeeks</span></li>
+<li><a href="#question-9" class="toc-link">Huffman Decoding-1</a> <span class="toc-platform">GeeksForGeeks</span></li>
+<li><a href="#question-10" class="toc-link">Huffman Encoding</a> <span class="toc-platform">GeeksForGeeks</span></li>
+<li><a href="#question-11" class="toc-link">Is Binary Tree Heap</a> <span class="toc-platform">GeeksForGeeks</span></li>
+<li><a href="#question-12" class="toc-link">K Closest Points to Origin</a> <span class="toc-platform">GeeksForGeeks</span></li>
+<li><a href="#question-13" class="toc-link">k largest elements</a> <span class="toc-platform">GeeksForGeeks</span></li>
+<li><a href="#question-14" class="toc-link">K Most occurring elements</a> <span class="toc-platform">GeeksForGeeks</span></li>
+<li><a href="#question-15" class="toc-link">Kth largest element</a> <span class="toc-platform">GeeksForGeeks</span></li>
+<li><a href="#question-16" class="toc-link">Kth Largest in a Stream</a> <span class="toc-platform">GeeksForGeeks</span></li>
+<li><a href="#question-17" class="toc-link">Kth smallest element</a> <span class="toc-platform">GeeksForGeeks</span></li>
+<li><a href="#question-18" class="toc-link">Kth smallest element in a Matrix</a> <span class="toc-platform">GeeksForGeeks</span></li>
+<li><a href="#question-19" class="toc-link">Longest Bounded-Difference Subarray</a> <span class="toc-platform">GeeksForGeeks</span></li>
+<li><a href="#question-20" class="toc-link">Lucy&#39;s Neighbours</a> <span class="toc-platform">GeeksForGeeks</span></li>
+<li><a href="#question-21" class="toc-link">Maximize The Array</a> <span class="toc-platform">GeeksForGeeks</span></li>
+<li><a href="#question-22" class="toc-link">Maximum Diamonds</a> <span class="toc-platform">GeeksForGeeks</span></li>
+<li><a href="#question-23" class="toc-link">Maximum distinct elements after removing K elements</a> <span class="toc-platform">GeeksForGeeks</span></li>
+<li><a href="#question-24" class="toc-link">Maximum number of events that can be attended</a> <span class="toc-platform">GeeksForGeeks</span></li>
+<li><a href="#question-25" class="toc-link">Maximum Sum Combination</a> <span class="toc-platform">GeeksForGeeks</span></li>
+<li><a href="#question-26" class="toc-link">Meeting Rooms II</a> <span class="toc-platform">GeeksForGeeks</span></li>
+<li><a href="#question-27" class="toc-link">Meeting Rooms III</a> <span class="toc-platform">GeeksForGeeks</span></li>
+<li><a href="#question-28" class="toc-link">Merge k Sorted Arrays</a> <span class="toc-platform">GeeksForGeeks</span></li>
+<li><a href="#question-29" class="toc-link">Merge K sorted linked lists</a> <span class="toc-platform">GeeksForGeeks</span></li>
+<li><a href="#question-30" class="toc-link">Merge two binary Max heaps</a> <span class="toc-platform">GeeksForGeeks</span></li>
+<li><a href="#question-31" class="toc-link">Min Heap implementation</a> <span class="toc-platform">GeeksForGeeks</span></li>
+<li><a href="#question-32" class="toc-link">Minimum Cost of ropes</a> <span class="toc-platform">GeeksForGeeks</span></li>
+<li><a href="#question-33" class="toc-link">Minimum Cost Path</a> <span class="toc-platform">GeeksForGeeks</span></li>
+<li><a href="#question-34" class="toc-link">Min sum formed by digits</a> <span class="toc-platform">GeeksForGeeks</span></li>
+<li><a href="#question-35" class="toc-link">Operations on PriorityQueue</a> <span class="toc-platform">GeeksForGeeks</span></li>
+<li><a href="#question-36" class="toc-link">Optimal File Merge</a> <span class="toc-platform">GeeksForGeeks</span></li>
+<li><a href="#question-37" class="toc-link">Rearrange characters</a> <span class="toc-platform">GeeksForGeeks</span></li>
+<li><a href="#question-38" class="toc-link">Shortest Path between Cities</a> <span class="toc-platform">GeeksForGeeks</span></li>
+<li><a href="#question-39" class="toc-link">Smallest range in K lists</a> <span class="toc-platform">GeeksForGeeks</span></li>
+<li><a href="#question-40" class="toc-link">Sum of elements between k1&#39;th and k2&#39;th smallest elements</a> <span class="toc-platform">GeeksForGeeks</span></li>
+                </ul>
+            </div>
+            
+            <div class="question-card" id="question-0">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.geeksforgeeks.org/problems/adding-array-element4756/1" target="_blank" rel="noopener noreferrer">Adding Array Elements</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">GeeksForGeeks</span>
+						<span class="difficulty-badge easy">Easy</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">arrays</span> <span class="topic-badge">datastructures</span> <span class="topic-badge">heap</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p><span style="font-size:18px">Given an array&nbsp;<strong>Arr[]</strong>&nbsp;of size <strong>N&nbsp;</strong>and an integer&nbsp;<strong>K</strong>, you have to choose the first two minimum elements of the array and erase them, then insert the sum of these two elements in the array&nbsp;until all the elements are greater than or equal to <strong>K</strong> and find the number of such&nbsp;operations&nbsp;required.</span></p>
+
+<p><span style="font-size:18px"><strong>Example 1:</strong></span></p>
+
+<pre>
+<span style="font-size:18px"><strong>Input:
+</strong>N = 6, K = 6 
+Arr[] = {1, 10, 12, 9, 2, 3}
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> First we add <strong>(1 + 2)</strong>, now the
+new list becomes <strong>3 10 12 9 3</strong>, then we add
+<strong>(3 + 3), </strong>now the new list becomes <strong>6 10 12 9</strong>,
+Now all the elements in the list are greater
+than <strong>6</strong>. Hence the output is <strong>2</strong> i:e <strong>2</strong> operations
+are required to do this. 
+</span></pre>
+
+<p><span style="font-size:18px"><strong>Example 2:</strong></span></p>
+
+<pre>
+<span style="font-size:18px"><strong>Input:
+</strong>N = 4, K = 4
+Arr[] = {5, 4, 6, 4}
+<strong>Output:</strong> 0
+<strong>Explanation:</strong>&nbsp;Every element in the given array 
+is greater than or equal to <strong>K</strong>.
+</span></pre>
+
+<p><span style="font-size:18px"><strong>Your Task:</strong><br />
+You don&#39;t need to read input or print anything. Your task is to complete the function&nbsp;<strong>minOperations()</strong>&nbsp;which takes array of&nbsp;integers <strong>arr, n</strong>&nbsp;and&nbsp;<strong>k&nbsp;</strong>as parameters and returns an integer&nbsp;denoting the answer.&nbsp;If it is not possible to make elements greater than or equal to<strong> K</strong>, return&nbsp;<strong>-1</strong>.</span></p>
+
+<p><span style="font-size:18px"><strong>Expected Time Complexity:</strong>&nbsp;O(N*logN)<br />
+<strong>Expected Auxiliary Space:</strong>&nbsp;O(N)</span></p>
+
+<p><span style="font-size:18px"><strong>Constraints :</strong><br />
+1 &le; N, K &le; 10<sup>5</sup><br />
+1 &le; Arr[i] &le; 10<sup>6</sup></span></p>
+
+<p>&nbsp;</p>
+</div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-1">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.geeksforgeeks.org/problems/operations-on-binary-min-heap/1" target="_blank" rel="noopener noreferrer">Binary Heap Operations</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">GeeksForGeeks</span>
+						<span class="difficulty-badge medium">Medium</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">datastructures</span> <span class="topic-badge">design-pattern</span> <span class="topic-badge">heap</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p><span style="font-size: 18px;">A <strong>binary heap</strong> is a Binary Tree with the following properties:<br /><strong>1)</strong> Its a <em>complete tree</em><strong> </strong>(All levels are completely filled except possibly the last level and the last level has all keys as left as possible). This property of Binary Heap makes them suitable to be stored in an array.</span></p>
+<p><span style="font-size: 18px;"><strong>2)</strong> A Binary Heap is either <strong>Min Heap</strong> or <strong>Max Heap</strong>. In a <em>Min Binary Heap</em>, the key at the&nbsp;<em>root</em> must be <em>minimum</em><strong> </strong>among all keys present in Binary Heap. The same property must be recursively true for all nodes in Binary Tree. Max Binary Heap is similar to MinHeap.</span></p>
+<p><span style="font-size: 18px;">You are given an empty Binary Min Heap and some queries and your task is to implement the three methods <strong>insertKey, &nbsp;deleteKey, </strong>&nbsp;and&nbsp;<strong>extractMin </strong>on&nbsp;the Binary Min Heap and call them as per the query given below:<br /><strong>1) </strong><em>1 &nbsp;x</em> &nbsp;(a query of this type means to insert an element in the min-heap with value x&nbsp;)<br /><strong>2)</strong> <em>2 &nbsp;x</em> &nbsp;(a query of this type means to remove an element at position x from the min-heap)<br /><strong>3)</strong><strong> </strong><em>3</em> &nbsp;(a query like this removes&nbsp;the min element from the min-heap and prints it&nbsp;).</span></p>
+<p><span style="font-size: 18px;"><strong>Examples :</strong></span></p>
+<pre><span style="font-size: 18px;"><strong>Input: <br /></strong></span><span style="font-size: 18px;">Q = 7
+Queries:
+insertKey(4)
+insertKey(2)
+extractMin()
+insertKey(6)
+deleteKey(0)
+extractMin()
+extractMin()
+<strong>Output: </strong>[2, 6, -1]<strong>
+Explanation: </strong>In the first test case for
+query&nbsp;
+insertKey(4) the heap will have &nbsp;{4}&nbsp;&nbsp;
+insertKey(2) the heap will be {2 4}
+extractMin()&nbsp;removes min element from 
+&nbsp;            heap ie 2 and prints it
+&nbsp;            now heap is {4}&nbsp;
+insertKey(6)&nbsp;inserts 6 to heap now heap
+&nbsp;            is {4 6}
+deleteKey(0)&nbsp;delete element at position 0
+             of the heap,now heap is {6}
+extractMin() remove min element from heap
+             ie 6 and prints it&nbsp;&nbsp;now the
+&nbsp;            heap is empty
+extractMin() since the heap is empty thus
+             no min element exist so -1
+&nbsp;            is printed.</span>
+</pre>
+<pre><span style="font-size: 18px;"><strong>Input:
+</strong>Q = 5
+Queries:
+insertKey(8)
+insertKey(9)
+deleteKey(1)
+extractMin()
+extractMin()
+<strong>Output: </strong>[8, -1]</span></pre>
+<p><span style="font-size: 18px;"><strong>Constraints:</strong><br />1 &lt;= <strong>Q</strong> &lt;= 10<sup>4</sup><br />1 &lt;= <strong>x</strong> &lt;= 10<sup>4</sup></span></p></div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-2">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.geeksforgeeks.org/problems/bst-to-max-heap/1" target="_blank" rel="noopener noreferrer">BST to max heap</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">GeeksForGeeks</span>
+						<span class="difficulty-badge medium">Medium</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">binarysearchtree</span> <span class="topic-badge">datastructures</span> <span class="topic-badge">heap</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p><span style="font-size:18px">Given a&nbsp;Binary Search Tree. Convert a given BST into a Special Max Heap with the condition that all the values in the left subtree of a node should be less than all the values in the right subtree of the node. This condition is applied on all the nodes in the so converted Max Heap.</span></p>
+
+<p><span style="font-size:18px"><strong>Example 1:</strong></span></p>
+
+<pre>
+<span style="font-size:18px"><strong>Input :</strong>
+                 4
+               /   \
+              2     6
+            /  \   /  \
+           1   3  5    7  
+
+<strong>Output :</strong> 1 2 3 4 5 6 7 
+<strong>Exaplanation :</strong>
+               7
+             /   \
+            3     6
+          /   \  /   \
+         1    2 4     5
+The given <strong>BST</strong> has been transformed into a
+<strong>Max Heap </strong>and it&#39;s postorder traversal is
+1 2 3 4 5 6 7.</span>
+
+</pre>
+
+<div><span style="font-size:18px"><strong>Your task :</strong></span></div>
+
+<div><span style="font-size:18px">You don&#39;t need to read input or print anything. Your task is to complete the function convertToMaxHeapUtil() which takes the root of the tree as input and converts the BST to max heap. </span></div>
+
+<div><span style="font-size:18px">Note : The driver code prints the postorder traversal of the converted BST.</span></div>
+
+<div>&nbsp;</div>
+
+<div><span style="font-size:18px"><strong>Expected Time Complexity : </strong>O(n)</span></div>
+
+<div><span style="font-size:18px"><strong>Expected Auxiliary Space : </strong>O(n)</span></div>
+
+<div>&nbsp;</div>
+
+<div><span style="font-size:18px"><strong>Constraints :</strong></span></div>
+
+<div><span style="font-size:18px">1 &le; n &le; 10<sup>5</sup></span></div>
+</div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-3">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.geeksforgeeks.org/problems/design-twitter/1" target="_blank" rel="noopener noreferrer">Design Twitter</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">GeeksForGeeks</span>
+						<span class="difficulty-badge medium">Medium</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">datastructures</span> <span class="topic-badge">design-pattern</span> <span class="topic-badge">hash</span> <span class="topic-badge">heap</span> <span class="topic-badge">stack</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p><span style="font-size: 18px;">Design a simplified version of Twitter where users can post tweets, follow/unfollow another user and is able to see the 10 most recent tweets in the user's news feed. Your design should support the following methods:</span></p>
+<ol>
+<li><span style="font-size: 18px;"><strong>postTweet (userId, tweetId)</strong>: Compose a new tweet.</span></li>
+<li><span style="font-size: 18px;"><strong>getNewsFeed (userId)</strong>: Retrieve the 10 most recent tweet ids in the user's news feed (If total number of tweets in news feed is less than 10, then return all). Each item in the news feed must be posted by users who the user followed or by the user herself. Tweets must be ordered from most recent to least recent.</span></li>
+<li><span style="font-size: 18px;"><strong>follow (followerId, followeeId)</strong>: Follower follows a followee.</span></li>
+<li><span style="font-size: 18px;"><strong>unfollow (followerId, followeeId)</strong>: Follower unfollows a followee.</span></li>
+</ol>
+<p><span style="font-size: 18px;"><strong>Example 1:</strong></span></p>
+<pre><span style="font-size: 18px;"><strong>Input:</strong></span>
+<span style="font-size: 18px;">postTweet(1, 5);</span>
+<span style="font-size: 18px;">getNewsFeed(1);</span>
+<span style="font-size: 18px;">follow(1, 2);</span>
+<span style="font-size: 18px;">postTweet(2, 6);</span>
+<span style="font-size: 18px;">getNewsFeed(1);</span>
+<span style="font-size: 18px;">unfollow(1, 2);</span>
+<span style="font-size: 18px;">getNewsFeed(1);</span>
+
+<span style="font-size: 18px;"><strong>Output:</strong></span>
+<span style="font-size: 18px;">[5]</span>
+<span style="font-size: 18px;">[6, 5]</span>
+<span style="font-size: 18px;">[5]</span>
+<span style="font-size: 18px;">
+<strong>Explanation: </strong>
+postTweet(1,5): User 1 posts a new tweet (id=5)
+getNewsFeed(1): Return a list with 1 tweet [5]</span>
+<span style="font-size: 18px;">follow(1,2)   : User 1 follows user 2.
+postTweet(2,6): User 2 posts a new tweet (id=6)</span>
+<span style="font-size: 18px;">getNewsFeed(1): Return a list with 2 tweets 
+[6,5]. One his own tweet and one followee's tweet
+(sorted from most recent to least recent).</span>
+<span style="font-size: 18px;">unfollow(1,2) : User 1 unfollows user 2</span>
+<span style="font-size: 18px;">getNewsFeed(1): Return a list with 1 tweet [5],
+because user 1 is no longer following anyone.</span></pre>
+<p><span style="font-size: 18px;"><strong>Example 2:</strong></span></p>
+<pre><span style="font-size: 18px;"><strong>Input:
+</strong>follow(1, 2);
+postTweet(1, 3);
+getNewsFeed(2);</span>
+<span style="font-size: 18px;"><strong>Output:
+</strong>[]</span>
+<span style="font-size: 18px;"><strong>Explanation:</strong>
+follow(1,2)   : User 1 follows user 2.
+postTweet(1,3): User 1 posts a new tweet (id=3)
+getNewsFeed(2): Return a list with 0 tweet [],
+because user2 have no tweets and don't follow
+anyone (user1 follows user 2 but user 2 don't
+follow anyone)</span></pre>
+<p><span style="font-size: 18px;"><strong>Your Task:&nbsp; </strong><br />You don't need to read input or print anything. Your task is to design your data structure inside the&nbsp;<strong>class Twitter</strong> and complete the functions <strong>postTweet()</strong>, <strong>getNewsFeed()</strong>, <strong>follow()</strong>, <strong>unfollow(),</strong> and the <strong>constructor</strong>.</span></p>
+<p><span style="font-size: 18px;"><strong>Constraints:</strong></span></p>
+<p><span style="font-size: 18px;"><code>1 &lt;= no. of queries&nbsp;&lt;= 1000</code></span><br /><span style="font-size: 18px;"><code>1 &lt;= userId, tweetId, followerId, followeeId&nbsp;&lt;= 10<sup>5</sup></code></span></p></div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-4">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.geeksforgeeks.org/problems/find-median-in-a-stream-1587115620/1" target="_blank" rel="noopener noreferrer">Find median in a stream</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">GeeksForGeeks</span>
+						<span class="difficulty-badge hard">Hard</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">datastructures</span> <span class="topic-badge">design-pattern</span> <span class="topic-badge">heap</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p><span style="font-size: 18px;">Given a data stream&nbsp;<strong>arr[]</strong>&nbsp;where integers are read sequentially,</span><span style="font-size: 18px;">&nbsp;</span><span style="font-size: 18px;">the task is to determine the median of the elements encountered so far after each new integer is read.</span></p>
+<p><span style="font-size: 18px;">There are two cases for median on the basis of data set size.</span></p>
+<p><span style="font-size: 18px;">1. If the data set has an odd number then the <strong>middle </strong>one will be consider as median.<br /></span><span style="font-size: 18px;">2. If the data set has an even number then there is no distinct middle value and the median will be the <strong>arithmetic mean of the two</strong> middle values.</span></p>
+<p><span style="font-size: 18px;"><strong>Examples:</strong></span></p>
+<pre><span style="font-size: 18px;"><strong>Input:  </strong>arr[] = [5, 15, 1, 3, 2, 8]<strong>
+Output: </strong>[5.0, 10.0, 5.0, 4.0, 3.0, 4.0] <strong>
+Explanation: 
+</strong>After reading 1st element of stream &ndash; 5 -&gt; median = 5.0
+After reading 2nd element of stream &ndash; 5, 15 -&gt; median = (5+15)/2 = 10.0 
+After reading 3rd element of stream &ndash; 5, 15, 1 -&gt; median = 5.0
+After reading 4th element of stream &ndash; 5, 15, 1, 3 -&gt;  median = (3+5)/2 = 4.0
+After reading 5th element of stream &ndash; 5, 15, 1, 3, 2 -&gt; median = 3.0
+After reading 6th element of stream &ndash; 5, 15, 1, 3, 2, 8 -&gt;  median = (3+5)/2 = 4.0</span></pre>
+<pre><span style="font-size: 18px;"><strong>Input: </strong>arr[] = [2, 2, 2, 2]</span><br /><span style="font-size: 18px;"><strong>Output: </strong>[2.0, 2.0, 2.0, 2.0]</span><br /><span style="font-size: 18px;"><strong>Explanation: </strong></span><br /><span style="font-size: 18px;">After reading 1st element of stream &ndash; 2 -&gt; median = 2.0</span><br /><span style="font-size: 18px;">After reading 2nd element of stream &ndash; 2, 2 -&gt; median = (2+2)/2 = 2.0</span><br /><span style="font-size: 18px;">After reading 3rd element of stream &ndash; 2, 2, 2 -&gt; median = 2.0</span><br /><span style="font-size: 18px;">After reading 4th element of stream &ndash; 2, 2, 2, 2 -&gt;&nbsp; median = (2+2)/2 = 2.0</span></pre>
+<div><span style="font-size: 18px;"><strong>Constraints:</strong></span></div>
+<div><span style="font-size: 18px;">1<strong>&nbsp;</strong>&lt;= arr.size() &lt;= 10<sup>5</sup></span><br /><span style="font-size: 18px;">1 &lt;= x &lt;= 10<sup>6</sup></span></div></div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-5">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.geeksforgeeks.org/problems/gadgets-of-doraland--141631/1" target="_blank" rel="noopener noreferrer">Gadgets of Doraland</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">GeeksForGeeks</span>
+						<span class="difficulty-badge easy">Easy</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">datastructures</span> <span class="topic-badge">hash</span> <span class="topic-badge">heap</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p><span style="font-size:18px">In Doraland, people have unique Identity Numbers called <strong>D-id.</strong> Doraemon owns the most popular gadget shop in Doraland. Since his gadgets are in high demand and he has only <strong>K</strong> gadgets left he has decided to sell his gadgets to his most frequent customers only. <strong>N</strong> customers visit his shop and <strong>D-id</strong> of each customer is given in an array <strong>array[ ]</strong>.&nbsp;In case two or more people have visited his shop the same number of time he gives priority to the customer with higher <strong>D-id</strong>. Find the <strong>D-ids</strong> of people he sells his <strong>K</strong> gadgets to.</span></p>
+
+<p><span style="font-size:18px"><strong>Example 1:</strong></span></p>
+
+<pre>
+<span style="font-size:18px"><strong>Input:</strong>
+N = 6
+array[] = {1, 1, 1, 2, 2, 3}
+K = 2
+<strong>Output:</strong> 
+1 2
+<strong>Explanation: </strong>
+Customers with D-id 1 and 2 are most 
+frequent.</span>
+</pre>
+
+<p><span style="font-size:18px"><strong>Example 2:</strong></span></p>
+
+<pre>
+<span style="font-size:18px"><strong>Input:</strong>
+N = 8
+array[] = {1, 1, 2, 2, 3, 3, 3, 4}
+K = 2
+<strong>Output:</strong> 
+3 2
+<strong>Explanation: </strong>People with D-id&nbsp;1 and 2 have 
+visited shop 2 times&nbsp;Therefore, in this 
+case, the answer includes the D-id&nbsp;2 as 2 &gt; 1.</span></pre>
+
+<p><span style="font-size:18px"><strong>Your Task:</strong><br />
+You don&#39;t need to read input or print anything. Complete the function <strong>TopK() </strong>which takes <strong>array[ ]</strong> and integer <strong>K</strong>&nbsp;as input parameters and returns an array containing <strong>D-id</strong> of customers he has decided to sell his gadgets to.</span></p>
+
+<p><span style="font-size:18px"><strong>Expected Time Complexity:</strong> O(N)<br />
+<strong>Expected Auxiliary Space:</strong> O(N)</span></p>
+
+<p><span style="font-size:18px"><strong>Constraints:</strong><br />
+1 &le;&nbsp;N &le;&nbsp;10<sup>5</sup><br />
+1&nbsp;&le;&nbsp;D-id &le;&nbsp;10<sup>4</sup></span></p>
+</div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-6">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.geeksforgeeks.org/problems/game-with-string4100/1" target="_blank" rel="noopener noreferrer">Game with String</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">GeeksForGeeks</span>
+						<span class="difficulty-badge medium">Medium</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">datastructures</span> <span class="topic-badge">heap</span> <span class="topic-badge">strings</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p data-start="70" data-end="253"><span style="font-size: 14pt;">Given a string <strong>s</strong> consisting of lowercase alphabets and an integer <strong>k,</strong>&nbsp;your task is to find the <strong data-start="172" data-end="198">minimum </strong>possible value of the string after removing exactly <strong>k</strong> characters.</span></p>
+<p data-start="70" data-end="253"><span style="font-size: 14pt;">The <strong data-start="259" data-end="282">value </strong>of the string is defined as the <strong data-start="301" data-end="323">sum </strong>of the squares of the frequencies of each distinct character present in the string.</span></p>
+<p><span style="font-size: 14pt;"><strong>Examples :</strong></span></p>
+<pre><span style="font-size: 14pt;"><strong>Input:</strong> s = "abbccc", k = 2
+<strong>Output:</strong> 6
+<strong>Explaination: </strong>We remove two 'c' to get the value as 1<sup>2</sup> + 2<sup>2</sup> + 1<sup>2</sup> = 6 or We remove one 'b' and one 'c' to get the value 1<sup>2</sup> + 1<sup>2</sup> + 2<sup>2</sup> = 6<span style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">.</span></span></pre>
+<pre><span style="font-size: 14pt;"><strong>Input: </strong>s = "aaab", k = 2
+<strong>Output:</strong> 2
+<strong>Explaination:</strong> We remove two 'a'. Now we get the value as 1<sup>2 </sup>+ 1<sup>2</sup> = 2.</span></pre>
+<p><span style="font-size: 14pt;"><strong>Constraints:</strong><br />0 &le; k &le; s.length() &le; 10<sup>5</sup>&nbsp;</span></p></div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-7">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.geeksforgeeks.org/problems/heap-sort/1" target="_blank" rel="noopener noreferrer">Heap Sort</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">GeeksForGeeks</span>
+						<span class="difficulty-badge medium">Medium</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">algorithms</span> <span class="topic-badge">datastructures</span> <span class="topic-badge">heap</span> <span class="topic-badge">sorting</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p><span style="font-size: 18px;">Given an array&nbsp;<strong>arr[]</strong>. The task is to sort the array elements by Heap Sort.</span></p>
+<p><span style="font-size: 18px;"><strong>Examples:</strong></span></p>
+<pre><span style="font-size: 18px;"><strong>Input: </strong>arr[] = [4, 1, 3, 9, 7]
+<strong>Output: </strong>[1, 3, 4, 7, 9]<strong>
+Explanation: </strong>After sorting elements using heap sort, elements will be in order as 1, 3, 4, 7, 9.</span>
+</pre>
+<pre><span style="font-size: 18px;"><strong>Input: </strong>arr[] = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+<strong>Output: </strong>[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]<strong>
+Explanation: </strong>After sorting elements using heap sort, elements will be in order as 1, 2, 3, 4, 5, 6, 7, 8, 9, 10.<br /></span></pre>
+<pre><span style="font-size: 18px;"><strong>Input: </strong>arr[] = [2, 1, 5]
+<strong>Output: </strong>[1, 2, 5]<strong>
+Explanation: </strong>After sorting elements using heap sort, elements will be in order as 1, 2, 5.</span></pre>
+<p><span style="font-size: 18px;"><strong>Constraints:</strong><br />1 &le; arr.size() &le; 10<sup>6</sup><br />1 &le; arr[i] &le; 10<sup>6</sup></span></p></div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-8">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.geeksforgeeks.org/problems/height-of-heap5025/1" target="_blank" rel="noopener noreferrer">Height of Heap</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">GeeksForGeeks</span>
+						<span class="difficulty-badge easy">Easy</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">datastructures</span> <span class="topic-badge">heap</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p><span style="font-size: 18px;">Given a Binary Heap of size n<strong>&nbsp;</strong>in an array <strong>arr[]</strong>.&nbsp;Write a program to calculate the height of the Heap.<br /><br /><strong>Note:&nbsp;</strong>Return 1 if the n is 1.<br /></span></p>
+<p><strong><span style="font-size: 18px;">Examples:</span></strong></p>
+<pre><span style="font-size: 18px;"><strong>Input:</strong> n = 6, arr[] = [1, 3, 6, 5, 9, 8]
+<strong>Output:</strong> 2
+<strong>Explaination:</strong> The tree is like the following</span>
+        <span style="font-size: 18px;">(1)
+       /   \
+    (3)    (6)
+    / \     /
+  (5) (9) (8)</span></pre>
+<pre><span style="font-size: 18px;"><strong><br />Input: </strong>n = 9, arr[] = [3, 6, 9, 2, 15, 10, 14, 5, 12]
+<strong>Output:</strong> 3
+<strong>Explaination:</strong> The tree looks like following</span>
+           <span style="font-size: 18px;">(2)
+        /      \
+      (3)      (9)
+     /  \     /   \
+   (5) (15) (10) (14)
+   / \
+ (6) (12)</span></pre>
+<p><span style="font-size: 18px;"><strong>Constraints:</strong><br />1 &le; n &le; 10<sup>4</sup><br />1&nbsp;&le; arr[i]&nbsp;&le; 10<sup>6</sup></span></p></div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-9">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.geeksforgeeks.org/problems/huffman-decoding-1/1" target="_blank" rel="noopener noreferrer">Huffman Decoding-1</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">GeeksForGeeks</span>
+						<span class="difficulty-badge easy">Easy</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">algorithms</span> <span class="topic-badge">datastructures</span> <span class="topic-badge">greedy</span> <span class="topic-badge">heap</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p><span style="font-size: 18px;">Given a string <strong>S</strong>, implement <a href="https://www.geeksforgeeks.org/huffman-coding-greedy-algo-3/">Huffman Encoding</a> and <a href="https://www.geeksforgeeks.org/huffman-decoding/">Decoding</a>.</span></p>
+<p><strong><span style="font-size: 18px;">Example 1:</span></strong></p>
+<pre><span style="font-size: 18px;">Input : abc</span>
+<span style="font-size: 18px;">Output : abc</span></pre>
+<p><strong><span style="font-size: 18px;">Example 2:&nbsp;</span></strong></p>
+<pre><span style="font-size: 18px;">Input : geeksforgeeks</span>
+<span style="font-size: 18px;">Output : geeksforgeeks</span></pre>
+<p>&nbsp;</p>
+<p><span style="font-size: 18px;"><strong>Your task:&nbsp;</strong><br />You don't need to read input or print anything. Your task is to complete the function <strong>decode_file(),&nbsp;</strong>which takes root of the tree formed while encoding and the encoded string as the input parameters and returns the decoded string.</span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 18px;"><strong>Constraints:</strong><br />2&lt;=S&lt;=1000</span></p>
+<p>&nbsp;</p></div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-10">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.geeksforgeeks.org/problems/huffman-encoding3345/1" target="_blank" rel="noopener noreferrer">Huffman Encoding</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">GeeksForGeeks</span>
+						<span class="difficulty-badge hard">Hard</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">algorithms</span> <span class="topic-badge">datastructures</span> <span class="topic-badge">heap</span> <span class="topic-badge">priority-queue</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p><span style="font-size: 18px;">Given a string <strong>S</strong>&nbsp;of distinct character&nbsp;of size <strong>N</strong>&nbsp;and their corresponding frequency <strong>f[ ]</strong> i.e. character <strong>S[i]</strong> has<strong> f[i]</strong> frequency. Your task is to build&nbsp;the Huffman tree print all the huffman codes in preorder traversal&nbsp;of the tree.<br /><strong>Note: </strong>While merging if two nodes&nbsp;have the same value, then the node which occurs&nbsp;at first will be taken on the left of Binary Tree and the other one to the right, otherwise Node with less value will be taken on the left of the subtree and other one to the right.</span></p>
+<p><span style="font-size: 18px;"><strong>Example 1:</strong></span></p>
+<pre><span style="font-size: 18px;">S = "abcdef"
+f[] = {5, 9, 12, 13, 16, 45}
+<strong>Output: </strong>
+0 100 101 1100 1101 111
+<strong>Explanation:
+</strong></span><span style="font-size: 18px;"><img src="https://media.geeksforgeeks.org/img-practice/prod/addEditProblem/705885/Web/Other/blobid0_1753358055.webp" width="372" height="242" /><br />HuffmanCodes will be:
+f : 0
+c : 100
+d : 101
+a : 1100
+b : 1101
+e : 111
+Hence printing them in the PreOrder of Binary 
+Tree.</span></pre>
+<p><span style="font-size: 18px;"><strong>Your Task:</strong><br />You don't need to read or print anything. Your task is to complete the function&nbsp;<strong>huffmanCodes()&nbsp;</strong>which takes the given string <strong>S</strong>, frequency array <strong>f[ ]</strong>&nbsp;and number of characters <strong>N</strong> as input parameters and returns a vector of strings containing all huffman codes in order of preorder traversal&nbsp;of the tree.</span></p>
+<p><span style="font-size: 18px;"><strong>Expected Time complexity: </strong>O(N * LogN)&nbsp;<br /><strong>Expected Space complexity:&nbsp;</strong>O(N)&nbsp;</span></p>
+<p><span style="font-size: 18px;"><strong>Constraints:</strong><br />1 &le; N&nbsp;&le; 26</span></p></div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-11">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.geeksforgeeks.org/problems/is-binary-tree-heap/1" target="_blank" rel="noopener noreferrer">Is Binary Tree Heap</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">GeeksForGeeks</span>
+						<span class="difficulty-badge medium">Medium</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">binarysearchtree</span> <span class="topic-badge">datastructures</span> <span class="topic-badge">heap</span> <span class="topic-badge">tree</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p><span style="font-size: 14pt;">You are given a binary tree, and the task is to determine whether it satisfies the properties of a max-heap.</span></p>
+<p><span style="font-size: 14pt;">A binary tree is considered a max-heap if it satisfies the following conditions:</span></p>
+<ol>
+<li><span style="font-size: 14pt;"><strong>Completeness</strong>: Every level of the tree, except possibly the last, is completely filled, and all nodes are as far left as possible.</span></li>
+<li><span style="font-size: 14pt;"><strong>Max-Heap Property</strong>: The value of each node is greater than or equal to the values of its children.</span></li>
+</ol>
+<p><span style="font-size: 14pt;"><strong>Examples:</strong></span></p>
+<pre><span style="font-size: 14pt;"><strong>Input:</strong> root[] = [97, 46, 37, 12, 3, 7, 31, 6, 9]
+<img src="https://media.geeksforgeeks.org/img-practice/prod/addEditProblem/881982/Web/Other/blobid0_1733648140.jpg" width="300" height="268" /> <br /><strong>Output: </strong>true
+<strong>Explanation:</strong> The tree is complete and satisfies the max-heap property.
+</span></pre>
+<pre><span style="font-size: 14pt;"><strong>Input:</strong> root[] = [97, 46, 37, 12, 3, 7, 31, N, 2, 4] <br /><img src="https://media.geeksforgeeks.org/img-practice/prod/addEditProblem/881982/Web/Other/blobid1_1733648320.jpg" width="300" height="268" /> <br /><strong>Output:</strong> false<br /><strong style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">Explanation:</strong><span style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;"> </span>The tree is not complete and does not follow the Max-Heap Property, hence it is not a max-heap.</span></pre>
+<p><span style="font-size: 14pt;"><strong>Constraints:</strong><br />1 &le; number of nodes &le; 10<sup>3</sup><br />1 &le; node-&gt;data &le;&nbsp;10<sup>3</sup></span></p></div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-12">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.geeksforgeeks.org/problems/k-closest-points-to-origin--172242/1" target="_blank" rel="noopener noreferrer">K Closest Points to Origin</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">GeeksForGeeks</span>
+						<span class="difficulty-badge medium">Medium</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">arrays</span> <span class="topic-badge">divideandconquer</span> <span class="topic-badge">geometric</span> <span class="topic-badge">heap</span> <span class="topic-badge">mathematical</span> <span class="topic-badge">priority-queue</span> <span class="topic-badge">sorting</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p><span style="font-size: 14pt;">Given an array of points where each point is represented as <strong>points[i] = [x<sub>i</sub>, y<sub>i</sub>]</strong> on the X-Y plane and an integer <strong>k</strong>, return the k closest points to the origin (0, 0).</span></p>
+<p><span style="font-size: 14pt;">The distance between two points on the X-Y plane is the Euclidean distance, defined as:&nbsp;</span></p>
+<p style="text-align: center;"><span style="font-size: 14pt;"><strong>sqrt( (x<sub>2</sub> - x<sub>1</sub>)<sup>2</sup> + (y<sub>2</sub> - y<sub>1</sub>)<sup>2</sup> )</strong></span></p>
+<p><span style="font-size: 14pt;">Note: You can return the <strong>k</strong> closest points in any order, driver code will sort them before printing.</span></p>
+<p><span style="font-size: 14pt;"><strong>Examples:</strong></span></p>
+<pre><span style="font-size: 14pt;"><strong>Input:</strong> k = 2, points[] = [[1, 3], [-2, 2], [5, 8], [0, 1]]</span><br /><span style="font-size: 14pt;"><strong>Output:</strong> [[-2, 2], [0, 1]]</span><br /><span style="font-size: 14pt;"><strong>Explanation:</strong> The Euclidean distances from the origin are:</span><br /><span style="font-size: 14pt;">Point (1, 3) = sqrt(10)</span><br /><span style="font-size: 14pt;">Point (-2, 2) = sqrt(8)</span><br /><span style="font-size: 14pt;">Point (5, 8) = sqrt(89)</span><br /><span style="font-size: 14pt;">Point (0, 1) = sqrt(1)</span><br /><span style="font-size: 14pt;">The two closest points to the origin are [-2, 2] and [0, 1].</span></pre>
+<pre><span style="font-size: 14pt;"><strong>Input:</strong> k = 1, points = [[2, 4], [-1, -1], [0, 0]]</span><br /><span style="font-size: 14pt;"><strong>Output:</strong> [[0, 0]]</span><br /><span style="font-size: 14pt;"><strong>Explanation: </strong>The Euclidean distances from the origin are:</span><br /><span style="font-size: 14pt;">Point (2, 4) = sqrt(20)</span><br /><span style="font-size: 14pt;">Point (-1, -1) = sqrt(2)</span><br /><span style="font-size: 14pt;">Point (0, 0) = sqrt(0)</span><br /><span style="font-size: 14pt;">The closest point to origin is (0, 0).</span></pre>
+<p><span style="font-size: 14pt;"><strong>Constraints:</strong></span></p>
+<ul>
+<li><span style="font-size: 14pt;">1 &lt;= k &lt;= points.size() &lt;= 10<sup>5</sup></span></li>
+<li><span style="font-size: 14pt;">-10<sup>4</sup> &lt;= x<sub>i</sub>, y<sub>i</sub> &lt;= 10<sup>4</sup></span></li>
+</ul></div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-13">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.geeksforgeeks.org/problems/k-largest-elements4206/1" target="_blank" rel="noopener noreferrer">k largest elements</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">GeeksForGeeks</span>
+						<span class="difficulty-badge medium">Medium</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">algorithms</span> <span class="topic-badge">arrays</span> <span class="topic-badge">datastructures</span> <span class="topic-badge">heap</span> <span class="topic-badge">sorting</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p><span style="font-size: 18px;">Given an array <strong>arr[]</strong> of positive integers and an integer <strong>k</strong>, Your task is to return <strong>k largest elements </strong>in decreasing order.&nbsp;</span></p>
+<p><span style="font-size: 18px;"><strong>Examples:</strong></span></p>
+<pre><span style="font-size: 18px;"><strong>Input: </strong>arr[] = [12, 5, 787, 1, 23], k = 2
+<strong>Output:</strong> [787, 23]
+<strong>Explanation:</strong> 1st largest element in the array is 787 and second largest is 23.
+</span></pre>
+<pre><span style="font-size: 18px;"><strong>Input:</strong> arr[] = [1, 23, 12, 9, 30, 2, 50], k = 3 
+<strong>Output:</strong> [50, 30, 23]
+<strong>Explanation:</strong> Three Largest elements in the array are 50, 30 and 23.<br /></span></pre>
+<pre><span style="font-size: 14pt;"><strong>Input:</strong> arr[] = [12, 23], k = 1
+<strong>Output:</strong> [23]
+<strong>Explanation:</strong> 1st Largest element in the array is 23.</span></pre>
+<p><span style="font-size: 18px;"><strong>Constraints:</strong><br />1 &le; k &le; arr.size() &le; 10<sup>6</sup><br />1 &le; arr[i] &le; 10<sup>6</sup></span><br />&nbsp;</p></div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-14">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.geeksforgeeks.org/problems/most-occurring-elements-1587115620--143034/1" target="_blank" rel="noopener noreferrer">K Most occurring elements</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">GeeksForGeeks</span>
+						<span class="difficulty-badge medium">Medium</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">datastructures</span> <span class="topic-badge">heap</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p><span style="font-size: 18px;">Given an array <strong>arr</strong>[] in which elements may be repeating several times. Also, a positive number&nbsp;<strong>k</strong> is given and the task is to find <strong>sum </strong>of total frequencies of <strong>k</strong><strong>&nbsp;most</strong> occurring elements.</span></p>
+<p><strong><span style="font-size: 18px;">Note: </span></strong><span style="font-size: 18px;">The value of k is guaranteed to be less than or equal to the number of distinct elements in arr.</span></p>
+<p><strong><span style="font-size: 18px;">Examples :</span></strong></p>
+<pre><strong><span style="font-size: 18px;">Input: </span></strong><span style="font-size: 18px;">arr[] = [3, 1, 4, 4, 5, 2, 6, 1], k = 2
+<strong>Output: </strong>4<strong>
+Explanation: </strong>Here, 4 and 1 are 2 most occurring elements in the array, both appearing twice. So, total sum of thier frequencies is 2 + 2 = 4.</span>
+</pre>
+<pre><strong><span style="font-size: 18px;">Input: </span></strong><span style="font-size: 18px;"><span style="font-size: 18px;">arr[] = [3, 3, 3, 4, 1, 1, 6, 1], k = 2
+</span><strong style="font-size: 18px;">Output: </strong><span style="font-size: 18px;">6</span><strong style="font-size: 18px;">
+Explanation: </strong><span style="font-size: 18px;">Here, 3 and 1 are 2 most frequent elements in the array, both appearing three times. Hence, the total sum of their frequencies is 3 + 3 = 6.</span></span></pre>
+<p><span style="font-size: 18px;"><strong>Constraints:</strong><br />1 &lt;= arr.size() &lt;= 10<sup>6</sup><br />1 &lt;= K &lt;= arr.size()<br />1 &lt;= arr[i] &lt;= 10<sup>6</sup></span></p></div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-15">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.geeksforgeeks.org/problems/kth-largest-element5034/1" target="_blank" rel="noopener noreferrer">Kth largest element</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">GeeksForGeeks</span>
+						<span class="difficulty-badge medium">Medium</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">datastructures</span> <span class="topic-badge">heap</span> <span class="topic-badge">stl</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p><span style="font-size: 14pt;">Given an array <strong>arr</strong>[] and a number <strong>k</strong>. The task is to find the <strong>k<sup>th</sup></strong> largest element in the array.</span></p>
+<p><span style="font-size: 14pt;"><strong>Examples:</strong></span></p>
+<pre><span style="font-size: 14pt;"><strong>Input: </strong>arr[] = [3, 5, 4, 2, 9], k = 3
+<strong>Output: </strong>4<strong>
+Explanation: </strong>Third largest element in the array is 4.
+</span></pre>
+<pre><span style="font-size: 14pt;"><strong>Input: a</strong>rr[] = [4, 3, 7, 6, 5], k = 5
+<strong>Output: </strong>3<strong>
+Explanation: </strong>Fifth largest element in the array is 3.</span></pre>
+<p><span style="font-size: 12pt;"><span style="font-size: 14pt;"><strong>Constraints:</strong></span><br /><span style="font-size: 14pt;">1 &lt;= k &lt;= arr.size&lt;= 10<sup>6<br /></sup>-10<sup>6</sup> &lt;= k &lt;= arr.size&lt;= 10<sup>6</sup></span><sup><br /></sup></span></p></div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-16">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.geeksforgeeks.org/problems/kth-largest-element-in-a-stream2220/1" target="_blank" rel="noopener noreferrer">Kth Largest in a Stream</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">GeeksForGeeks</span>
+						<span class="difficulty-badge medium">Medium</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">datastructures</span> <span class="topic-badge">heap</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p><span style="font-size: 18px;">Given an input stream <strong>arr[] </strong>of <strong>n</strong> integers. Find the <strong>K</strong><sup>th</sup> largest element (not <strong>K</strong><sup>th</sup> largest unique element) after insertion of each element in the stream and if the <strong>K<sup>th</sup></strong> largest element doesn't exist, the answer will be -1 for that insertion.&nbsp; return a list of size n after all insertions.</span></p>
+<p><span style="font-size: 18px;"><strong>Example 1:</strong></span></p>
+<pre><span style="font-size: 18px;"><strong>Input:</strong></span>
+<span style="font-size: 18px;"><strong>k = </strong>4, <strong>n = </strong>6</span>
+<span style="font-size: 18px;"><strong>arr[] = </strong>{1, 2, 3, 4, 5, 6}</span>
+<span style="font-size: 18px;"><strong>Output:</strong></span>
+<span style="font-size: 18px;">-1 -1 -1 1 2 3</span>
+<span style="font-size: 18px;"><strong>Explanation:</strong></span>
+<span style="font-size: 18px;">k = 4
+For 1, the 4th largest element doesn't
+exist so answer will be -1.
+For 2, the 4th largest element doesn't
+exist so answer will be -1.
+For 3, the 4th largest element doesn't
+exist so answer will be -1.
+For 4, the 4th largest element is 1.
+For 5, the 4th largest element is 2.
+for 6, the 4th largest element is 3.</span></pre>
+<p><span style="font-size: 18px;"><strong>Example 2:</strong></span></p>
+<pre><span style="font-size: 18px;"><strong>Input:</strong></span>
+<span style="font-size: 18px;"><strong>k = </strong>1, <strong>n = </strong>2</span>
+<span style="font-size: 18px;"><strong>arr[] = </strong>{3, 4}</span>
+<span style="font-size: 18px;"><strong>Output:</strong></span>
+<span style="font-size: 18px;">3 4 
+<strong>Explanation:</strong> 
+For the 1st and 2nd element the 1st largest 
+element is itself.</span></pre>
+<p>&nbsp;</p>
+<p><span style="font-size: 18px;"><strong>Your Task:</strong><br />You don't need to read input or print anything. Your task is to complete the function <strong>kthLargest()</strong> which takes 2 Integers k, and n and also an array arr[] of size n as input. A</span><span style="font-size: 18px;">fter the insertion of each element find <strong>K<sup>th</sup></strong> largest&nbsp;element in the stream and if the </span><strong style="font-size: 18px;">K<sup>th</sup></strong><span style="font-size: 18px;"> element doesn't exist, the answer will be -1 for that insertion.&nbsp; return a list of size n after all insertions.</span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 18px;"><strong>Expected Time Complexity:</strong> O(nlogk)<br /><strong>Expected Auxiliary Space:</strong> O(n)</span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 18px;"><strong>Constraints:</strong></span><br /><span style="font-size: 18px;">1 &le; k &le; n &le; 10<sup>5</sup><br />1 &le; arr[i] &le; 10<sup>5</sup></span></p></div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-17">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.geeksforgeeks.org/problems/kth-smallest-element5545-1587115620--102500/1" target="_blank" rel="noopener noreferrer">Kth smallest element</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">GeeksForGeeks</span>
+						<span class="difficulty-badge medium">Medium</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">datastructures</span> <span class="topic-badge">heap</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p><span style="font-size: 18px;">Given an integer array <strong>arr</strong>[] containing <strong>distinct</strong>positive integers and a number <strong>k</strong>. The task is to find the k<sup>th</sup> smallest element in the array.</span></p>
+<p><strong style="font-size: 18px;">Examples:</strong></p>
+<pre><span style="font-size: 18px;"><strong>Input</strong>: arr[] = [3, 5, 4, 2, 9], k = 3
+<strong>Output</strong>: 4
+<strong>Explanation</strong>: Third smallest element in the array is 4.</span></pre>
+<pre><span style="font-size: 18px;"><strong>Input</strong>: arr[] = [4, 3, 7 ,6 , 5], k = 5
+<strong>Output</strong>: 7
+<strong>Explanation</strong>: Fifth smallest element in the array is 7.</span>
+</pre>
+<p><span style="font-size: 18px;"><strong>Constraints:</strong><br />1 &lt;= arr.size() &lt;= 10<sup>6</sup><br />1 &lt;= arr[i] &lt;= 10<sup>6</sup><br />1 &lt;= k &lt;= arr.size()</span></p></div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-18">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.geeksforgeeks.org/problems/kth-element-in-matrix/1" target="_blank" rel="noopener noreferrer">Kth smallest element in a Matrix</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">GeeksForGeeks</span>
+						<span class="difficulty-badge medium">Medium</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">binarysearch</span> <span class="topic-badge">datastructures</span> <span class="topic-badge">heap</span> <span class="topic-badge">matrix</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p><span style="font-size: 18px;"><span style="font-family: arial,helvetica,sans-serif;">Given a matrix&nbsp;<strong>mat[][]</strong>&nbsp;of size <strong>n*n</strong>, where each row and column is sorted in&nbsp;<strong>non-decreasing</strong>&nbsp;order. Find the&nbsp;<strong>kth</strong>&nbsp;smallest element in the matrix.</span></span></p>
+<div><span style="font-size: 18px;"><span style="font-family: arial,helvetica,sans-serif;"><strong>Examples:</strong></span></span></div>
+<pre><span style="font-size: 18px;"><span style="font-family: arial,helvetica,sans-serif;"><strong>Input: </strong>mat[][] = [[16, 28, 60, 64], k = 3<br />                [22, 41, 63, 91],<br />                [27, 50, 87, 93],<br />                [36, 78, 87, 94]]
+<strong>Output: </strong>27
+<strong>Explanation: </strong>27 is the 3<sup>rd</sup> smallest element.</span></span></pre>
+<pre><span style="font-size: 18px;"><span style="font-family: arial,helvetica,sans-serif;"><strong>Input: </strong>mat[][] = [[10, 20, 30, 40], k = 7<br />                [15, 25, 35, 45],<br />                [24, 29, 37, 48],<br />                [32, 33, 39, 50]] 
+<strong>Output: </strong>30
+<strong>Explanation: </strong>30 is the 7<sup>th</sup> smallest element.</span></span></pre>
+<p><span style="font-size: 18px;"><span style="font-family: arial,helvetica,sans-serif;"><strong>Constraints:</strong><br />1 &le; n &le; 500<br />1 &le; mat[i][j] &le; 10<sup>4</sup></span></span><br /><span style="font-size: 18px;"><span style="font-family: arial,helvetica,sans-serif;">1 &le; k &le; n*n</span></span></p></div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-19">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.geeksforgeeks.org/problems/longest-bounded-difference-subarray/1" target="_blank" rel="noopener noreferrer">Longest Bounded-Difference Subarray</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">GeeksForGeeks</span>
+						<span class="difficulty-badge medium">Medium</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">algorithms</span> <span class="topic-badge">arrays</span> <span class="topic-badge">deque</span> <span class="topic-badge">heap</span> <span class="topic-badge">queue</span> <span class="topic-badge">sliding-window</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p><span style="font-size: 14pt;">Given an array of positive integers <strong>arr[] </strong>and a non-negative integer <strong>x</strong>, the task is to find the <strong>longest sub-array</strong> where the absolute difference between any two elements is not greater than <strong>x</strong>. </span><br /><span style="font-size: 14pt;">If multiple such subarrays exist, return the one that starts at the smallest index.</span></p>
+<p><strong>Examples:&nbsp;</strong></p>
+<pre><span style="font-size: 14pt;"><strong>Input: </strong>arr[] =<strong> </strong>[8, 4, 2, 6, 7], x = 4 </span><br /><span style="font-size: 14pt;"><strong>Output: </strong>[4, 2, 6] </span><br /><span style="font-size: 14pt;"><strong>Explanation: </strong>The sub-array described by index [1..3], i.e. [4, 2, 6] contains no such difference of two elements which is greater than 4.</span></pre>
+<pre><span style="font-size: 14pt;"><strong>Input:</strong> arr[] =<strong> </strong>[15, 10, 1, 2, 4, 7, 2], x = 5 </span><br /><span style="font-size: 14pt;"><strong>Output: </strong>[2, 4, 7, 2] </span><br /><span style="font-size: 14pt;"><strong>Explanation: </strong>The sub-array described by indexes [3..6], i.e. [2, 4, 7, 2] contains no such difference of two elements which is greater than 5. </span></pre>
+<p><span style="font-size: 14pt;"><strong>Constraints:<br /></strong>1 &lt;= arr.size() &lt;= 10<sup>5<br /></sup>1 &lt;= arr[i] &lt;=&nbsp;10<sup>9<br /></sup>0 &lt;= x&lt;=&nbsp;10<sup>9</sup></span></p></div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-20">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.geeksforgeeks.org/problems/lucys-neighbours--141631/1" target="_blank" rel="noopener noreferrer">Lucy&#39;s Neighbours</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">GeeksForGeeks</span>
+						<span class="difficulty-badge medium">Medium</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">datastructures</span> <span class="topic-badge">heap</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p><span style="font-size: 18px;">Lucy lives in house number <strong>x</strong>. She has a list of <strong>n</strong> house numbers in the society. Distance between houses can be determined by studying the difference between house numbers. Help her find out <strong>k</strong> closest neighbors. Return the list of house numbers in sorted order.<br /><strong>Note: </strong>If two houses are equidistant and Lucy has to pick only one, the house with the smaller house number is given preference.</span></p>
+<p><span style="font-size: 18px;"><strong>Examples :</strong></span></p>
+<pre><span style="font-size: 18px;"><strong>Input: </strong>n = 5, x = 0, k = 4, arr[] = [-21, 21, 4, -12, 20] </span>
+<span style="font-size: 18px;"><strong>Output: </strong>-21 -12 4 20</span>
+<span style="font-size: 18px;"><strong>Explanation: </strong>The closest neighbour is house number 4. Followed by -12 and 20. -21 and 21 are both equal distance from X=0. Therefore, Lucy can only pick 1. Based on the given condition she picks -21 as it is the smaller of the two. </span>
+</pre>
+<pre><span style="font-size: 18px;"><strong>Input: </strong>n = 6, x = 5, k = 3</span>, <span style="font-size: 18px;">arr[] = [10, 2, 14, 4, 7, 6]</span>
+<span style="font-size: 18px;"><strong>Output: </strong>4 6 7</span> 
+</pre>
+<p><span style="font-size: 18px;"><strong>Expected Time Complexity:</strong> O(n log n)<br /><strong>Expected Auxiliary Space:</strong> O(n)</span></p>
+<p><span style="font-size: 18px;"><strong>Constraints:</strong><br />1 &le; k &le; n &le; 10<sup>5</sup>&nbsp;<br />-10<sup>4</sup> &le; x, arr[i] &le; 10<sup>4</sup></span></p></div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-21">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.geeksforgeeks.org/problems/maximize-the-array3340/1" target="_blank" rel="noopener noreferrer">Maximize The Array</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">GeeksForGeeks</span>
+						<span class="difficulty-badge medium">Medium</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">algorithms</span> <span class="topic-badge">arrays</span> <span class="topic-badge">datastructures</span> <span class="topic-badge">heap</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p><span style="font-size: 18px;">Given two integer arrays arr1 and arr2 of size n. Use the greatest elements from the given arrays to create a new array of size n such that it consists of only unique elements and the sum of all its elements is maximum.<br />The created elements should contain the elements of arr2 followed by elements of arr1 in order of their appearance.</span></p>
+<p><span style="font-size: 18px;"><strong>Note:</strong> The input array will be given in such way, that every time it is possible to make a new arr by maintaing the following conditions.</span></p>
+<p><br /><span style="font-size: 18px;"><strong>Example 1:</strong></span></p>
+<pre><span style="font-size: 18px;"><strong>Input:
+</strong>n = 5
+arr1 = {7, 4, 8, 0, 1}
+arr2 = {9, 7, 2, 3, 6}
+<strong>Output: </strong>9 7 6 4 8
+<strong>Explanation:</strong> 9, 7, 6 are from 2nd array
+and 4, 8 from 1st array.</span></pre>
+<p><br /><span style="font-size: 18px;"><strong>Example 2:</strong></span></p>
+<pre><span style="font-size: 18px;"><strong>Input: n</strong> = 4
+arr1 = {6, 7, 5, 3}
+arr2 = {5, 6, 2, 9} 
+<strong>Output:</strong> 5 6 9 7 
+<strong>Explanation:</strong> 5, 6, 9 are from 2nd array
+and 7 from 1st array.</span></pre>
+<p><br /><span style="font-size: 18px;"><strong>Your Task: </strong><br />You don't need to read input or print anything. Your task is to complete the function <strong>maximizeArray()</strong> which takes the array arr1[], arr2[] and n as input parameters and returns the desired array of integers.</span></p>
+<p><br /><span style="font-size: 18px;"><strong>Expected Time Complexity:</strong> O(nlog(n))<br /><strong>Expected Auxiliary Space:</strong> O(n)</span></p>
+<p><br /><span style="font-size: 18px;"><strong>Constraints:</strong><br />1 &lt;= n &lt;= 10<sup>5</sup><br />0 &lt;=arr1[i]&lt;= 10<sup>9</sup><br />0 &lt;= arr2[i] &lt;= 10<sup>9</sup></span></p></div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-22">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.geeksforgeeks.org/problems/chinky-and-diamonds3340/1" target="_blank" rel="noopener noreferrer">Maximum Diamonds</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">GeeksForGeeks</span>
+						<span class="difficulty-badge easy">Easy</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">algorithms</span> <span class="topic-badge">datastructures</span> <span class="topic-badge">heap</span> <span class="topic-badge">mathematical</span> <span class="topic-badge">stl</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p><span style="font-size: 18px;">There are &nbsp;bags with diamonds in them. The i'th of these bags contains <strong>arr[i] </strong>diamonds. If you drop a bag with <strong>arr[i]</strong> diamonds, it changes to <strong>arr[i]/2 </strong>diamonds and you gain <strong>arr[i]&nbsp;</strong>diamonds. Dropping a bag takes 1 minute. Find the <strong>maximum number of diamonds</strong> that you can take if you are given <strong>k </strong>minutes.</span></p>
+<p><span style="font-size: 18px;"><strong>Examples:</strong></span></p>
+<pre><span style="font-size: 18px;"><strong>Input:</strong>arr[]<strong style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">= </strong><span style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">[2, 1, 7, 4, 2], k = 3</span><strong><br /></strong></span><span style="font-size: 18px;"><strong>Output: </strong>14</span>
+<span style="font-size: 18px;"><strong>Explanation:</strong></span>
+<span style="font-size: 18px;">The state of bags is:2 1 7 4 2
+Take all diamonds from Third bag (7).</span><span style="font-size: 18px;">
+State of bags becomes: 2 1 3 4 2 
+Take all diamonds from Fourth bag (4).
+State of bags becomes: 2 1 3 2 2
+Take all diamonds from Third bag (3).<br /></span><span style="font-size: 18px;">State of bags becomes: 2 1 1 2 2 
+Hence,number of Diamonds = 7+4+3 = 14.</span></pre>
+<pre><span style="font-size: 18px;"><strong>Input:</strong>arr[]<strong style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">=</strong><span style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">[7, 1, 2], k = 2</span></span>
+<span style="font-size: 18px;"><strong>Output:</strong>10</span>
+<span style="font-size: 18px;"><strong>Explanation:<br /></strong>Take all diamonds from First bag (7).<br />State of bags becomes: 3 1 2 <br />Take all diamonds from again First bag (3).<br />State of bags becomes: 1 1 2<br /></span><span style="font-size: 18px;">You can take a <strong>maximum </strong>of 10 diamonds.</span>
+</pre>
+<p><span style="font-size: 18px;"><strong>Constraints:</strong></span><br /><span style="font-size: 18px;">1&nbsp;</span><span style="background-color: #ffffff; color: #1e2229; font-family: Nunito; font-size: 17px;">&le;</span><span style="font-size: 18px;"> n</span><span style="background-color: #ffffff; color: #1e2229; font-family: Nunito; font-size: 17px;">&le;</span><span style="font-size: 18px;">&nbsp;10</span><sup>5<br /></sup><span style="font-size: 18px;">0&nbsp;</span><span style="background-color: #ffffff; color: #1e2229; font-family: Nunito; font-size: 17px;">&le;&nbsp; k</span><span style="font-size: 18px;">, arr[i] </span><span style="background-color: #ffffff; color: #1e2229; font-family: Nunito; font-size: 17px;">&le;</span><span style="font-size: 18px;">&nbsp;10</span><sup>5</sup></p></div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-23">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.geeksforgeeks.org/problems/maximum-distinct-elements-after-removing-k-elements5906/1" target="_blank" rel="noopener noreferrer">Maximum distinct elements after removing K elements</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">GeeksForGeeks</span>
+						<span class="difficulty-badge medium">Medium</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">arrays</span> <span class="topic-badge">datastructures</span> <span class="topic-badge">hash</span> <span class="topic-badge">heap</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p><span style="font-size: 18px;">Given an array containing integers. The task is to find the maximum number of distinct elements after removing K elements from the array. </span></p>
+<p><span style="font-size: 18px;"><strong>Examples:</strong></span></p>
+<pre><span style="font-size: 18px;"><strong>Input :</strong> arr[] = [5, 7, 5, 5, 1, 2, 2], k = 3
+<strong>Output :</strong> 4
+<strong>Explanation: </strong>Remove 2 occurrences of element <strong>5</strong> and 1 occurrence of element <strong>2</strong>.
+</span></pre>
+<pre><span style="font-size: 18px;"><strong>Input :</strong> arr[] = [1, 2, 3, 4, 5, 6, 7], k = 5
+<strong>Output :</strong> 2
+</span></pre>
+<p><span style="font-size: 18px;"><strong>Expected Time Complexity:</strong> O(n + m*logm +&nbsp; k*logm)<br /><strong>Expected Auxiliary Space:</strong> O(m).<br />(</span><strong style="font-size: 18px;">m</strong><span style="font-size: 18px;"> is the number of distinct elements in the given array.</span><span style="font-size: 18px;">)</span></p>
+<p><span style="font-size: 18px;"><strong>Constraints:</strong><br />1 &le; k &le; arr.size() &le; 10<sup>4</sup><br /></span><span style="font-size: 18px;">1 &le; arr[i] &le; 10</span><sup>6</sup></p></div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-24">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.geeksforgeeks.org/problems/maximum-number-of-events-that-can-be-attended--170636/1" target="_blank" rel="noopener noreferrer">Maximum number of events that can be attended</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">GeeksForGeeks</span>
+						<span class="difficulty-badge medium">Medium</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">algorithms</span> <span class="topic-badge">datastructures</span> <span class="topic-badge">greedy</span> <span class="topic-badge">heap</span> <span class="topic-badge">sorting</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p><span style="font-size:18px">There are <strong>N</strong> events in&nbsp;Geek&#39;s city. You are given two arrays <strong>start[]</strong> and <strong>end[] </strong>denoting starting and ending day of the events respectively. Event i starts at start[i] and ends at end[i].<br />
+You can attend an event i at any day <strong>d</strong> between start[i] and end[i] (start[i] &le; d &le; end[i]). But you can attend <strong>only one event in a day</strong>.<br />
+Find the maximum number of events you can attend.</span></p>
+
+<p>&nbsp;</p>
+
+<p><span style="font-size:18px"><strong>Example 1:</strong></span></p>
+
+<pre>
+<span style="font-size:18px"><strong>Input:
+</strong>N = 3
+start[] = {1, 2, 1}
+end[] = {1, 2, 2}
+<strong>Output:
+</strong>2
+<strong>Explanation:</strong>
+You can attend a maximum of two events.
+You can attend 2 events by attending 1st event
+at Day 1 and 2nd event at Day 2.</span>
+</pre>
+
+<div><span style="font-size:18px"><strong>Example 2:</strong></span></div>
+
+<pre>
+<span style="font-size:18px"><strong>Input:
+</strong>N = 3
+start[i] = {1, 2, 3}
+end[i] = {2, 3, 4} 
+<strong>Output :</strong>
+3</span>
+<span style="font-size:18px"><strong>Explanation:</strong>
+You can attend all events by attending event 1
+at Day 1, event 2 at Day 2, and event 3 at Day 3.</span>
+</pre>
+
+<p><br />
+<span style="font-size:18px"><strong>Your Task:&nbsp;&nbsp;</strong><br />
+You don&#39;t need to read input or print anything. Your task is to complete the function <strong>maxEvents()</strong>&nbsp;which takes an integer N and two arrays start[], and end[] of size N as input parameters and returns the maximum number of events that can be attended by you.</span></p>
+
+<p><br />
+<span style="font-size:18px"><strong>Expected Time Complexity:</strong> O(NlogN)<br />
+<strong>Expected Auxiliary Space:</strong> O(N)</span></p>
+
+<p><br />
+<span style="font-size:18px"><strong>Constraints:</strong><br />
+1 &le; N &le; 10<sup>5</sup><br />
+1 &le; start[i]&nbsp;&le; end[i] &le; 10<sup>5</sup></span></p>
+</div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-25">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.geeksforgeeks.org/problems/maximum-sum-combination/1" target="_blank" rel="noopener noreferrer">Maximum Sum Combination</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">GeeksForGeeks</span>
+						<span class="difficulty-badge medium">Medium</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">algorithms</span> <span class="topic-badge">arrays</span> <span class="topic-badge">datastructures</span> <span class="topic-badge">heap</span> <span class="topic-badge">sorting</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p data-start="85" data-end="303"><span style="font-size: 14pt;">You are given two integer arrays <strong><code data-start="143" data-end="148">a[]</code></strong> and <strong><code data-start="153" data-end="158">b[]</code></strong> of equal size. A sum combination is formed by adding one element from <strong><code data-start="233" data-end="238">a[]</code></strong> and one from <strong><code data-start="252" data-end="257">b[]</code></strong>, using each index pair <strong><code data-start="281" data-end="289">(i, j)</code></strong> at most once. Return the top<strong data-start="316" data-end="352"> <code data-start="322" data-end="325">k</code> maximum </strong>sum combinations, sorted in non-increasing order.</span></p>
+<p><span style="font-size: 14pt;"><strong>Examples:</strong></span></p>
+<pre><span style="font-size: 14pt;"><strong style="font-size: 14pt;">Input: </strong><span style="font-size: 14pt;">a[] = [3, 2], b[] = [1, 4], k = 2</span><strong style="font-size: 14pt;"><br />Output: </strong><span style="font-size: 14pt;">[7, 6]</span><strong style="font-size: 14pt;"><br />Explanation: </strong><span style="font-size: 14pt;">Possible sums: <code data-start="522" data-end="529">3 + 1 = 4</code><span style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">, </span><code data-start="531" data-end="538">3 + 4 = 7</code><span style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">, </span><code data-start="540" data-end="547">2 + 1 = 3</code><span style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">, </span><code data-start="549" data-end="556">2 + 4 = 6</code>, Top 2 sums are <code data-start="574" data-end="577">7</code><span style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;"> and </span><code data-start="582" data-end="585" data-is-only-node="">6</code><span style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">.<br /></span></span></span></pre>
+<pre><strong><span style="font-size: 14pt;"><span style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">Input: </span></span></strong><span style="font-size: 14pt;">a[] = [1, 4, 2, 3], b[] = [2, 5, 1, 6], k = 3</span><strong><span style="font-size: 14pt;"><span style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;"><br /></span></span></strong><strong><span style="font-size: 14pt;"><span style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">Output:</span></span></strong><span style="font-size: 14pt;"><span style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;"> [10, 9, 9]<br /></span></span><span style="font-size: 14pt;"><span style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;"><span style="font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif;"><span style="font-size: 18.6667px;"><strong>Explanation:</strong></span><span style="font-size: 14pt;"><strong>&nbsp;</strong></span></span></span></span><span style="font-size: 14pt;">The top 3 maximum possible sums are : <code data-start="67" data-end="79">4 + 6 = 10</code>, <code data-start="81" data-end="92">3 + 6 = 9</code>, and <code data-start="98" data-end="109">4 + 5 = 9</code><br /></span></pre>
+<p><strong><span style="font-size: 14pt;"><span style="font-size: 14pt;">Constraints:</span><br /></span></strong><span style="font-size: 14pt;"><span style="font-size: 14pt;">1 &le; a.size() = b.size() &le; 10</span><sup style="font-size: 14pt;">5</sup><br /><span style="font-size: 18.6667px;">1 &le; k &le; a.size()<br /></span></span><span style="font-size: 14pt;">1 &le; a[i], b[i] &le; 10<sup>4</sup></span></p></div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-26">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.geeksforgeeks.org/problems/attend-all-meetings-ii/1" target="_blank" rel="noopener noreferrer">Meeting Rooms II</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">GeeksForGeeks</span>
+						<span class="difficulty-badge medium">Medium</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">arrays</span> <span class="topic-badge">greedy</span> <span class="topic-badge">heap</span> <span class="topic-badge">sorting</span> <span class="topic-badge">two-pointer-algorithm</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p><span style="font-size: 18.6667px;">Given two arrays&nbsp;<strong>start[] </strong>and<strong> end[]</strong> such that start[i] is the starting time of i<sup>th</sup> meeting and end[i] is the ending time of ith meeting. R</span><span style="font-size: 18.6667px;">eturn the <strong>minimum number</strong> of rooms required to attend all meetings.</span></p>
+<p><span style="font-size: 14pt;"><strong>Examples:</strong></span></p>
+<pre><span style="font-size: 14pt;"><strong>Input: </strong>start[] = [1, 10, 7], end[] = [4, 15, 10]
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> </span><span style="font-size: 18.6667px;">Since all the meetings are held at different times, it is possible to attend all the meetings in a single room.</span></pre>
+<pre><span style="font-size: 14pt;"><strong>Input: </strong>start[] = [2, 9, 6], end[] = [4, 12, 10]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> 1st and 2nd meetings at one room but for 3rd meeting one another room required.<br /></span></pre>
+<p><span style="font-size: 12pt;"><strong>Constraints:</strong></span><br /><span style="font-size: 12pt;">1 &le; start.size() &le; 10<sup>5</sup></span><br /><span style="font-size: 12pt;">0 &le; start[i] &lt; end[i] &le; 10<sup>6</sup></span></p></div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-27">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.geeksforgeeks.org/problems/meeting-rooms-iii/1" target="_blank" rel="noopener noreferrer">Meeting Rooms III</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">GeeksForGeeks</span>
+						<span class="difficulty-badge hard">Hard</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">datastructures</span> <span class="topic-badge">heap</span> <span class="topic-badge">priority-queue</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p><span style="font-size: 14pt;">You are given an integer <strong>n</strong> representing the number of rooms numbered from <strong>0</strong> to <strong>n - 1</strong>. Additionally, you are given a 2D integer array <strong>meetings[][]</strong> where <strong>meetings[i]</strong> = <strong>[start<sub>i</sub>, end<sub>i</sub>]</strong> indicates that a meeting is scheduled during the half-closed time interval <strong>[start<sub>i</sub>, end<sub>i</sub>)</strong>. All start<sub>i</sub> values are unique.</span></p>
+<p><span style="font-size: 14pt;">Meeting Allocation</span><strong><span style="font-size: 14pt;"> Rules:</span></strong></p>
+<ul>
+<li><span style="font-size: 14pt;">When a meeting starts, assign it to the available room with the smallest number.</span></li>
+<li><span style="font-size: 14pt;">If no rooms are free, delay the meeting until the earliest room becomes available. The delayed meeting retains its original duration.</span></li>
+<li><span style="font-size: 14pt;">When a room becomes free, assign it to the delayed meeting with the earliest original start time.</span></li>
+</ul>
+<p><span style="font-size: 14pt;">Determine the <strong>room number</strong> that hosts the most meetings. If multiple rooms have the same highest number of meetings, return the smallest room number among them.</span></p>
+<p><strong>Examples:</strong></p>
+<pre><span style="font-size: 14pt;"><strong>Input: </strong>n = 2, meetings[][] = [[0, 6], [2, 3], [3, 7], [4, 8], [6, 8]]<strong>
+Output:</strong> 1<strong>
+Explanation: </strong>Time 0: Both rooms available. [0,6] starts in room 0.
+Time 2: Room 0 busy until 6. Room 1 available. [2,3] starts in room 1.
+Time 3: Room 1 frees up. [3,7] starts in room 1.
+Time 4: Both rooms busy. [4,8] is delayed.
+Time 6: Room 0 frees up. Delayed [4,8] starts in room 0 [6,10).
+Time 6: [6,8] arrives but both rooms busy. It&rsquo;s delayed.
+Time 7: Room 1 frees up. Delayed [6,8] starts in room 1 [7,9).</span><br /><span style="font-size: 14pt;">Meeting counts: [2, 3]</span></pre>
+<pre><span style="font-size: 14pt;"><strong>Input: </strong>n = 4, meetings[][] = [[0, 8], [1, 4], [3, 4], [2, 3]<strong>
+Output: </strong>2<strong>
+Explanation: </strong>Time 0: All rooms available. [0,8] starts in room 0.
+Time 1: Room 0 busy until 8. Rooms 1, 2, 3 available. [1,4] starts in room 1.
+Time 2: Rooms 0 and 1 busy. Rooms 2, 3 available. [2,3] starts in room 2.
+Time 3: Room 2 frees up. [3,4] starts in room 2.</span><span style="font-size: 14pt;">
+Meeting counts: [1, 1, 2, 0]</span></pre>
+<p><span style="font-size: 14pt;"><strong>Constraints:</strong></span></p>
+<ul>
+<li><span style="font-size: 14pt;">1&nbsp;<span style="color: #1e2229; font-family: Nunito; font-size: 17px; background-color: #ffffff;">&le;</span>&nbsp;n&nbsp;<span style="color: #1e2229; font-family: Nunito; font-size: 17px; background-color: #ffffff;">&le;</span>&nbsp;10<sup>4</sup></span></li>
+<li><span style="font-size: 14pt;">1&nbsp;<span style="color: #1e2229; font-family: Nunito; font-size: 17px; background-color: #ffffff;">&le;</span>&nbsp;meetings.size()&nbsp;<span style="color: #1e2229; font-family: Nunito; font-size: 17px; background-color: #ffffff;">&le; </span>10<sup>4</sup></span></li>
+<li><span style="font-size: 14pt;">meetings[i].size() == 2</span></li>
+<li><span style="font-size: 14pt;">0&nbsp;<span style="color: #1e2229; font-family: Nunito; font-size: 17px; background-color: #ffffff;">&le;</span>&nbsp;start<sub>i&nbsp;</sub>&lt; end<sub>i&nbsp;</sub><span style="color: #1e2229; font-family: Nunito; font-size: 17px; background-color: #ffffff;">&le;</span>&nbsp;10<sup>4</sup></span></li>
+</ul></div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-28">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.geeksforgeeks.org/problems/merge-k-sorted-arrays/1" target="_blank" rel="noopener noreferrer">Merge k Sorted Arrays</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">GeeksForGeeks</span>
+						<span class="difficulty-badge medium">Medium</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">algorithms</span> <span class="topic-badge">arrays</span> <span class="topic-badge">datastructures</span> <span class="topic-badge">heap</span> <span class="topic-badge">sorting</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p><span style="font-size: 18px;">Given <strong>k</strong> sorted arrays arranged in the form of a matrix of size <strong>k</strong> * <strong>k</strong>. The task is to merge them into one sorted array. Return the merged sorted array ( as a pointer to the merged sorted arrays in <strong>cpp,&nbsp;</strong>as an ArrayList in&nbsp;<strong>java,&nbsp;</strong>and list in&nbsp;<strong>python</strong>).</span></p>
+<p><span style="font-size: 18px;"><br /><strong>Examples :</strong> </span></p>
+<pre><span style="font-size: 18px;"><strong>Input: </strong>k = 3, arr[][] = {{1,2,3},{4,5,6},{7,8,9}}
+<strong>Output: </strong>1&nbsp;2&nbsp;3&nbsp;4&nbsp;5 6 7 8 9<strong>
+Explanation: </strong>Above test case has 3 sorted arrays of size 3, 3, 3 arr[][] = [[1, 2, 3],[4, 5, 6],[7, 8, 9]]. The merged list will be [1, 2, 3, 4, 5, 6, 7, 8, 9].</span></pre>
+<pre><span style="font-size: 18px;"><strong>Input: </strong>k = 4, arr[][]={{1,2,3,4},{2,2,3,4},{5,5,6,6},{7,8,9,9}}
+<strong>Output: </strong>1 2 2 2 3 3 4 4 5 5 6 6 7 8 9 9&nbsp;<strong>
+Explanation: </strong>Above test case has 4 sorted arrays of size 4, 4, 4, 4 arr[][] = [[1, 2, 2, 2], [3, 3, 4, 4], [5, 5, 6, 6], [7, 8, 9, 9 ]]. The merged list will be [1, 2, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8, 9, 9].</span></pre>
+<p><span style="font-size: 18px;"><strong>Expected Time Complexity:</strong> O(k<sup>2</sup></span>*<span style="font-size: 18px;">Log(k))<br /><strong>Expected Auxiliary Space:</strong> O(k<sup>2</sup>)</span></p>
+<p><span style="font-size: 18px;"><strong>Constraints</strong>:<br />1 &lt;= k &lt;= 100</span></p></div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-29">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.geeksforgeeks.org/problems/merge-k-sorted-linked-lists/1" target="_blank" rel="noopener noreferrer">Merge K sorted linked lists</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">GeeksForGeeks</span>
+						<span class="difficulty-badge medium">Medium</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">datastructures</span> <span class="topic-badge">heap</span> <span class="topic-badge">linkedlist</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p><span style="font-size: 18px;">Given an array <strong>arr[] </strong>of <strong>n</strong> <strong>sorted linked lists</strong> of different sizes. You have to <strong>merge</strong> them in such a way that after merging they will be a <strong>single sorted</strong> linked list, then <strong>return </strong>the<strong> head</strong> of the merged linked list.</span></p>
+<p><span style="font-size: 18px;"><strong>Examples:</strong></span></p>
+<pre><span style="font-size: 18px;"><strong>Input: </strong>arr[] = [1 -&gt; 2 -&gt; 3, 4 -&gt; 5, 5 -&gt; 6, 7 -&gt; 8]
+<strong>Output: </strong>1 -&gt; 2 -&gt; 3 -&gt; 4 -&gt; 5 -&gt; 5 -&gt; 6 -&gt; 7 -&gt; 8<strong>
+Explanation:<br /></strong>The arr[] has 4 sorted linked list of size 3, 2, 2, 2.
+1st list: 1 -&gt; 2-&gt; 3
+2nd list: 4 -&gt; 5
+3rd list: 5 -&gt; 6
+4th list: 7 -&gt; 8
+The merged list will be:
+</span><img src="https://media.geeksforgeeks.org/img-practice/prod/addEditProblem/700265/Web/Other/blobid0_1737094930.png" width="388" height="68" /> </pre>
+<pre><span style="font-size: 18px;"><strong>Input: </strong>arr[] = [1 -&gt; 3, 8, 4 -&gt; 5 -&gt; 6]
+<strong>Output: </strong>1 -&gt; 3 -&gt; 4 -&gt; 5 -&gt; 6 -&gt; 8<strong>
+Explanation:<br /></strong>The arr[] has 3 sorted linked list of size 2, 3, 1.
+1st list: 1 -&gt; 3
+2nd list: 8
+3rd list: 4 -&gt; 5 -&gt; 6
+The merged list will be:<br /><img src="https://media.geeksforgeeks.org/img-practice/prod/addEditProblem/700265/Web/Other/blobid1_1722513386.png" width="400" height="70" /></span>
+</pre>
+<p><span style="font-size: 18px;"><strong>Constraints</strong><br />1 &le; total no. of nodes &le; 10<sup>5</sup><sup><br /></sup>1 &le; node-&gt;data &le; 10<sup>3</sup></span></p></div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-30">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.geeksforgeeks.org/problems/merge-two-binary-max-heap0144/1" target="_blank" rel="noopener noreferrer">Merge two binary Max heaps</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">GeeksForGeeks</span>
+						<span class="difficulty-badge easy">Easy</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">arrays</span> <span class="topic-badge">datastructures</span> <span class="topic-badge">heap</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p><span style="font-size:18px">Given two binary max heaps as arrays, merge the given heaps to form a new max heap.</span></p>
+
+<p>&nbsp;</p>
+
+<p><strong><span style="font-size:18px">Example 1:</span></strong></p>
+
+<pre>
+<span style="font-size:18px"><strong>Input  :</strong> 
+n = 4 m = 3
+a[] = {10, 5, 6, 2}, 
+b[] = {12, 7, 9}
+<strong>Output :</strong> 
+{12, 10, 9, 2, 5, 7, 6}</span>
+<span style="font-size:18px"><strong>Explanation :</strong></span>
+
+<input alt="" src="https://media.geeksforgeeks.org/wp-content/uploads/Merge_max_heap_1.jpg" style="height:160px; width:300px" type="image" />
+<input alt="" src="https://media.geeksforgeeks.org/wp-content/uploads/Merge_max_heap_2.jpg" style="height:120px; width:200px" type="image" />
+<span style="font-size:18px"><input alt="" src="https://media.geeksforgeeks.org/wp-content/uploads/Merge_max_heap_3.jpg" style="height:160px; width:300px" type="image" /></span></pre>
+
+<p>&nbsp;</p>
+
+<p>&nbsp;</p>
+
+<p><span style="font-size:18px"><strong>Your Task:&nbsp;&nbsp;</strong><br />
+You don&#39;t need to read input or print anything. Your task is to complete the function <strong>mergeHeaps</strong><strong>()</strong>&nbsp;which takes the array <strong>a[]</strong>, <strong>b[]</strong>, its size <strong>n </strong>and <strong>m,&nbsp;</strong>as inputs and return&nbsp;the merged max heap.&nbsp;Since there can be multiple solutions, therefore, to check for the correctness of your solution, your answer will be checked by the driver code and will return&nbsp;<strong>1</strong>&nbsp;if it is correct, else it returns&nbsp;<strong>0</strong>.</span></p>
+
+<p>&nbsp;</p>
+
+<p><span style="font-size:18px"><strong>Expected Time Complexity:</strong> O(n.Logn)<br />
+<strong>Expected Auxiliary Space:</strong> O(n + m)</span></p>
+
+<p>&nbsp;</p>
+
+<p><span style="font-size:18px"><strong>Constraints:</strong><br />
+1 &lt;= n, m &lt;= 10<sup>5</sup><br />
+1 &lt;= a[i], b[i] &lt;= 2*10<sup>5</sup></span><br />
+&nbsp;</p>
+
+<p><br />
+&nbsp;</p>
+
+<p>&nbsp;</p>
+</div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-31">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.geeksforgeeks.org/problems/min-heap-implementation/1" target="_blank" rel="noopener noreferrer">Min Heap implementation</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">GeeksForGeeks</span>
+						<span class="difficulty-badge easy">Easy</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">datastructures</span> <span class="topic-badge">heap</span> <span class="topic-badge">stl</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p><span style="font-size: 18px;">Given a<strong> priority queue (max heap)</strong> and <strong>Q</strong> queries to be performed on priority queue. The task is to perform operations based on queries.<br />1. <strong>p :</strong> query to <strong>push</strong> element (x, given with query) to priority_queue <strong>and print size</strong>.<br />2. <strong>pp :</strong> query to <strong>pop</strong> element from priority_queue<strong> and print size</strong>.<br />3. <strong>t :</strong> query to <strong>return top</strong> element of priority_queue, <strong>if empty return -1.</strong></span></p>
+<p><span style="font-size: 18px;"><strong>Examples :</strong></span></p>
+<pre><span style="font-size: 18px;"><strong>Input: </strong>Q = 5
+p 5
+p 3
+p 1
+t
+pp
+<strong>Output:</strong> 
+1
+2
+3
+1
+2</span>
+<span style="font-size: 18px;"><strong>Explanation: </strong>Pushing 5, 3, 1 to queue. Now, fetching top which is 1 (according to min heap property smallest element at top). Popping back 
+element from queue, size reduced to 2.</span>
+</pre>
+<p><span style="font-size: 18px;"><strong>Constraints:</strong><br />1 &lt;= Q &lt;= 100</span></p></div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-32">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.geeksforgeeks.org/problems/minimum-cost-of-ropes-1587115620/1" target="_blank" rel="noopener noreferrer">Minimum Cost of ropes</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">GeeksForGeeks</span>
+						<span class="difficulty-badge medium">Medium</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">datastructures</span> <span class="topic-badge">heap</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p><span style="font-size: 18px;">Given an array, <strong>arr[]</strong> of rope lengths, connect all ropes into a single rope with the <strong>minimum total cost</strong>. The <strong>cost</strong> to connect two ropes is the <strong>sum of their lengths</strong>.&nbsp;</span></p>
+<p><span style="font-size: 18px;"><strong>Examples:</strong></span></p>
+<pre><span style="font-size: 18px;"><strong>Input: </strong>arr[] = [4, 3, 2, 6]
+<strong>Output: </strong>29<strong>
+Explanation: </strong>We can connect the ropes in following ways.
+1) First connect ropes of lengths 2 and 3. Which makes the array [4, 5, 6]. Cost of this operation 2 + 3 = 5. 
+2) Now connect ropes of lengths 4 and 5. Which makes the array [9, 6]. Cost of this operation 4 + 5 = 9.
+3) Finally connect the two ropes and all ropes have connected. Cost of this operation 9 + 6 =15. Total cost is 5 + 9 + 15 = 29. This is the optimized cost for connecting ropes. <br />Other ways of connecting ropes would always have same or more cost. For example, if we connect 4 and 6 first (we get three rope of 3, 2 and 10), then connect 10 and 3 (we get two rope of 13 and 2). Finally we connect 13 and 2. Total cost in this way is 10 + 13 + 15 = 38.</span></pre>
+<pre><span style="font-size: 18px;"><strong>Input: </strong>arr[] = [4, 2, 7, 6, 9]
+<strong>Output: </strong>62 
+<strong>Explanation: </strong>First, connect ropes 4 and 2, which makes the array [6, 7, 6, 9]. Cost of this operation 4 + 2 = 6. <br />Next, add ropes 6 and 6, which results in [12, 7, 9]. Cost of this operation 6 + 6 = 12.
+Then, add 7 and 9, which makes the array [12,16]. Cost of this operation 7 + 9 = 16. And
+finally, add these two which gives [28]. Hence, the total cost is 6 + 12 + 16 + 28 = 62.</span>
+</pre>
+<pre><span style="font-size: 18px;"><strong>Input: </strong>arr[] = [10]
+<strong>Output: </strong>0<br /><strong>Explanation</strong>: Since there is only one rope, no connections are needed, so the cost is 0.</span></pre>
+<p><span style="font-size: 18px;"><strong>Constraints:</strong></span><br /><span style="font-size: 18px;">1 &le; arr.size() &le; 10<sup>5</sup><br />1 &le; arr[i] &le; 10<sup>4</sup></span></p></div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-33">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.geeksforgeeks.org/problems/minimum-cost-path3833/1" target="_blank" rel="noopener noreferrer">Minimum Cost Path</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">GeeksForGeeks</span>
+						<span class="difficulty-badge hard">Hard</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">algorithms</span> <span class="topic-badge">datastructures</span> <span class="topic-badge">dynamicprogramming</span> <span class="topic-badge">graph</span> <span class="topic-badge">heap</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p><span style="font-size: 18px;">Given a square <strong>grid </strong>of size <strong>N</strong>, each cell of which contains an integer cost that represents a cost to traverse through that cell, we need to find a <strong>path</strong> from the <strong>top</strong> <strong>left</strong> cell to the <strong>bottom</strong> <strong>right</strong> cell by which the total cost incurred is <strong>minimum</strong>.<br />From the cell (i,j) we can go (i,j-1), (i, j+1), (i-1, j), (i+1, j). </span>&nbsp;</p>
+<p><span style="font-size: 18px;"><strong>Examples :</strong></span></p>
+<pre><span style="font-size: 18px;"><strong>Input: </strong>grid = [[9,4,9,9],<br />               [6,7,6,4],<br />               [8,3,3,7],<br />               [7,4,9,10]]
+<strong>Output: </strong>43
+<strong>Explanation: </strong>The minimum cost is-
+9 + 4 + 7 + 3 + 3 + 7 + 10 = 43.</span>
+</pre>
+<pre><span style="font-size: 18px;"><strong>Input: </strong>grid = [[4,4],<br />               [3,7]]
+<strong>Output: </strong>14
+<strong>Explanation: </strong>The minimum cost is- 4 + 3 + 7 = 14.</span>
+</pre>
+<pre><strong><span style="font-size: 18px;">Constraints:</span></strong><br /><span style="font-size: 18px;">1 &le; n &le; 500<br />1 &le; cost of cells &le; 500</span></pre></div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-34">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.geeksforgeeks.org/problems/min-sum-formed-by-digits3551/1" target="_blank" rel="noopener noreferrer">Min sum formed by digits</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">GeeksForGeeks</span>
+						<span class="difficulty-badge easy">Easy</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">arrays</span> <span class="topic-badge">datastructures</span> <span class="topic-badge">heap</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p><span style="font-size: 18px;"><span style="font-family: arial,helvetica,sans-serif;">Given an array of digits (values are from 0 to 9), find the minimum possible sum of two numbers formed from digits of the array. All digits of the given array must be used to form the two numbers.</span></span></p>
+<p><span style="font-size: 18px;"><span style="font-family: arial,helvetica,sans-serif;">Any combination of digits may be used to form the two numbers to be summed. &nbsp;Leading zeroes are permitted.</span></span></p>
+<p><span style="font-size: 18px;"><span style="font-family: arial,helvetica,sans-serif;">If forming two numbers is impossible (i.e. when n==0) then the "sum" is the value of the only number that can be formed.</span></span></p>
+<p><br />&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="font-size: 18px;"><span style="font-family: arial,helvetica,sans-serif;"><strong>Example 1:</strong></span></span></p>
+<pre><span style="font-size: 18px;"><span style="font-family: arial,helvetica,sans-serif;"><strong>Input:</strong></span>
+<span style="font-family: arial,helvetica,sans-serif;">N = 6</span>
+<span style="font-family: arial,helvetica,sans-serif;">arr[] = {6, 8, 4, 5, 2, 3}
+</span><strong><span style="font-family: arial,helvetica,sans-serif;">Output:</span></strong>
+<span style="font-family: arial,helvetica,sans-serif;">604
+</span><strong><span style="font-family: arial,helvetica,sans-serif;">Explanation:</span></strong>
+<span style="font-family: arial,helvetica,sans-serif;">The minimum sum is formed by numbers </span>
+<span style="font-family: arial,helvetica,sans-serif;">358 and 246</span></span></pre>
+<p>&nbsp;</p>
+<p><span style="font-size: 18px;"><span style="font-family: arial,helvetica,sans-serif;"><strong>Example 2:</strong></span></span></p>
+<pre><span style="font-size: 18px;"><span style="font-family: arial,helvetica,sans-serif;"><strong>Input:</strong></span>
+<span style="font-family: arial,helvetica,sans-serif;">N = 5</span>
+<span style="font-family: arial,helvetica,sans-serif;">arr[] = {5, 3, 0, 7, 4}</span>
+<strong><span style="font-family: arial,helvetica,sans-serif;">Output:</span></strong>
+<span style="font-family: arial,helvetica,sans-serif;">82</span>
+<strong><span style="font-family: arial,helvetica,sans-serif;">Explanation:</span></strong>
+<span style="font-family: arial,helvetica,sans-serif;">The minimum sum is formed by numbers </span>
+<span style="font-family: arial,helvetica,sans-serif;">35 and 047</span></span>
+</pre>
+<p><br /><br /><span style="font-size: 18px;"><span style="font-family: arial,helvetica,sans-serif;"><strong>Your Task:</strong><br />You <strong>don't</strong> have to print anything, printing is done by the driver code itself. Your task is to complete the function&nbsp;<strong>minSum()</strong>&nbsp;which takes the array <strong>A[]</strong> and its size <strong>N</strong><strong> </strong>as inputs and returns the required sum.</span></span><br /><br /><span style="font-size: 18px;"><span style="font-family: arial,helvetica,sans-serif;"><strong>Expected Time Complexity: </strong>O(N. log(N))<br /><strong>Expected Auxiliary Space: </strong>O(N)</span></span></p>
+<p><br /><span style="font-size: 18px;"><span style="font-family: arial,helvetica,sans-serif;"><strong>Constraints:</strong></span><br /><span style="font-family: arial,helvetica,sans-serif;">1 &le; N &le; 35<br />0 &le; A[] &le; 9</span></span></p></div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-35">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.geeksforgeeks.org/problems/operations-on-priorityqueue/1" target="_blank" rel="noopener noreferrer">Operations on PriorityQueue</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">GeeksForGeeks</span>
+						<span class="difficulty-badge easy">Easy</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">datastructures</span> <span class="topic-badge">heap</span> <span class="topic-badge">java</span> <span class="topic-badge">java-collections</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p><span style="font-size: 18px;">Given an integer array <strong>a[]</strong>, your task is to <strong>add </strong>these elements to the <strong>PriorityQueue</strong>. Also, given an array <strong>b[]</strong>, the task is to check<strong> if the given element is present in the PriorityQueue</strong> or not.<br />If the element is present, <strong>then 1 is printed by the driver code, after that the</strong> <strong>max element </strong>of priority queue is printed. Then the driver code deletes the max element.<br /><strong>Note:</strong> Here the driver code has implemented the PriorityQueue as a max-heap.</span></p>
+<p><strong><span style="font-size: 18px;">Example:</span></strong></p>
+<pre><span style="font-size: 18px;"><strong>Input: </strong>a[] = [1, 2, 3, 4, 5, 2, 3, 1], b[] = [1, 3, 2, 9, 10]</span>
+<span style="font-size: 18px;"><strong>Output: </strong>1 5 1 4 1 3 -1 -1</span>
+<span style="font-size: 18px;"><strong>Explanation: </strong>After inserting elements present in A, when we find B[0]=1, which is present, so 1 gets printed, and then the top element of the PriorityQueue which is 5 gets printed, and then it gets deleted. Similarly, when element is not present,<strong> just -1 is printed.<br /></strong></span></pre>
+<pre><span style="font-size: 18px;"><strong>Input: </strong>a[] = [1, 2, 3, 4], b[] = [1, 10]</span>
+<span style="font-size: 18px;"><strong>Output: </strong>1 4 -1</span>
+<span style="font-size: 18px;"><strong>Explanation: </strong>After inserting elements present in A, when we find B[0]=1, which is present, so 1 gets printed, and then the top element of the PriorityQueue which is 4 gets printed, and then it gets deleted. Similarly, when element is not present,<strong> just -1 is printed.</strong></span></pre>
+<p><span style="font-size: 18px;"><strong>Constraints:</strong><br />1 &lt;= a.size() &lt;= 10<sup>3</sup><br />1 &lt;= b.size() &lt;= 10<sup>3</sup></span></p></div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-36">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.geeksforgeeks.org/problems/optimal-file-merge/1" target="_blank" rel="noopener noreferrer">Optimal File Merge</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">GeeksForGeeks</span>
+						<span class="difficulty-badge medium">Medium</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">datastructures</span> <span class="topic-badge">heap</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p><span style="font-size: 18px;">Given n number of sorted files, the task is to find the minimum computations done to reach Optimal Merge Pattern.</span></p>
+<p><span style="font-size: 18px;">When two or more sorted files are to be merged all together to form a single file, the minimum computations done to reach this file are known as&nbsp;<strong>Optimal Merge Pattern</strong>.</span></p>
+<p><span style="font-size: 18px;">If we have two files of sizes m and n, the total computation time will be m+n.&nbsp;</span></p>
+<p><strong><span style="font-size: 18px;">Example 1:</span></strong></p>
+<pre><span style="font-size: 18px;"><strong>Input:</strong> 2 3 4</span>
+<span style="font-size: 18px;"><strong>Output:</strong> 14</span>
+<span style="font-size: 18px;"><strong>Explanation:</strong> 
+There are different ways to combine
+these files.</span><span style="font-size: 18px;">Optimal methode is given below:</span>
+<img src="https://media.geeksforgeeks.org/wp-content/uploads/20190314125251/Optimal-File-Merge-Patterns-method-1-215x300.jpg" alt="Lightbox" /></pre>
+<p><span style="font-size: 18px;"><strong>Example 2:</strong></span></p>
+<pre><span style="font-size: 18px;"><strong>Input:</strong> 2 3 4 5 6 7</span>
+<span style="font-size: 18px;"><strong>Output:</strong> 68</span></pre>
+<p><span style="font-size: 18px;"><strong>Your Task:</strong><br />You don't need to read input or print anything. Your task is to complete the function&nbsp;<strong>minComputation()&nbsp;</strong>which takes the files array as parameter and return minimum comutation to merge all the files.</span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 18px;"><strong>Expected Time Complexity:</strong>&nbsp;O(NlogN)<br /><strong>Expected Auxiliary Space:</strong>&nbsp;O(N)</span></p>
+<p><br /><span style="font-size: 18px;"><strong>Constraints:</strong><br />1 &lt;= N &lt;= 10<sup>5</sup><br />1 &lt;= files<sub>i</sub>&nbsp;&lt;= 10<sup>5</sup></span></p></div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-37">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.geeksforgeeks.org/problems/rearrange-characters4649/1" target="_blank" rel="noopener noreferrer">Rearrange characters</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">GeeksForGeeks</span>
+						<span class="difficulty-badge medium">Medium</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">datastructures</span> <span class="topic-badge">heap</span> <span class="topic-badge">stl</span> <span class="topic-badge">strings</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p><span style="font-size: 18px;">Given a string <strong>s</strong> with repeated characters, the task is to rearrange characters in a string such that no two adjacent characters are the same.<br /><strong>Note:</strong> The string has only lowercase English alphabets and it can have multiple solutions. Return any one of them. If there is no possible solution, then print empty string ("").</span></p>
+<p><strong><span style="font-size: 18px;">Examples:</span></strong></p>
+<pre><strong><span style="font-size: 18px;">Input : </span></strong><span style="font-size: 18px;">s = "aaabc"<br /></span><span style="font-size: 18px;"><strong>Output:</strong> 1
+</span><strong><span style="font-size: 18px;">Explanation: </span></strong><span style="font-size: 18px;">"aaabc" can rearranged to "abaca" or "acaba" as no two adjacent characters are same in the output string.</span></pre>
+<pre><span style="font-size: 18px;"><strong>Input :</strong> </span><span style="font-size: 18px;">s= "aaabb"<br /></span><span style="font-size: 18px;"><strong>Output:</strong> 1
+</span><strong><span style="font-size: 18px;">Explanation: </span></strong><span style="font-size: 18px;">"aaabb" can rearranged to "ababa" as no two adjacent characters are same in the output string.</span></pre>
+<pre><span style="font-size: 18px;"><strong>Input :</strong> </span><span style="font-size: 18px;">s = "aaaabc"<br /></span><span style="font-size: 18px;"><strong>Output:</strong> 0
+</span><strong><span style="font-size: 18px;">Explanation: </span></strong><span style="font-size: 18px;">No combinations possible such that two adjacent characters are different.</span></pre>
+<div><strong><span style="font-size: 18px;">Constraints :</span></strong></div>
+<div><span style="font-size: 18px;">1 &lt;= s.size() &lt;= 10<sup>4</sup></span></div></div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-38">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.geeksforgeeks.org/problems/shortest-path-between-cities/1" target="_blank" rel="noopener noreferrer">Shortest Path between Cities</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">GeeksForGeeks</span>
+						<span class="difficulty-badge medium">Medium</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">algorithms</span> <span class="topic-badge">datastructures</span> <span class="topic-badge">heap</span> <span class="topic-badge">mathematical</span> <span class="topic-badge">tree</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p><span style="font-size: 18px;">Geek lives in a special city where houses are arranged in a hierarchial manner. Starting from house number 1, each house leads to two more houses. &nbsp;<br />1 leads to 2 and 3.&nbsp;<br />2 leads to 4 and 5.&nbsp;<br />3 leads to 6 and 7. and so on.&nbsp;<br />Given the house numbers on two houses x and y, find the length of the shortest path between them.&nbsp;</span></p>
+<p><br /><span style="font-size: 18px;"><strong>Example 1:</strong></span></p>
+<pre><span style="font-size: 18px;"><strong>Input:</strong>
+x = 2, y = 6
+<strong>Output:</strong> 3
+<strong>Explanation:</strong>
+              1
+          /      \
+        /          \
+       2             3
+     /   \         /   \
+    4     5       6     7         
+   / \   / \     / \   / \
+  8  9  10 11   12 13 14 15</span>
+<span style="font-size: 18px;">
+The length of the shortest path between 2 
+and 6 is 3. ie </span><span style="font-size: 18px;">2-&gt; 1-&gt; 3-&gt; 6.</span></pre>
+<p><br /><span style="font-size: 18px;"><strong>Example 2:</strong></span></p>
+<pre><span style="font-size: 18px;"><strong>Input:</strong>
+x = 8, y = 10
+<strong>Output: </strong>4
+<strong>Explanation: </strong>8-&gt; 4-&gt; 2-&gt; 5-&gt; 10
+The length of the shortest path between 8 
+and 10 is 4. </span></pre>
+<p><br /><span style="font-size: 18px;"><strong>Your Task:</strong><br />You don't need to read input or print anything. Complete the function <strong>shortestPath()</strong> which takes integers x and y as input parameters and returns the length of the shortest path from x to y.</span></p>
+<p><br /><span style="font-size: 18px;"><strong>Expected Time Complexity:</strong> O(log(max(x,y)))<br /><strong>Expected Auxiliary Space: </strong>O(1)</span></p>
+<p><br /><span style="font-size: 18px;"><strong>Constraints:&nbsp;</strong><br />1 &lt;= x,y &lt;= 10<sup>9</sup></span></p></div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-39">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.geeksforgeeks.org/problems/find-smallest-range-containing-elements-from-k-lists/1" target="_blank" rel="noopener noreferrer">Smallest range in K lists</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">GeeksForGeeks</span>
+						<span class="difficulty-badge hard">Hard</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">arrays</span> <span class="topic-badge">datastructures</span> <span class="topic-badge">heap</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p><span style="font-size: 18px;">Given a 2d integer array&nbsp;<strong>arr[][]</strong>&nbsp;of size k*n, where each row is sorted in <strong>ascending order</strong>. Your task is to find the&nbsp;<strong>smallest range</strong>&nbsp;[l, r] that includes at least&nbsp;<strong>one</strong>&nbsp;element from each of the&nbsp;<strong>k&nbsp;</strong>lists. If more than one such ranges are found, return the&nbsp;<strong>first one</strong>.</span></p>
+<p><span style="font-size: 18px;"><strong>Examples:</strong></span></p>
+<pre><span style="font-size: 18px;"><strong>Input: </strong>n = 5, k = 3, arr[][] = [[4, 7, 9, 12, 15], [0, 8, 10, 14, 20], [6, 12, 16, 30, 50]]
+<strong>Output: </strong>[6, 8]<strong>
+Explanation: </strong>Smallest range is formed by  number 7 from the first list, 8 from second list and 6 from the third list.</span></pre>
+<pre><span style="font-size: 18px;"><strong>Input: </strong>n = 5, k = 3, arr[][] = [[1, 3, 5, 7, 9], [0, 2, 4, 6, 8], [2, 3, 5, 7, 11]]
+<strong>Output: </strong>[1, 2]<strong>
+Explanation: </strong>Smallest range is formed by number 1 present in first list and 2 is present in both 2nd and 3rd list.</span>
+</pre>
+<pre><span style="font-size: 18px;"><strong style="font-size: 18px;">Input: </strong><span style="font-size: 18px;">n = 2, k = 3, arr[][] = [[2, 4], [1, 7], [20, 40]]
+</span><strong style="font-size: 18px;">Output: </strong><span style="font-size: 18px;">[4, 20]<br /><strong>Explanation:</strong> Smallest range is formed by number 4 from the first list, 7 from second list and 20 from the third list.</span></span></pre>
+<div><span style="font-size: 18px;"><strong>Constraints:</strong><br />1 &lt;= k, n &lt;= 500</span></div>
+<div><span style="font-size: 18px;">0 &lt;= arr[ i ] &lt;= 10<sup>5</sup></span></div></div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-40">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.geeksforgeeks.org/problems/sum-of-elements-between-k1th-and-k2th-smallest-elements3133/1" target="_blank" rel="noopener noreferrer">Sum of elements between k1&#39;th and k2&#39;th smallest elements</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">GeeksForGeeks</span>
+						<span class="difficulty-badge easy">Easy</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">algorithms</span> <span class="topic-badge">arrays</span> <span class="topic-badge">datastructures</span> <span class="topic-badge">heap</span> <span class="topic-badge">sorting</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p><span style="font-family: arial,helvetica,sans-serif;"><span style="font-size: 18px;">Given an array <strong>A[]</strong>&nbsp;of <strong>N</strong>&nbsp;positive&nbsp;integers and two positive integers <strong>K<sub>1</sub></strong> and <strong>K<sub>2</sub></strong>. Find the sum of all elements between K<sub>1</sub><sup>th</sup> and&nbsp;K<sub>2</sub><sup>th</sup> smallest elements of the array.&nbsp;</span></span><span style="font-size: 18px;">It may be assumed that (1 &lt;= k1 &lt; k2 &lt;= n).</span></p>
+<p>&nbsp;</p>
+<p><span style="font-family: arial,helvetica,sans-serif;"><span style="font-size: 18px;"><strong>Example 1:</strong></span></span></p>
+<pre><span style="font-family: arial,helvetica,sans-serif;"><span style="font-size: 18px;"><strong>Input:</strong></span><span style="font-size: 18px;">
+N  = 7
+A[] = {20, 8, 22, 4, 12, 10, 14}
+K1 = 3, K2 = 6
+<strong>Output:</strong></span>
+<span style="font-size: 18px;">26
+<strong>Explanation:</strong></span><span style="font-size: 18px;">
+3rd smallest element is 10
+6th smallest element is 20
+Element between 10 and 20 
+12,14. Their sum = 26.</span></span></pre>
+<p>&nbsp;</p>
+<p><span style="font-family: arial,helvetica,sans-serif;"><span style="font-size: 18px;"><strong>Example 2:</strong></span></span></p>
+<pre><span style="font-family: arial,helvetica,sans-serif;"><span style="font-size: 18px;"><strong>Input</strong>
+N = 6
+A[] = {10, 2, 50, 12, 48, 13}
+K1= 2, K2 = 6
+<strong>Output:</strong></span><span style="font-size: 18px;">
+73</span></span></pre>
+<p>&nbsp;</p>
+<p><span style="font-family: arial,helvetica,sans-serif;"><span style="font-size: 18px;"><strong>Your Task:&nbsp;&nbsp;</strong><br />You don't need to read input or print anything. Your task is to complete the function&nbsp;<strong>sumBetweenTwoKth()</strong>&nbsp;which takes the array <strong>A[]</strong>, its size <strong>N</strong><strong> </strong>and two integers <strong>K1</strong> and <strong>K2</strong> as inputs and returns the sum of all the elements between K<sub>1</sub><sup>th</sup> and K<sub>2</sub><sup>th</sup> smallest elements.</span></span><br />&nbsp;</p>
+<p><span style="font-family: arial,helvetica,sans-serif;"><span style="font-size: 18px;"><strong>Expected Time Complexity:</strong> O(N. log(N))<br /><strong>Expected Auxiliary Space:</strong> O(N)</span></span></p>
+<p>&nbsp;</p>
+<p><span style="font-family: arial,helvetica,sans-serif;"><span style="font-size: 18px;"><strong>Constraints:</strong><br />1 &le; N &le; 10<sup>5</sup><br />1 &le; K<sub>1</sub>, K<sub>2</sub> &le; 10</span><sup>5</sup></span></p></div>
+			</div>
+			
+			
+		</div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>Generated by pushkar</p>
+        <p>Programming Questions Collection</p>
+    </div>
+    
+    <script>
+        // Smooth scrolling for TOC links
+        document.querySelectorAll('.toc-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // Add scroll-to-top functionality
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 300) {
+                if (!document.querySelector('.scroll-top')) {
+                    const scrollTop = document.createElement('button');
+                    scrollTop.className = 'scroll-top';
+                    scrollTop.innerHTML = '↑';
+                    scrollTop.style.cssText = 'position: fixed; bottom: 20px; right: 20px; background: #58a6ff; color: white; border: none; border-radius: 50%; width: 50px; height: 50px; cursor: pointer; font-size: 20px; z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.3); transition: all 0.3s ease;';
+                    scrollTop.addEventListener('click', () => window.scrollTo({top: 0, behavior: 'smooth'}));
+                    document.body.appendChild(scrollTop);
+                }
+            } else {
+                const scrollTop = document.querySelector('.scroll-top');
+                if (scrollTop) scrollTop.remove();
+            }
+        });
+    </script>
+    
+    <style>
+        .footer {
+            background: linear-gradient(135deg, #21262d 0%, #30363d 100%);
+            color: #8b949e;
+            text-align: center;
+            padding: 30px;
+            margin-top: 50px;
+            border-top: 2px solid #30363d;
+        }
+        
+        .footer p {
+            margin: 8px 0;
+            font-size: 1rem;
+        }
+        
+        .footer p:first-child {
+            color: #f0f6fc;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+    </style>
+</body>
+</html>
