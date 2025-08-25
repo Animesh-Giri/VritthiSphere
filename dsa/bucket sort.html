@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>bucket sort - Programming Questions</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+                'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+                sans-serif;
+            line-height: 1.6;
+            color: #e0e0e0;
+            background-color: #0d1117;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #161b22;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #21262d 0%, #30363d 100%);
+            color: #f0f6fc;
+            padding: 40px 30px;
+            border-bottom: 2px solid #30363d;
+        }
+        
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+            color: #58a6ff;
+            text-transform: capitalize;
+            letter-spacing: -0.02em;
+        }
+        
+        .header-info {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-top: 15px;
+        }
+        
+        .header-info p {
+            font-size: 1.1rem;
+            color: #8b949e;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .header-info strong {
+            color: #f0f6fc;
+            font-weight: 600;
+        }
+        
+        .header-badge {
+            background-color: #238636;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .content {
+            padding: 40px 30px;
+        }
+        
+        .toc {
+            background: linear-gradient(135deg, #21262d 0%, #30363d 100%);
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 40px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .toc h2 {
+            color: #58a6ff;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .toc ul {
+            list-style: none;
+            max-height: 400px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            word-wrap: break-word;
+        }
+        
+        .toc li {
+            padding: 12px 0;
+            border-bottom: 1px solid #30363d;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.2s ease;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+        
+        .toc li:last-child {
+            border-bottom: none;
+        }
+        
+        .toc li:hover {
+            background-color: rgba(88, 166, 255, 0.1);
+            border-radius: 6px;
+            margin: 0 -10px;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+        
+        .toc-link {
+            color: #e0e0e0;
+            text-decoration: none;
+            flex: 1;
+            font-weight: 500;
+            transition: color 0.2s ease;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            margin-right: 10px;
+        }
+        
+        .toc-link:hover {
+            color: #58a6ff;
+        }
+        
+        .toc-platform {
+            color: #8b949e;
+            font-size: 0.85rem;
+            background-color: #30363d;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-weight: 500;
+            flex-shrink: 0;
+        }
+        
+        .question-card {
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            padding: 30px;
+            background: linear-gradient(135deg, #21262d 0%, #161b22 100%);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .question-title-section {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .question-title {
+            margin: 0;
+        }
+        
+        .question-title a {
+            color: #58a6ff;
+            text-decoration: none;
+            font-size: 1.4rem;
+            font-weight: 600;
+            line-height: 1.3;
+            transition: color 0.2s ease;
+        }
+        
+        .question-title a:hover {
+            color: #79c0ff;
+            text-decoration: underline;
+        }
+        
+        .question-meta {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+        
+        .platform-badge {
+            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .difficulty-badge {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .difficulty-badge.easy {
+            background: linear-gradient(135deg, #238636 0%, #2ea043 100%);
+        }
+        
+        .difficulty-badge.medium {
+            background: linear-gradient(135deg, #da7633 0%, #fb8500 100%);
+        }
+        
+        .difficulty-badge.hard {
+            background: linear-gradient(135deg, #da3633 0%, #f85149 100%);
+        }
+        
+        .availability-badge {
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        
+        .availability-badge.solution {
+            background: linear-gradient(135deg, #7c3aed 0%, #8b5cf6 100%);
+        }
+        
+        .availability-badge.explanation {
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+        }
+        
+        .topics-section {
+            margin-bottom: 25px;
+            padding: 20px;
+            background-color: #0d1117;
+            border-radius: 8px;
+            border: 1px solid #30363d;
+        }
+        
+        .topics-section strong {
+            color: #f0f6fc;
+            font-weight: 600;
+        }
+        
+        .topic-badge {
+            background: linear-gradient(135deg, #30363d 0%, #21262d 100%);
+            color: #e0e0e0;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin-right: 8px;
+            margin-bottom: 6px;
+            display: inline-block;
+            font-weight: 500;
+            border: 1px solid #30363d;
+            transition: all 0.2s ease;
+        }
+        
+        .topic-badge:hover {
+            background: linear-gradient(135deg, #58a6ff 0%, #79c0ff 100%);
+            color: white;
+            transform: translateY(-1px);
+        }
+        
+        .content-section {
+            background-color: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+        
+        .solution-section, .explanation-section {
+            margin: 25px 0;
+        }
+        
+        .solution-section h3, .explanation-section h3 {
+            color: #58a6ff;
+            margin-bottom: 15px;
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+        
+        /* Enhanced content styling */
+        .content-section h1, .content-section h2, .content-section h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: #f0f6fc;
+            font-weight: 600;
+        }
+        
+        .content-section p {
+            margin-bottom: 15px;
+            color: #e0e0e0;
+            line-height: 1.7;
+        }
+        
+        .content-section ul, .content-section ol {
+            margin-left: 25px;
+            margin-bottom: 15px;
+        }
+        
+        .content-section li {
+            margin-bottom: 8px;
+        }
+        
+        .content-section pre {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 20px;
+            overflow-x: auto;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin: 15px 0;
+            color: #e0e0e0;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .content-section code {
+            background-color: #21262d;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            padding: 0.3em 0.5em;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            color: #f85149;
+            border: 1px solid #30363d;
+        }
+        
+        .content-section pre code {
+            background-color: transparent;
+            padding: 0;
+            color: #e0e0e0;
+            border: none;
+        }
+        
+        .content-section a {
+            color: #58a6ff;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        
+        .content-section a:hover {
+            color: #79c0ff;
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .header {
+                padding: 30px 20px;
+            }
+            
+            .header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .header-info {
+                gap: 15px;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .content {
+                padding: 25px 20px;
+            }
+            
+            .question-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .question-meta {
+                width: 100%;
+            }
+            
+            .toc {
+                padding: 20px;
+            }
+            
+            .question-card {
+                padding: 25px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>bucket sort</h1>
+            <div class="header-info">
+                <p><strong>Total Questions:</strong> <span class="header-badge">6</span></p>
+                <p><strong>Generated by:</strong> pushkar</p>
+                <p><strong>Date:</strong> August 24, 2025</p>
+            </div>
+        </header>
+        
+        <div class="content">
+            <div class="toc">
+                <h2>📋 Table of Contents</h2>
+                <ul>
+                    <li><a href="#question-0" class="toc-link">Contains Duplicate III</a> <span class="toc-platform">LeetCode</span></li>
+<li><a href="#question-1" class="toc-link">Maximum Gap</a> <span class="toc-platform">LeetCode</span></li>
+<li><a href="#question-2" class="toc-link">Sort an Array</a> <span class="toc-platform">LeetCode</span></li>
+<li><a href="#question-3" class="toc-link">Sort Characters By Frequency</a> <span class="toc-platform">LeetCode</span></li>
+<li><a href="#question-4" class="toc-link">Top K Frequent Elements</a> <span class="toc-platform">LeetCode</span></li>
+<li><a href="#question-5" class="toc-link">Top K Frequent Words</a> <span class="toc-platform">LeetCode</span></li>
+                </ul>
+            </div>
+            
+            <div class="question-card" id="question-0">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.leetcode.com/problems/contains-duplicate-iii/description" target="_blank" rel="noopener noreferrer">Contains Duplicate III</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">LeetCode</span>
+						<span class="difficulty-badge hard">Hard</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">array</span> <span class="topic-badge">bucket sort</span> <span class="topic-badge">ordered set</span> <span class="topic-badge">sliding window</span> <span class="topic-badge">sorting</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p>You are given an integer array <code>nums</code> and two integers <code>indexDiff</code> and <code>valueDiff</code>.</p>
+
+<p>Find a pair of indices <code>(i, j)</code> such that:</p>
+
+<ul>
+	<li><code>i != j</code>,</li>
+	<li><code>abs(i - j) &lt;= indexDiff</code>.</li>
+	<li><code>abs(nums[i] - nums[j]) &lt;= valueDiff</code>, and</li>
+</ul>
+
+<p>Return <code>true</code><em> if such pair exists or </em><code>false</code><em> otherwise</em>.</p>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [1,2,3,1], indexDiff = 3, valueDiff = 0
+<strong>Output:</strong> true
+<strong>Explanation:</strong> We can choose (i, j) = (0, 3).
+We satisfy the three conditions:
+i != j --&gt; 0 != 3
+abs(i - j) &lt;= indexDiff --&gt; abs(0 - 3) &lt;= 3
+abs(nums[i] - nums[j]) &lt;= valueDiff --&gt; abs(1 - 1) &lt;= 0
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [1,5,9,1,5,9], indexDiff = 2, valueDiff = 3
+<strong>Output:</strong> false
+<strong>Explanation:</strong> After trying all the possible pairs (i, j), we cannot satisfy the three conditions, so we return false.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>2 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>-10<sup>9</sup> &lt;= nums[i] &lt;= 10<sup>9</sup></code></li>
+	<li><code>1 &lt;= indexDiff &lt;= nums.length</code></li>
+	<li><code>0 &lt;= valueDiff &lt;= 10<sup>9</sup></code></li>
+</ul>
+</div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-1">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.leetcode.com/problems/maximum-gap/description" target="_blank" rel="noopener noreferrer">Maximum Gap</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">LeetCode</span>
+						<span class="difficulty-badge medium">Medium</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">array</span> <span class="topic-badge">bucket sort</span> <span class="topic-badge">radix-sort</span> <span class="topic-badge">sorting</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p>Given an integer array <code>nums</code>, return <em>the maximum difference between two successive elements in its sorted form</em>. If the array contains less than two elements, return <code>0</code>.</p>
+
+<p>You must write an algorithm that runs in linear time and uses linear extra space.</p>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [3,6,9,1]
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> The sorted form of the array is [1,3,6,9], either (3,6) or (6,9) has the maximum difference 3.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [10]
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> The array contains less than 2 elements, therefore return 0.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>0 &lt;= nums[i] &lt;= 10<sup>9</sup></code></li>
+</ul>
+</div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-2">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.leetcode.com/problems/sort-an-array/description" target="_blank" rel="noopener noreferrer">Sort an Array</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">LeetCode</span>
+						<span class="difficulty-badge medium">Medium</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">array</span> <span class="topic-badge">bucket sort</span> <span class="topic-badge">counting sort</span> <span class="topic-badge">divide and conquer</span> <span class="topic-badge">merge sort</span> <span class="topic-badge">radix-sort</span> <span class="topic-badge">sorting</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p>Given an array of integers <code>nums</code>, sort the array in ascending order and return it.</p>
+
+<p>You must solve the problem <strong>without using any built-in</strong> functions in <code>O(nlog(n))</code> time complexity and with the smallest space complexity possible.</p>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [5,2,3,1]
+<strong>Output:</strong> [1,2,3,5]
+<strong>Explanation:</strong> After sorting the array, the positions of some numbers are not changed (for example, 2 and 3), while the positions of other numbers are changed (for example, 1 and 5).
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [5,1,1,2,0,0]
+<strong>Output:</strong> [0,0,1,1,2,5]
+<strong>Explanation:</strong> Note that the values of nums are not necessarily unique.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= nums.length &lt;= 5 * 10<sup>4</sup></code></li>
+	<li><code>-5 * 10<sup>4</sup> &lt;= nums[i] &lt;= 5 * 10<sup>4</sup></code></li>
+</ul>
+</div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-3">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.leetcode.com/problems/sort-characters-by-frequency/description" target="_blank" rel="noopener noreferrer">Sort Characters By Frequency</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">LeetCode</span>
+						<span class="difficulty-badge medium">Medium</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">bucket sort</span> <span class="topic-badge">counting</span> <span class="topic-badge">sorting</span> <span class="topic-badge">string</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p>Given a string <code>s</code>, sort it in <strong>decreasing order</strong> based on the <strong>frequency</strong> of the characters. The <strong>frequency</strong> of a character is the number of times it appears in the string.</p>
+
+<p>Return <em>the sorted string</em>. If there are multiple answers, return <em>any of them</em>.</p>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+
+<pre>
+<strong>Input:</strong> s = &quot;tree&quot;
+<strong>Output:</strong> &quot;eert&quot;
+<strong>Explanation:</strong> &#39;e&#39; appears twice while &#39;r&#39; and &#39;t&#39; both appear once.
+So &#39;e&#39; must appear before both &#39;r&#39; and &#39;t&#39;. Therefore &quot;eetr&quot; is also a valid answer.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> s = &quot;cccaaa&quot;
+<strong>Output:</strong> &quot;aaaccc&quot;
+<strong>Explanation:</strong> Both &#39;c&#39; and &#39;a&#39; appear three times, so both &quot;cccaaa&quot; and &quot;aaaccc&quot; are valid answers.
+Note that &quot;cacaca&quot; is incorrect, as the same characters must be together.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> s = &quot;Aabb&quot;
+<strong>Output:</strong> &quot;bbAa&quot;
+<strong>Explanation:</strong> &quot;bbaA&quot; is also a valid answer, but &quot;Aabb&quot; is incorrect.
+Note that &#39;A&#39; and &#39;a&#39; are treated as two different characters.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= s.length &lt;= 5 * 10<sup>5</sup></code></li>
+	<li><code>s</code> consists of uppercase and lowercase English letters and digits.</li>
+</ul>
+</div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-4">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.leetcode.com/problems/top-k-frequent-elements/description" target="_blank" rel="noopener noreferrer">Top K Frequent Elements</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">LeetCode</span>
+						<span class="difficulty-badge medium">Medium</span>
+						<span class="availability-badge solution">Solution</span>
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">array</span> <span class="topic-badge">bucket sort</span> <span class="topic-badge">counting</span> <span class="topic-badge">divide and conquer</span> <span class="topic-badge">quickselect</span> <span class="topic-badge">sorting</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p>Given an integer array <code>nums</code> and an integer <code>k</code>, return <em>the</em> <code>k</code> <em>most frequent elements</em>. You may return the answer in <strong>any order</strong>.</p>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+<pre><strong>Input:</strong> nums = [1,1,1,2,2,3], k = 2
+<strong>Output:</strong> [1,2]
+</pre><p><strong class="example">Example 2:</strong></p>
+<pre><strong>Input:</strong> nums = [1], k = 1
+<strong>Output:</strong> [1]
+</pre>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>-10<sup>4</sup> &lt;= nums[i] &lt;= 10<sup>4</sup></code></li>
+	<li><code>k</code> is in the range <code>[1, the number of unique elements in the array]</code>.</li>
+	<li>It is <strong>guaranteed</strong> that the answer is <strong>unique</strong>.</li>
+</ul>
+
+<p>&nbsp;</p>
+<p><strong>Follow up:</strong> Your algorithm&#39;s time complexity must be better than <code>O(n log n)</code>, where n is the array&#39;s size.</p>
+</div>
+			</div>
+			
+			<div class="solution-section">
+					<h3>Solution</h3>
+					<div class="content-section"><p>[TOC]</p>
+<h2 id="video-solution">Video Solution</h2>
+<hr />
+<div class='video-preview'></div>
+<div>&nbsp;
+</div>
+<h2 id="solution-article">Solution Article</h2>
+<hr />
+<h3 id="approach-1-heap">Approach 1: Heap</h3>
+<p>Let's start from the simple <a href="https://en.wikipedia.org/wiki/Heap_(data_structure)">heap</a> approach with <span class="math inline">\(\mathcal{O}(N \log k)\)</span> time complexity. To ensure that <span class="math inline">\(\mathcal{O}(N \log k)\)</span> is always less than <span class="math inline">\(\mathcal{O}(N \log N)\)</span>, the particular case <span class="math inline">\(k = N\)</span> could be considered separately and solved in <span class="math inline">\(\mathcal{O}(1)\)</span> time.</p>
+<p><strong>Algorithm</strong></p>
+<ul>
+<li>
+<p>The first step is to build a hash map <code>element -&gt; its frequency</code>. In Java, we use the data structure <code>HashMap</code>. Python provides a dictionary subclass <code>Counter</code> to initialize the hash map we need directly from the input array. This step takes <span class="math inline">\(\mathcal{O}(N)\)</span> time where <code>N</code> is a number of elements in the list.</p>
+</li>
+<li>
+<p>The second step is to build a heap of <em>size k using N elements</em>. To add the first <code>k</code> elements takes a linear time <span class="math inline">\(\mathcal{O}(k)\)</span> in the average case, and <span class="math inline">\(O(\log 1 + \log 2 + ... + \log k) = O(log k!) = \mathcal{O}(k \log k)\)</span> in the worst case. It's equivalent to <a href="https://hg.python.org/cpython/file/2.7/Lib/heapq.py#l16">heapify implementation in Python</a>. After the first <code>k</code> elements we start to push and pop at each step, <code>N - k</code> steps in total. The time complexity of heap push/pop is <span class="math inline">\(\mathcal{O}(\log k)\)</span> and we do it <code>N - k</code> times which means <span class="math inline">\(\mathcal{O}((N - k)\log k)\)</span> time complexity. Adding both parts up, we get <span class="math inline">\(\mathcal{O}(N \log k)\)</span> time complexity for the second step.</p>
+</li>
+<li>
+<p>The third and last step is to convert the heap into an output array. That could be done in <span class="math inline">\(\mathcal{O}(k \log k)\)</span> time.</p>
+</li>
+</ul>
+<p>In Python, library <code>heapq</code> provides a method <code>nlargest</code>, which <a href="https://hg.python.org/cpython/file/2.7/Lib/heapq.py#l203">combines the last two steps under the hood</a> and has the same <span class="math inline">\(\mathcal{O}(N \log k)\)</span> time complexity.</p>
+<p><img src="../Figures/347_rewrite/summary.png" alt="diff" /></p>
+<p><strong>Implementation</strong></p>
+<p><a href="https://leetcode.com/playground/3WH339tU/shared">code</a></p>
+<p><strong>Complexity Analysis</strong></p>
+<ul>
+<li>
+<p>Time complexity : <span class="math inline">\(\mathcal{O}(N + N \log k)\)</span> if <span class="math inline">\(k < N\)</span> and <span class="math inline">\(\mathcal{O}(1)\)</span> in the particular case of <span class="math inline">\(N = k\)</span>. That ensures time complexity to be better than <span class="math inline">\(\mathcal{O}(N \log N)\)</span>.</p>
+</li>
+<li>
+<p>Space complexity : <span class="math inline">\(\mathcal{O}(N + k)\)</span> to store the hash map with not more <span class="math inline">\(N\)</span> elements and a heap with <span class="math inline">\(k\)</span> elements.<br />
+<br /><br />
+<br /></p>
+</li>
+</ul>
+<hr />
+<h3 id="approach-2-quickselect-hoares-selection-algorithm">Approach 2: Quickselect (Hoare's selection algorithm)</h3>
+<p>Quickselect is a <a href="https://en.wikipedia.org/wiki/Quickselect">textbook algorithm</a> typically used to solve the problems &quot;find <code>k</code><em>th</em> something&quot;: <code>k</code><em>th</em> smallest, <code>k</code><em>th</em> largest, <code>k</code><em>th</em> most frequent, <code>k</code><em>th</em> less frequent, etc. Like quicksort, quickselect was developed by <a href="https://en.wikipedia.org/wiki/Tony_Hoare">Tony Hoare</a> and is also known as <em>Hoare's selection algorithm</em>.</p>
+<p>It has <span class="math inline">\(\mathcal{O}(N)\)</span> <em>average</em> time complexity and is widely used in practice. It is worth noting that its worst-case time complexity is <span class="math inline">\(\mathcal{O}(N^2)\)</span>, although the probability of this worst-case is negligible.</p>
+<p>The approach is the same as for quicksort.</p>
+<blockquote>
+<p>One chooses a pivot and defines its position in a sorted array in a linear time using the so-called <em>partition algorithm</em>.</p>
+</blockquote>
+<p>As an output, we have an array where the pivot is in its perfect position in the ascending sorted array, sorted by the frequency. All elements on the left of the pivot are less frequent than the pivot, and all elements on the right are more frequent or have the same frequency.</p>
+<p>Hence the array is now split into two parts. If by chance our pivot element took <code>N - k</code><em>th</em> final position, then <span class="math inline">\(k\)</span> elements on the right are these top <span class="math inline">\(k\)</span> frequent we're looking for. If not, we can choose one more pivot and place it in its perfect position.</p>
+<p><img src="../Figures/347_rewrite/hoare.png" alt="diff" /></p>
+<p>If that were a quicksort algorithm, one would have to process both parts of the array. That would result in <span class="math inline">\(\mathcal{O}(N \log N)\)</span> time complexity. In this case, there is no need to deal with both parts since one knows in which part to search for <code>N - k</code><em>th</em> less frequent element, and that reduces the average time complexity to <span class="math inline">\(\mathcal{O}(N)\)</span>.</p>
+<p><strong>Algorithm</strong></p>
+<p>The algorithm is quite straightforward :</p>
+<ul>
+<li>
+<p>Build a hash map <code>element -&gt; its frequency</code> and convert its keys into the array <code>unique</code> of unique elements. Note that elements are unique, but their frequencies are <em>not</em>. That means we need a partition algorithm that works fine with <em>duplicates</em>.</p>
+</li>
+<li>
+<p>Work with <code>unique</code> array.<br />
+Use a partition scheme (please check the next section) to place the pivot into its perfect position <code>pivot_index</code> in the sorted array, move less frequent elements to the left of the pivot, and more frequent or of the same frequency - to the right.</p>
+</li>
+<li>
+<p>Compare <code>pivot_index</code> and <code>N - k</code>.</p>
+<ul>
+<li>
+<p>If <code>pivot_index == N - k</code>, the pivot is <code>N - k</code><em>th</em> most frequent element, and all elements on the right are more frequent or of the same frequency. Return these top <span class="math inline">\(k\)</span> frequent elements.</p>
+</li>
+<li>
+<p>Otherwise, choose the side of the array to proceed recursively.</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="../Figures/347_rewrite/details.png" alt="diff" /></p>
+<p><strong>Lomuto's Partition Scheme</strong></p>
+<p>There is a zoo of partition algorithms. The most simple one is <a href="https://en.wikipedia.org/wiki/Quicksort#Lomuto_partition_scheme">Lomuto's Partition Scheme</a>, and so is what we will use in this article.</p>
+<p>Here is how it works:</p>
+<ul>
+<li>
+<p>Move the pivot at the end of the array using swap.</p>
+</li>
+<li>
+<p>Set the pointer at the beginning of the array <code>store_index = left</code>.</p>
+</li>
+<li>
+<p>Iterate over the array and move all less frequent elements to the left <code>swap(store_index, i)</code>. Move <code>store_index</code> one step to the right after each swap.</p>
+</li>
+<li>
+<p>Move the pivot to its final place, and return this index.</p>
+</li>
+</ul>
+<p>!?!../Documents/347_RES.json:1000,556!?!</p>
+<p><a href="https://leetcode.com/playground/56S3UHe5/shared">code</a></p>
+<p><strong>Implementation</strong></p>
+<p>Here is a total algorithm implementation.</p>
+<p><a href="https://leetcode.com/playground/eAsoNpLA/shared">code</a></p>
+<p><strong>Complexity Analysis</strong></p>
+<ul>
+<li>
+<p>Time complexity: <span class="math inline">\(\mathcal{O}(N)\)</span> in the average case,</p>
+<p><span class="math display">\[
+In the worst case of constantly badly chosen pivots, the problem is not divided by half at each step, it becomes just one element less, which leads to $$\mathcal{O}(N^2)$$ time complexity. It happens, for example, if at each step you choose the pivot not randomly, but take the rightmost element. For the random pivot choice, the probability of having such a worst-case is negligibly small. 
+
+\]</span></p>
+</li>
+<li>
+<p>Space complexity: up to <span class="math inline">\(\mathcal{O}(N)\)</span> to store hash map and array of unique elements.<br />
+<br /><br />
+<br /></p>
+</li>
+</ul>
+<hr />
+<h3 id="further-discussion-could-we-do-worst-case-linear-time">Further Discussion: Could We Do Worst-Case Linear Time?</h3>
+<p>In theory, we could, the algorithm is called <a href="https://en.wikipedia.org/wiki/Median_of_medians">Median of Medians</a>.</p>
+<p>This method is never used in practice because of two drawbacks:</p>
+<ul>
+<li>
+<p>It's <em>outperformer</em>. Yes, it works in a linear time <span class="math inline">\(\alpha N\)</span>, but the constant <span class="math inline">\(\alpha\)</span> is so large that in practice it often works even slower than <span class="math inline">\(N^2\)</span>.</p>
+</li>
+<li>
+<p>It doesn't work with duplicates.<br />
+<br /><br />
+<br /></p>
+</li>
+</ul>
+<hr />
+</div>
+				</div>
+		</div>
+
+<div class="question-card" id="question-5">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.leetcode.com/problems/top-k-frequent-words/description" target="_blank" rel="noopener noreferrer">Top K Frequent Words</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">LeetCode</span>
+						<span class="difficulty-badge medium">Medium</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">array</span> <span class="topic-badge">bucket sort</span> <span class="topic-badge">counting</span> <span class="topic-badge">sorting</span> <span class="topic-badge">string</span> <span class="topic-badge">trie</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p>Given an array of strings <code>words</code> and an integer <code>k</code>, return <em>the </em><code>k</code><em> most frequent strings</em>.</p>
+
+<p>Return the answer <strong>sorted</strong> by <strong>the frequency</strong> from highest to lowest. Sort the words with the same frequency by their <strong>lexicographical order</strong>.</p>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+
+<pre>
+<strong>Input:</strong> words = [&quot;i&quot;,&quot;love&quot;,&quot;leetcode&quot;,&quot;i&quot;,&quot;love&quot;,&quot;coding&quot;], k = 2
+<strong>Output:</strong> [&quot;i&quot;,&quot;love&quot;]
+<strong>Explanation:</strong> &quot;i&quot; and &quot;love&quot; are the two most frequent words.
+Note that &quot;i&quot; comes before &quot;love&quot; due to a lower alphabetical order.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> words = [&quot;the&quot;,&quot;day&quot;,&quot;is&quot;,&quot;sunny&quot;,&quot;the&quot;,&quot;the&quot;,&quot;the&quot;,&quot;sunny&quot;,&quot;is&quot;,&quot;is&quot;], k = 4
+<strong>Output:</strong> [&quot;the&quot;,&quot;is&quot;,&quot;sunny&quot;,&quot;day&quot;]
+<strong>Explanation:</strong> &quot;the&quot;, &quot;is&quot;, &quot;sunny&quot; and &quot;day&quot; are the four most frequent words, with the number of occurrence being 4, 3, 2 and 1 respectively.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= words.length &lt;= 500</code></li>
+	<li><code>1 &lt;= words[i].length &lt;= 10</code></li>
+	<li><code>words[i]</code> consists of lowercase English letters.</li>
+	<li><code>k</code> is in the range <code>[1, The number of <strong>unique</strong> words[i]]</code></li>
+</ul>
+
+<p>&nbsp;</p>
+<p><strong>Follow-up:</strong> Could you solve it in <code>O(n log(k))</code> time and <code>O(n)</code> extra space?</p>
+</div>
+			</div>
+			
+			
+		</div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>Generated by pushkar</p>
+        <p>Programming Questions Collection</p>
+    </div>
+    
+    <script>
+        // Smooth scrolling for TOC links
+        document.querySelectorAll('.toc-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // Add scroll-to-top functionality
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 300) {
+                if (!document.querySelector('.scroll-top')) {
+                    const scrollTop = document.createElement('button');
+                    scrollTop.className = 'scroll-top';
+                    scrollTop.innerHTML = '↑';
+                    scrollTop.style.cssText = 'position: fixed; bottom: 20px; right: 20px; background: #58a6ff; color: white; border: none; border-radius: 50%; width: 50px; height: 50px; cursor: pointer; font-size: 20px; z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.3); transition: all 0.3s ease;';
+                    scrollTop.addEventListener('click', () => window.scrollTo({top: 0, behavior: 'smooth'}));
+                    document.body.appendChild(scrollTop);
+                }
+            } else {
+                const scrollTop = document.querySelector('.scroll-top');
+                if (scrollTop) scrollTop.remove();
+            }
+        });
+    </script>
+    
+    <style>
+        .footer {
+            background: linear-gradient(135deg, #21262d 0%, #30363d 100%);
+            color: #8b949e;
+            text-align: center;
+            padding: 30px;
+            margin-top: 50px;
+            border-top: 2px solid #30363d;
+        }
+        
+        .footer p {
+            margin: 8px 0;
+            font-size: 1rem;
+        }
+        
+        .footer p:first-child {
+            color: #f0f6fc;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+    </style>
+</body>
+</html>

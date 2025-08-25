@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>minimum spanning tree - Programming Questions</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+                'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+                sans-serif;
+            line-height: 1.6;
+            color: #e0e0e0;
+            background-color: #0d1117;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #161b22;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #21262d 0%, #30363d 100%);
+            color: #f0f6fc;
+            padding: 40px 30px;
+            border-bottom: 2px solid #30363d;
+        }
+        
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+            color: #58a6ff;
+            text-transform: capitalize;
+            letter-spacing: -0.02em;
+        }
+        
+        .header-info {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-top: 15px;
+        }
+        
+        .header-info p {
+            font-size: 1.1rem;
+            color: #8b949e;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .header-info strong {
+            color: #f0f6fc;
+            font-weight: 600;
+        }
+        
+        .header-badge {
+            background-color: #238636;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .content {
+            padding: 40px 30px;
+        }
+        
+        .toc {
+            background: linear-gradient(135deg, #21262d 0%, #30363d 100%);
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 40px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .toc h2 {
+            color: #58a6ff;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .toc ul {
+            list-style: none;
+            max-height: 400px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            word-wrap: break-word;
+        }
+        
+        .toc li {
+            padding: 12px 0;
+            border-bottom: 1px solid #30363d;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.2s ease;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+        
+        .toc li:last-child {
+            border-bottom: none;
+        }
+        
+        .toc li:hover {
+            background-color: rgba(88, 166, 255, 0.1);
+            border-radius: 6px;
+            margin: 0 -10px;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+        
+        .toc-link {
+            color: #e0e0e0;
+            text-decoration: none;
+            flex: 1;
+            font-weight: 500;
+            transition: color 0.2s ease;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            margin-right: 10px;
+        }
+        
+        .toc-link:hover {
+            color: #58a6ff;
+        }
+        
+        .toc-platform {
+            color: #8b949e;
+            font-size: 0.85rem;
+            background-color: #30363d;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-weight: 500;
+            flex-shrink: 0;
+        }
+        
+        .question-card {
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            padding: 30px;
+            background: linear-gradient(135deg, #21262d 0%, #161b22 100%);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .question-title-section {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .question-title {
+            margin: 0;
+        }
+        
+        .question-title a {
+            color: #58a6ff;
+            text-decoration: none;
+            font-size: 1.4rem;
+            font-weight: 600;
+            line-height: 1.3;
+            transition: color 0.2s ease;
+        }
+        
+        .question-title a:hover {
+            color: #79c0ff;
+            text-decoration: underline;
+        }
+        
+        .question-meta {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+        
+        .platform-badge {
+            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .difficulty-badge {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .difficulty-badge.easy {
+            background: linear-gradient(135deg, #238636 0%, #2ea043 100%);
+        }
+        
+        .difficulty-badge.medium {
+            background: linear-gradient(135deg, #da7633 0%, #fb8500 100%);
+        }
+        
+        .difficulty-badge.hard {
+            background: linear-gradient(135deg, #da3633 0%, #f85149 100%);
+        }
+        
+        .availability-badge {
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        
+        .availability-badge.solution {
+            background: linear-gradient(135deg, #7c3aed 0%, #8b5cf6 100%);
+        }
+        
+        .availability-badge.explanation {
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+        }
+        
+        .topics-section {
+            margin-bottom: 25px;
+            padding: 20px;
+            background-color: #0d1117;
+            border-radius: 8px;
+            border: 1px solid #30363d;
+        }
+        
+        .topics-section strong {
+            color: #f0f6fc;
+            font-weight: 600;
+        }
+        
+        .topic-badge {
+            background: linear-gradient(135deg, #30363d 0%, #21262d 100%);
+            color: #e0e0e0;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin-right: 8px;
+            margin-bottom: 6px;
+            display: inline-block;
+            font-weight: 500;
+            border: 1px solid #30363d;
+            transition: all 0.2s ease;
+        }
+        
+        .topic-badge:hover {
+            background: linear-gradient(135deg, #58a6ff 0%, #79c0ff 100%);
+            color: white;
+            transform: translateY(-1px);
+        }
+        
+        .content-section {
+            background-color: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+        
+        .solution-section, .explanation-section {
+            margin: 25px 0;
+        }
+        
+        .solution-section h3, .explanation-section h3 {
+            color: #58a6ff;
+            margin-bottom: 15px;
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+        
+        /* Enhanced content styling */
+        .content-section h1, .content-section h2, .content-section h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: #f0f6fc;
+            font-weight: 600;
+        }
+        
+        .content-section p {
+            margin-bottom: 15px;
+            color: #e0e0e0;
+            line-height: 1.7;
+        }
+        
+        .content-section ul, .content-section ol {
+            margin-left: 25px;
+            margin-bottom: 15px;
+        }
+        
+        .content-section li {
+            margin-bottom: 8px;
+        }
+        
+        .content-section pre {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 20px;
+            overflow-x: auto;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin: 15px 0;
+            color: #e0e0e0;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .content-section code {
+            background-color: #21262d;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            padding: 0.3em 0.5em;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            color: #f85149;
+            border: 1px solid #30363d;
+        }
+        
+        .content-section pre code {
+            background-color: transparent;
+            padding: 0;
+            color: #e0e0e0;
+            border: none;
+        }
+        
+        .content-section a {
+            color: #58a6ff;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        
+        .content-section a:hover {
+            color: #79c0ff;
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .header {
+                padding: 30px 20px;
+            }
+            
+            .header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .header-info {
+                gap: 15px;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .content {
+                padding: 25px 20px;
+            }
+            
+            .question-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .question-meta {
+                width: 100%;
+            }
+            
+            .toc {
+                padding: 20px;
+            }
+            
+            .question-card {
+                padding: 25px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>minimum spanning tree</h1>
+            <div class="header-info">
+                <p><strong>Total Questions:</strong> <span class="header-badge">4</span></p>
+                <p><strong>Generated by:</strong> pushkar</p>
+                <p><strong>Date:</strong> August 24, 2025</p>
+            </div>
+        </header>
+        
+        <div class="content">
+            <div class="toc">
+                <h2>📋 Table of Contents</h2>
+                <ul>
+                    <li><a href="#question-0" class="toc-link">Find Critical and Pseudo-Critical Edges in Minimum Spanning Tree</a> <span class="toc-platform">LeetCode</span></li>
+<li><a href="#question-1" class="toc-link">Maximize Spanning Tree Stability with Upgrades</a> <span class="toc-platform">LeetCode</span></li>
+<li><a href="#question-2" class="toc-link">Min Cost to Connect All Points</a> <span class="toc-platform">LeetCode</span></li>
+<li><a href="#question-3" class="toc-link">Reduce the Array</a> <span class="toc-platform">HackerEarth</span></li>
+                </ul>
+            </div>
+            
+            <div class="question-card" id="question-0">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.leetcode.com/problems/find-critical-and-pseudo-critical-edges-in-minimum-spanning-tree/description" target="_blank" rel="noopener noreferrer">Find Critical and Pseudo-Critical Edges in Minimum Spanning Tree</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">LeetCode</span>
+						<span class="difficulty-badge hard">Hard</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">graph</span> <span class="topic-badge">minimum spanning tree</span> <span class="topic-badge">sorting</span> <span class="topic-badge">strongly-connected-component</span> <span class="topic-badge">union find</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p>Given a weighted undirected connected graph with <code>n</code>&nbsp;vertices numbered from <code>0</code> to <code>n - 1</code>,&nbsp;and an array <code>edges</code>&nbsp;where <code>edges[i] = [a<sub>i</sub>, b<sub>i</sub>, weight<sub>i</sub>]</code> represents a bidirectional and weighted edge between nodes&nbsp;<code>a<sub>i</sub></code>&nbsp;and <code>b<sub>i</sub></code>. A minimum spanning tree (MST) is a subset of the graph&#39;s edges that connects all vertices without cycles&nbsp;and with the minimum possible total edge weight.</p>
+
+<p>Find <em>all the critical and pseudo-critical edges in the given graph&#39;s minimum spanning tree (MST)</em>. An MST edge whose deletion from the graph would cause the MST weight to increase is called a&nbsp;<em>critical edge</em>. On&nbsp;the other hand, a pseudo-critical edge is that which can appear in some MSTs but not all.</p>
+
+<p>Note that you can return the indices of the edges in any order.</p>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+
+<p><img alt="" src="https://assets.leetcode.com/uploads/2020/06/04/ex1.png" style="width: 259px; height: 262px;" /></p>
+
+<pre>
+<strong>Input:</strong> n = 5, edges = [[0,1,1],[1,2,1],[2,3,2],[0,3,2],[0,4,3],[3,4,3],[1,4,6]]
+<strong>Output:</strong> [[0,1],[2,3,4,5]]
+<strong>Explanation:</strong> The figure above describes the graph.
+The following figure shows all the possible MSTs:
+<img alt="" src="https://assets.leetcode.com/uploads/2020/06/04/msts.png" style="width: 540px; height: 553px;" />
+Notice that the two edges 0 and 1 appear in all MSTs, therefore they are critical edges, so we return them in the first list of the output.
+The edges 2, 3, 4, and 5 are only part of some MSTs, therefore they are considered pseudo-critical edges. We add them to the second list of the output.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<p><img alt="" src="https://assets.leetcode.com/uploads/2020/06/04/ex2.png" style="width: 247px; height: 253px;" /></p>
+
+<pre>
+<strong>Input:</strong> n = 4, edges = [[0,1,1],[1,2,1],[2,3,1],[0,3,1]]
+<strong>Output:</strong> [[],[0,1,2,3]]
+<strong>Explanation:</strong> We can observe that since all 4 edges have equal weight, choosing any 3 edges from the given 4 will yield an MST. Therefore all 4 edges are pseudo-critical.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>2 &lt;= n &lt;= 100</code></li>
+	<li><code>1 &lt;= edges.length &lt;= min(200, n * (n - 1) / 2)</code></li>
+	<li><code>edges[i].length == 3</code></li>
+	<li><code>0 &lt;= a<sub>i</sub> &lt; b<sub>i</sub> &lt; n</code></li>
+	<li><code>1 &lt;= weight<sub>i</sub>&nbsp;&lt;= 1000</code></li>
+	<li>All pairs <code>(a<sub>i</sub>, b<sub>i</sub>)</code> are <strong>distinct</strong>.</li>
+</ul>
+</div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-1">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.leetcode.com/problems/maximize-spanning-tree-stability-with-upgrades/description" target="_blank" rel="noopener noreferrer">Maximize Spanning Tree Stability with Upgrades</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">LeetCode</span>
+						<span class="difficulty-badge hard">Hard</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">binary search</span> <span class="topic-badge">graph</span> <span class="topic-badge">greedy</span> <span class="topic-badge">minimum spanning tree</span> <span class="topic-badge">union find</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p>You are given an integer <code>n</code>, representing <code>n</code> nodes numbered from 0 to <code>n - 1</code> and a list of <code>edges</code>, where <code>edges[i] = [u<sub>i</sub>, v<sub>i</sub>, s<sub>i</sub>, must<sub>i</sub>]</code>:</p>
+
+<ul>
+	<li><code>u<sub>i</sub></code> and <code>v<sub>i</sub></code> indicates an undirected edge between nodes <code>u<sub>i</sub></code> and <code>v<sub>i</sub></code>.</li>
+	<li><code>s<sub>i</sub></code> is the strength of the edge.</li>
+	<li><code>must<sub>i</sub></code> is an integer (0 or 1). If <code>must<sub>i</sub> == 1</code>, the edge <strong>must</strong> be included in the<strong> </strong><strong>spanning tree</strong>. These edges <strong>cannot</strong> be <strong>upgraded</strong>.</li>
+</ul>
+
+<p>You are also given an integer <code>k</code>, the <strong>maximum</strong> number of upgrades you can perform. Each upgrade <strong>doubles</strong> the strength of an edge, and each eligible edge (with <code>must<sub>i</sub> == 0</code>) can be upgraded <strong>at most</strong> once.</p>
+
+<p>The <strong>stability</strong> of a spanning tree is defined as the <strong>minimum</strong> strength score among all edges included in it.</p>
+
+<p>Return the <strong>maximum</strong> possible stability of any valid spanning tree. If it is impossible to connect all nodes, return <code>-1</code>.</p>
+
+<p><strong>Note</strong>: A <strong>spanning tree</strong> of a graph with <code>n</code> nodes is a subset of the edges that connects all nodes together (i.e. the graph is <strong>connected</strong>) <em>without</em> forming any cycles, and uses <strong>exactly</strong> <code>n - 1</code> edges.</p>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">n = 3, edges = [[0,1,2,1],[1,2,3,0]], k = 1</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">2</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<ul>
+	<li>Edge <code>[0,1]</code> with strength = 2 must be included in the spanning tree.</li>
+	<li>Edge <code>[1,2]</code> is optional and can be upgraded from 3 to 6 using one upgrade.</li>
+	<li>The resulting spanning tree includes these two edges with strengths 2 and 6.</li>
+	<li>The minimum strength in the spanning tree is 2, which is the maximum possible stability.</li>
+</ul>
+</div>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">n = 3, edges = [[0,1,4,0],[1,2,3,0],[0,2,1,0]], k = 2</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">6</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<ul>
+	<li>Since all edges are optional and up to <code>k = 2</code> upgrades are allowed.</li>
+	<li>Upgrade edges <code>[0,1]</code> from 4 to 8 and <code>[1,2]</code> from 3 to 6.</li>
+	<li>The resulting spanning tree includes these two edges with strengths 8 and 6.</li>
+	<li>The minimum strength in the tree is 6, which is the maximum possible stability.</li>
+</ul>
+</div>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">n = 3, edges = [[0,1,1,1],[1,2,1,1],[2,0,1,1]], k = 0</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">-1</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<ul>
+	<li>All edges are mandatory and form a cycle, which violates the spanning tree property of acyclicity. Thus, the answer is -1.</li>
+</ul>
+</div>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>2 &lt;= n &lt;= 10<sup>5</sup></code></li>
+	<li><code>1 &lt;= edges.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>edges[i] = [u<sub>i</sub>, v<sub>i</sub>, s<sub>i</sub>, must<sub>i</sub>]</code></li>
+	<li><code>0 &lt;= u<sub>i</sub>, v<sub>i</sub> &lt; n</code></li>
+	<li><code>u<sub>i</sub> != v<sub>i</sub></code></li>
+	<li><code>1 &lt;= s<sub>i</sub> &lt;= 10<sup>5</sup></code></li>
+	<li><code>must<sub>i</sub></code> is either <code>0</code> or <code>1</code>.</li>
+	<li><code>0 &lt;= k &lt;= n</code></li>
+	<li>There are no duplicate edges.</li>
+</ul>
+</div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-2">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.leetcode.com/problems/min-cost-to-connect-all-points/description" target="_blank" rel="noopener noreferrer">Min Cost to Connect All Points</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">LeetCode</span>
+						<span class="difficulty-badge medium">Medium</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">array</span> <span class="topic-badge">graph</span> <span class="topic-badge">minimum spanning tree</span> <span class="topic-badge">union find</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p>You are given an array <code>points</code> representing integer coordinates of some points on a 2D-plane, where <code>points[i] = [x<sub>i</sub>, y<sub>i</sub>]</code>.</p>
+
+<p>The cost of connecting two points <code>[x<sub>i</sub>, y<sub>i</sub>]</code> and <code>[x<sub>j</sub>, y<sub>j</sub>]</code> is the <strong>manhattan distance</strong> between them: <code>|x<sub>i</sub> - x<sub>j</sub>| + |y<sub>i</sub> - y<sub>j</sub>|</code>, where <code>|val|</code> denotes the absolute value of <code>val</code>.</p>
+
+<p>Return <em>the minimum cost to make all points connected.</em> All points are connected if there is <strong>exactly one</strong> simple path between any two points.</p>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://assets.leetcode.com/uploads/2020/08/26/d.png" style="width: 214px; height: 268px;" />
+<pre>
+<strong>Input:</strong> points = [[0,0],[2,2],[3,10],[5,2],[7,0]]
+<strong>Output:</strong> 20
+<strong>Explanation:</strong> 
+<img alt="" src="https://assets.leetcode.com/uploads/2020/08/26/c.png" style="width: 214px; height: 268px;" />
+We can connect the points as shown above to get the minimum cost of 20.
+Notice that there is a unique path between every pair of points.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> points = [[3,12],[-2,5],[-4,1]]
+<strong>Output:</strong> 18
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= points.length &lt;= 1000</code></li>
+	<li><code>-10<sup>6</sup> &lt;= x<sub>i</sub>, y<sub>i</sub> &lt;= 10<sup>6</sup></code></li>
+	<li>All pairs <code>(x<sub>i</sub>, y<sub>i</sub>)</code> are distinct.</li>
+</ul>
+</div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-3">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.hackerearth.com/problem/algorithm/reduce-the-array-2-2a1e3e02/" target="_blank" rel="noopener noreferrer">Reduce the Array</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">HackerEarth</span>
+						<span class="difficulty-badge medium">Medium</span>
+						<span class="availability-badge explanation">Explanation</span>
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">algorithms</span> <span class="topic-badge">bitmask</span> <span class="topic-badge">graph</span> <span class="topic-badge">minimum spanning tree</span> <span class="topic-badge">union find</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p>You are given an array of <span class="mathjax-latex">\(N\)</span> numbers, and you are asked to minimize the total "<span class="mathjax-latex">\(OR \ \ cost\)</span>" incurred when reducing the array to a single number. To achieve this, you need to follow these steps:</p>
+
+<ol>
+	<li>Select any two numbers <span class="mathjax-latex">\(P\)</span> and <span class="mathjax-latex">\(Q\)</span> from the array. The cost of selecting these two numbers is <span class="mathjax-latex">\(((P + Q) + (P | Q) - (P &amp; Q))\)</span>, where "|" denotes the bitwise <span class="mathjax-latex">\(OR\)</span> operator, and "&amp;" denotes the bitwise <span class="mathjax-latex">\(AND\)</span> operator.</li>
+	<li>
+	<p>Choose one of the two numbers you selected in the previous step and remove it from the array. Concatenate the remaining numbers.</p>
+	</li>
+	<li>
+	<p>Repeat the above two steps until the array is reduced to a single number.</p>
+	</li>
+</ol>
+
+<p>The "<span class="mathjax-latex">\(OR\)</span> <span class="mathjax-latex">\(cost\)</span>" is defined as the bitwise <span class="mathjax-latex">\(OR\)</span> of all the costs incurred in reducing the array to a single number.</p>
+
+<p>&nbsp;</p>
+
+<p><u><strong>Input Format :</strong></u></p>
+
+<p>An integer <span class="mathjax-latex">\(N\)</span> denoting the size of the array</p>
+
+<p><span class="mathjax-latex">\(N\)</span> integers denoting the elements of the array</p>
+
+<p><u><strong>Output Format :</strong></u></p>
+
+<p>Print one integer, the minimum&nbsp;<span class="mathjax-latex">\(OR \ \ cost\)</span></p>
+
+<p><u><strong>Constraints :</strong></u></p>
+
+<p><u><strong><span class="mathjax-latex">\(1 \leq N \leq 10^3\)</span></strong></u></p>
+
+<p><span class="mathjax-latex">\(1 \leq a_i \leq 10^6\)</span></p></div>
+			</div>
+			<div class="explanation-section">
+					<h3>Explanation</h3>
+					<div class="content-section"><p>Sure, here's a possible rephrased version of the explanation:</p>
+
+<p>Consider the following example array: [1, 5, 2, 3]. To minimize the total "OR cost," we can follow these steps:</p>
+
+<ol>
+	<li>
+	<p>Select 1 and 5. Remove 5 from the array, and concatenate the remaining numbers [1, 2, 3]. The cost incurred is&nbsp;<span class="mathjax-latex">\(((1 + 5) + (1 | 5) - (1 &amp; 5)) = 10.\)</span></p>
+	</li>
+	<li>
+	<p>Select 1 and 2. Remove 2 from the array, and concatenate the remaining numbers [1, 3]. The cost incurred is <span class="mathjax-latex">\(((1 + 2) + (1 | 2) - (1 &amp; 2)) = 6.\)</span></p>
+	</li>
+	<li>
+	<p>Select 1 and 3. Remove 1 from the array, and concatenate the remaining numbers [3]. The cost incurred is <span class="mathjax-latex">\(((1 + 3) + (1 | 3) - (1 &amp; 3)) = 6.\)</span></p>
+	</li>
+</ol>
+
+<p>Thus, the total "OR cost" is the bitwise OR of the individual costs incurred, which is <span class="mathjax-latex">\((10 | 6 | 6)\)</span> = 14. It can be shown that we can never achieve a total cost less than 14 for this particular array.</p>
+
+<p>&nbsp;</p>
+
+<p>&nbsp;</p>
+
+<p>&nbsp;</p></div>
+				</div>
+			
+		</div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>Generated by pushkar</p>
+        <p>Programming Questions Collection</p>
+    </div>
+    
+    <script>
+        // Smooth scrolling for TOC links
+        document.querySelectorAll('.toc-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // Add scroll-to-top functionality
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 300) {
+                if (!document.querySelector('.scroll-top')) {
+                    const scrollTop = document.createElement('button');
+                    scrollTop.className = 'scroll-top';
+                    scrollTop.innerHTML = '↑';
+                    scrollTop.style.cssText = 'position: fixed; bottom: 20px; right: 20px; background: #58a6ff; color: white; border: none; border-radius: 50%; width: 50px; height: 50px; cursor: pointer; font-size: 20px; z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.3); transition: all 0.3s ease;';
+                    scrollTop.addEventListener('click', () => window.scrollTo({top: 0, behavior: 'smooth'}));
+                    document.body.appendChild(scrollTop);
+                }
+            } else {
+                const scrollTop = document.querySelector('.scroll-top');
+                if (scrollTop) scrollTop.remove();
+            }
+        });
+    </script>
+    
+    <style>
+        .footer {
+            background: linear-gradient(135deg, #21262d 0%, #30363d 100%);
+            color: #8b949e;
+            text-align: center;
+            padding: 30px;
+            margin-top: 50px;
+            border-top: 2px solid #30363d;
+        }
+        
+        .footer p {
+            margin: 8px 0;
+            font-size: 1rem;
+        }
+        
+        .footer p:first-child {
+            color: #f0f6fc;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+    </style>
+</body>
+</html>

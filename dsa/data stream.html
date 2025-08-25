@@ -1,0 +1,1678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>data stream - Programming Questions</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+                'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+                sans-serif;
+            line-height: 1.6;
+            color: #e0e0e0;
+            background-color: #0d1117;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #161b22;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #21262d 0%, #30363d 100%);
+            color: #f0f6fc;
+            padding: 40px 30px;
+            border-bottom: 2px solid #30363d;
+        }
+        
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+            color: #58a6ff;
+            text-transform: capitalize;
+            letter-spacing: -0.02em;
+        }
+        
+        .header-info {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-top: 15px;
+        }
+        
+        .header-info p {
+            font-size: 1.1rem;
+            color: #8b949e;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .header-info strong {
+            color: #f0f6fc;
+            font-weight: 600;
+        }
+        
+        .header-badge {
+            background-color: #238636;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .content {
+            padding: 40px 30px;
+        }
+        
+        .toc {
+            background: linear-gradient(135deg, #21262d 0%, #30363d 100%);
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 40px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .toc h2 {
+            color: #58a6ff;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .toc ul {
+            list-style: none;
+            max-height: 400px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            word-wrap: break-word;
+        }
+        
+        .toc li {
+            padding: 12px 0;
+            border-bottom: 1px solid #30363d;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.2s ease;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+        
+        .toc li:last-child {
+            border-bottom: none;
+        }
+        
+        .toc li:hover {
+            background-color: rgba(88, 166, 255, 0.1);
+            border-radius: 6px;
+            margin: 0 -10px;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+        
+        .toc-link {
+            color: #e0e0e0;
+            text-decoration: none;
+            flex: 1;
+            font-weight: 500;
+            transition: color 0.2s ease;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            margin-right: 10px;
+        }
+        
+        .toc-link:hover {
+            color: #58a6ff;
+        }
+        
+        .toc-platform {
+            color: #8b949e;
+            font-size: 0.85rem;
+            background-color: #30363d;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-weight: 500;
+            flex-shrink: 0;
+        }
+        
+        .question-card {
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            padding: 30px;
+            background: linear-gradient(135deg, #21262d 0%, #161b22 100%);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .question-title-section {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .question-title {
+            margin: 0;
+        }
+        
+        .question-title a {
+            color: #58a6ff;
+            text-decoration: none;
+            font-size: 1.4rem;
+            font-weight: 600;
+            line-height: 1.3;
+            transition: color 0.2s ease;
+        }
+        
+        .question-title a:hover {
+            color: #79c0ff;
+            text-decoration: underline;
+        }
+        
+        .question-meta {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+        
+        .platform-badge {
+            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .difficulty-badge {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .difficulty-badge.easy {
+            background: linear-gradient(135deg, #238636 0%, #2ea043 100%);
+        }
+        
+        .difficulty-badge.medium {
+            background: linear-gradient(135deg, #da7633 0%, #fb8500 100%);
+        }
+        
+        .difficulty-badge.hard {
+            background: linear-gradient(135deg, #da3633 0%, #f85149 100%);
+        }
+        
+        .availability-badge {
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        
+        .availability-badge.solution {
+            background: linear-gradient(135deg, #7c3aed 0%, #8b5cf6 100%);
+        }
+        
+        .availability-badge.explanation {
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+        }
+        
+        .topics-section {
+            margin-bottom: 25px;
+            padding: 20px;
+            background-color: #0d1117;
+            border-radius: 8px;
+            border: 1px solid #30363d;
+        }
+        
+        .topics-section strong {
+            color: #f0f6fc;
+            font-weight: 600;
+        }
+        
+        .topic-badge {
+            background: linear-gradient(135deg, #30363d 0%, #21262d 100%);
+            color: #e0e0e0;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin-right: 8px;
+            margin-bottom: 6px;
+            display: inline-block;
+            font-weight: 500;
+            border: 1px solid #30363d;
+            transition: all 0.2s ease;
+        }
+        
+        .topic-badge:hover {
+            background: linear-gradient(135deg, #58a6ff 0%, #79c0ff 100%);
+            color: white;
+            transform: translateY(-1px);
+        }
+        
+        .content-section {
+            background-color: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+        
+        .solution-section, .explanation-section {
+            margin: 25px 0;
+        }
+        
+        .solution-section h3, .explanation-section h3 {
+            color: #58a6ff;
+            margin-bottom: 15px;
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+        
+        /* Enhanced content styling */
+        .content-section h1, .content-section h2, .content-section h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: #f0f6fc;
+            font-weight: 600;
+        }
+        
+        .content-section p {
+            margin-bottom: 15px;
+            color: #e0e0e0;
+            line-height: 1.7;
+        }
+        
+        .content-section ul, .content-section ol {
+            margin-left: 25px;
+            margin-bottom: 15px;
+        }
+        
+        .content-section li {
+            margin-bottom: 8px;
+        }
+        
+        .content-section pre {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 20px;
+            overflow-x: auto;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin: 15px 0;
+            color: #e0e0e0;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .content-section code {
+            background-color: #21262d;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            padding: 0.3em 0.5em;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            color: #f85149;
+            border: 1px solid #30363d;
+        }
+        
+        .content-section pre code {
+            background-color: transparent;
+            padding: 0;
+            color: #e0e0e0;
+            border: none;
+        }
+        
+        .content-section a {
+            color: #58a6ff;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        
+        .content-section a:hover {
+            color: #79c0ff;
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .header {
+                padding: 30px 20px;
+            }
+            
+            .header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .header-info {
+                gap: 15px;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .content {
+                padding: 25px 20px;
+            }
+            
+            .question-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .question-meta {
+                width: 100%;
+            }
+            
+            .toc {
+                padding: 20px;
+            }
+            
+            .question-card {
+                padding: 25px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>data stream</h1>
+            <div class="header-info">
+                <p><strong>Total Questions:</strong> <span class="header-badge">13</span></p>
+                <p><strong>Generated by:</strong> pushkar</p>
+                <p><strong>Date:</strong> August 24, 2025</p>
+            </div>
+        </header>
+        
+        <div class="content">
+            <div class="toc">
+                <h2>📋 Table of Contents</h2>
+                <ul>
+                    <li><a href="#question-0" class="toc-link">Design an Ordered Stream</a> <span class="toc-platform">LeetCode</span></li>
+<li><a href="#question-1" class="toc-link">Design Browser History</a> <span class="toc-platform">LeetCode</span></li>
+<li><a href="#question-2" class="toc-link">Design Front Middle Back Queue</a> <span class="toc-platform">LeetCode</span></li>
+<li><a href="#question-3" class="toc-link">Find Consecutive Integers from a Data Stream</a> <span class="toc-platform">LeetCode</span></li>
+<li><a href="#question-4" class="toc-link">Finding MK Average</a> <span class="toc-platform">LeetCode</span></li>
+<li><a href="#question-5" class="toc-link">Find Median from Data Stream</a> <span class="toc-platform">LeetCode</span></li>
+<li><a href="#question-6" class="toc-link">Kth Largest Element in a Stream</a> <span class="toc-platform">LeetCode</span></li>
+<li><a href="#question-7" class="toc-link">Number of Recent Calls</a> <span class="toc-platform">LeetCode</span></li>
+<li><a href="#question-8" class="toc-link">Online Stock Span</a> <span class="toc-platform">LeetCode</span></li>
+<li><a href="#question-9" class="toc-link">Product of the Last K Numbers</a> <span class="toc-platform">LeetCode</span></li>
+<li><a href="#question-10" class="toc-link">Sequentially Ordinal Rank Tracker</a> <span class="toc-platform">LeetCode</span></li>
+<li><a href="#question-11" class="toc-link">Stock Price Fluctuation </a> <span class="toc-platform">LeetCode</span></li>
+<li><a href="#question-12" class="toc-link">Stream of Characters</a> <span class="toc-platform">LeetCode</span></li>
+                </ul>
+            </div>
+            
+            <div class="question-card" id="question-0">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.leetcode.com/problems/design-an-ordered-stream/description" target="_blank" rel="noopener noreferrer">Design an Ordered Stream</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">LeetCode</span>
+						<span class="difficulty-badge easy">Easy</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">array</span> <span class="topic-badge">data stream</span> <span class="topic-badge">design</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p>There is a stream of <code>n</code> <code>(idKey, value)</code> pairs arriving in an <strong>arbitrary</strong> order, where <code>idKey</code> is an integer between <code>1</code> and <code>n</code> and <code>value</code> is a string. No two pairs have the same <code>id</code>.</p>
+
+<p>Design a stream that returns the values in <strong>increasing order of their IDs</strong> by returning a <strong>chunk</strong> (list) of values after each insertion. The concatenation of all the <strong>chunks</strong> should result in a list of the sorted values.</p>
+
+<p>Implement the <code>OrderedStream</code> class:</p>
+
+<ul>
+	<li><code>OrderedStream(int n)</code> Constructs the stream to take <code>n</code> values.</li>
+	<li><code>String[] insert(int idKey, String value)</code> Inserts the pair <code>(idKey, value)</code> into the stream, then returns the <strong>largest possible chunk</strong> of currently inserted values that appear next in the order.</li>
+</ul>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example:</strong></p>
+
+<p><strong><img alt="" src="https://assets.leetcode.com/uploads/2020/11/10/q1.gif" style="width: 682px; height: 240px;" /></strong></p>
+
+<pre>
+<strong>Input</strong>
+[&quot;OrderedStream&quot;, &quot;insert&quot;, &quot;insert&quot;, &quot;insert&quot;, &quot;insert&quot;, &quot;insert&quot;]
+[[5], [3, &quot;ccccc&quot;], [1, &quot;aaaaa&quot;], [2, &quot;bbbbb&quot;], [5, &quot;eeeee&quot;], [4, &quot;ddddd&quot;]]
+<strong>Output</strong>
+[null, [], [&quot;aaaaa&quot;], [&quot;bbbbb&quot;, &quot;ccccc&quot;], [], [&quot;ddddd&quot;, &quot;eeeee&quot;]]
+
+<strong>Explanation</strong>
+// Note that the values ordered by ID is [&quot;aaaaa&quot;, &quot;bbbbb&quot;, &quot;ccccc&quot;, &quot;ddddd&quot;, &quot;eeeee&quot;].
+OrderedStream os = new OrderedStream(5);
+os.insert(3, &quot;ccccc&quot;); // Inserts (3, &quot;ccccc&quot;), returns [].
+os.insert(1, &quot;aaaaa&quot;); // Inserts (1, &quot;aaaaa&quot;), returns [&quot;aaaaa&quot;].
+os.insert(2, &quot;bbbbb&quot;); // Inserts (2, &quot;bbbbb&quot;), returns [&quot;bbbbb&quot;, &quot;ccccc&quot;].
+os.insert(5, &quot;eeeee&quot;); // Inserts (5, &quot;eeeee&quot;), returns [].
+os.insert(4, &quot;ddddd&quot;); // Inserts (4, &quot;ddddd&quot;), returns [&quot;ddddd&quot;, &quot;eeeee&quot;].
+// Concatentating all the chunks returned:
+// [] + [&quot;aaaaa&quot;] + [&quot;bbbbb&quot;, &quot;ccccc&quot;] + [] + [&quot;ddddd&quot;, &quot;eeeee&quot;] = [&quot;aaaaa&quot;, &quot;bbbbb&quot;, &quot;ccccc&quot;, &quot;ddddd&quot;, &quot;eeeee&quot;]
+// The resulting order is the same as the order above.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= n &lt;= 1000</code></li>
+	<li><code>1 &lt;= id &lt;= n</code></li>
+	<li><code>value.length == 5</code></li>
+	<li><code>value</code>&nbsp;consists only of lowercase letters.</li>
+	<li>Each call to <code>insert</code>&nbsp;will have a unique <code>id.</code></li>
+	<li>Exactly <code>n</code> calls will be made to <code>insert</code>.</li>
+</ul>
+</div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-1">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.leetcode.com/problems/design-browser-history/description" target="_blank" rel="noopener noreferrer">Design Browser History</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">LeetCode</span>
+						<span class="difficulty-badge medium">Medium</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">array</span> <span class="topic-badge">data stream</span> <span class="topic-badge">design</span> <span class="topic-badge">doubly-linked list</span> <span class="topic-badge">linked list</span> <span class="topic-badge">stack</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p>You have a <strong>browser</strong> of one tab where you start on the <code>homepage</code> and you can visit another <code>url</code>, get back in the history number of <code>steps</code> or move forward in the history number of <code>steps</code>.</p>
+
+<p>Implement the <code>BrowserHistory</code> class:</p>
+
+<ul>
+	<li><code>BrowserHistory(string homepage)</code> Initializes the object with the <code>homepage</code>&nbsp;of the browser.</li>
+	<li><code>void visit(string url)</code>&nbsp;Visits&nbsp;<code>url</code> from the current page. It clears up all the forward history.</li>
+	<li><code>string back(int steps)</code>&nbsp;Move <code>steps</code> back in history. If you can only return <code>x</code> steps in the history and <code>steps &gt; x</code>, you will&nbsp;return only <code>x</code> steps. Return the current <code>url</code>&nbsp;after moving back in history <strong>at most</strong> <code>steps</code>.</li>
+	<li><code>string forward(int steps)</code>&nbsp;Move <code>steps</code> forward in history. If you can only forward <code>x</code> steps in the history and <code>steps &gt; x</code>, you will&nbsp;forward only&nbsp;<code>x</code> steps. Return the current <code>url</code>&nbsp;after forwarding in history <strong>at most</strong> <code>steps</code>.</li>
+</ul>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example:</strong></p>
+
+<pre>
+<b>Input:</b>
+[&quot;BrowserHistory&quot;,&quot;visit&quot;,&quot;visit&quot;,&quot;visit&quot;,&quot;back&quot;,&quot;back&quot;,&quot;forward&quot;,&quot;visit&quot;,&quot;forward&quot;,&quot;back&quot;,&quot;back&quot;]
+[[&quot;leetcode.com&quot;],[&quot;google.com&quot;],[&quot;facebook.com&quot;],[&quot;youtube.com&quot;],[1],[1],[1],[&quot;linkedin.com&quot;],[2],[2],[7]]
+<b>Output:</b>
+[null,null,null,null,&quot;facebook.com&quot;,&quot;google.com&quot;,&quot;facebook.com&quot;,null,&quot;linkedin.com&quot;,&quot;google.com&quot;,&quot;leetcode.com&quot;]
+
+<b>Explanation:</b>
+BrowserHistory browserHistory = new BrowserHistory(&quot;leetcode.com&quot;);
+browserHistory.visit(&quot;google.com&quot;);       // You are in &quot;leetcode.com&quot;. Visit &quot;google.com&quot;
+browserHistory.visit(&quot;facebook.com&quot;);     // You are in &quot;google.com&quot;. Visit &quot;facebook.com&quot;
+browserHistory.visit(&quot;youtube.com&quot;);      // You are in &quot;facebook.com&quot;. Visit &quot;youtube.com&quot;
+browserHistory.back(1);                   // You are in &quot;youtube.com&quot;, move back to &quot;facebook.com&quot; return &quot;facebook.com&quot;
+browserHistory.back(1);                   // You are in &quot;facebook.com&quot;, move back to &quot;google.com&quot; return &quot;google.com&quot;
+browserHistory.forward(1);                // You are in &quot;google.com&quot;, move forward to &quot;facebook.com&quot; return &quot;facebook.com&quot;
+browserHistory.visit(&quot;linkedin.com&quot;);     // You are in &quot;facebook.com&quot;. Visit &quot;linkedin.com&quot;
+browserHistory.forward(2);                // You are in &quot;linkedin.com&quot;, you cannot move forward any steps.
+browserHistory.back(2);                   // You are in &quot;linkedin.com&quot;, move back two steps to &quot;facebook.com&quot; then to &quot;google.com&quot;. return &quot;google.com&quot;
+browserHistory.back(7);                   // You are in &quot;google.com&quot;, you can move back only one step to &quot;leetcode.com&quot;. return &quot;leetcode.com&quot;
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= homepage.length &lt;= 20</code></li>
+	<li><code>1 &lt;= url.length &lt;= 20</code></li>
+	<li><code>1 &lt;= steps &lt;= 100</code></li>
+	<li><code>homepage</code> and <code>url</code> consist of&nbsp; &#39;.&#39; or lower case English letters.</li>
+	<li>At most <code>5000</code>&nbsp;calls will be made to <code>visit</code>, <code>back</code>, and <code>forward</code>.</li>
+</ul>
+</div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-2">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.leetcode.com/problems/design-front-middle-back-queue/description" target="_blank" rel="noopener noreferrer">Design Front Middle Back Queue</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">LeetCode</span>
+						<span class="difficulty-badge medium">Medium</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">array</span> <span class="topic-badge">data stream</span> <span class="topic-badge">design</span> <span class="topic-badge">linked list</span> <span class="topic-badge">queue</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p>Design a queue that supports <code>push</code> and <code>pop</code> operations in the front, middle, and back.</p>
+
+<p>Implement the <code>FrontMiddleBack</code> class:</p>
+
+<ul>
+	<li><code>FrontMiddleBack()</code> Initializes the queue.</li>
+	<li><code>void pushFront(int val)</code> Adds <code>val</code> to the <strong>front</strong> of the queue.</li>
+	<li><code>void pushMiddle(int val)</code> Adds <code>val</code> to the <strong>middle</strong> of the queue.</li>
+	<li><code>void pushBack(int val)</code> Adds <code>val</code> to the <strong>back</strong> of the queue.</li>
+	<li><code>int popFront()</code> Removes the <strong>front</strong> element of the queue and returns it. If the queue is empty, return <code>-1</code>.</li>
+	<li><code>int popMiddle()</code> Removes the <strong>middle</strong> element of the queue and returns it. If the queue is empty, return <code>-1</code>.</li>
+	<li><code>int popBack()</code> Removes the <strong>back</strong> element of the queue and returns it. If the queue is empty, return <code>-1</code>.</li>
+</ul>
+
+<p><strong>Notice</strong> that when there are <b>two</b> middle position choices, the operation is performed on the <strong>frontmost</strong> middle position choice. For example:</p>
+
+<ul>
+	<li>Pushing <code>6</code> into the middle of <code>[1, 2, 3, 4, 5]</code> results in <code>[1, 2, <u>6</u>, 3, 4, 5]</code>.</li>
+	<li>Popping the middle from <code>[1, 2, <u>3</u>, 4, 5, 6]</code> returns <code>3</code> and results in <code>[1, 2, 4, 5, 6]</code>.</li>
+</ul>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+
+<pre>
+<strong>Input:</strong>
+[&quot;FrontMiddleBackQueue&quot;, &quot;pushFront&quot;, &quot;pushBack&quot;, &quot;pushMiddle&quot;, &quot;pushMiddle&quot;, &quot;popFront&quot;, &quot;popMiddle&quot;, &quot;popMiddle&quot;, &quot;popBack&quot;, &quot;popFront&quot;]
+[[], [1], [2], [3], [4], [], [], [], [], []]
+<strong>Output:</strong>
+[null, null, null, null, null, 1, 3, 4, 2, -1]
+
+<strong>Explanation:</strong>
+FrontMiddleBackQueue q = new FrontMiddleBackQueue();
+q.pushFront(1);   // [<u>1</u>]
+q.pushBack(2);    // [1, <u>2</u>]
+q.pushMiddle(3);  // [1, <u>3</u>, 2]
+q.pushMiddle(4);  // [1, <u>4</u>, 3, 2]
+q.popFront();     // return 1 -&gt; [4, 3, 2]
+q.popMiddle();    // return 3 -&gt; [4, 2]
+q.popMiddle();    // return 4 -&gt; [2]
+q.popBack();      // return 2 -&gt; []
+q.popFront();     // return -1 -&gt; [] (The queue is empty)
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= val &lt;= 10<sup>9</sup></code></li>
+	<li>At most&nbsp;<code>1000</code>&nbsp;calls will be made to&nbsp;<code>pushFront</code>,&nbsp;<code>pushMiddle</code>,&nbsp;<code>pushBack</code>, <code>popFront</code>, <code>popMiddle</code>, and <code>popBack</code>.</li>
+</ul>
+</div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-3">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.leetcode.com/problems/find-consecutive-integers-from-a-data-stream/description" target="_blank" rel="noopener noreferrer">Find Consecutive Integers from a Data Stream</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">LeetCode</span>
+						<span class="difficulty-badge medium">Medium</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">counting</span> <span class="topic-badge">data stream</span> <span class="topic-badge">design</span> <span class="topic-badge">queue</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p>For a stream of integers, implement a data structure that checks if the last <code>k</code> integers parsed in the stream are <strong>equal</strong> to <code>value</code>.</p>
+
+<p>Implement the <strong>DataStream</strong> class:</p>
+
+<ul>
+	<li><code>DataStream(int value, int k)</code> Initializes the object with an empty integer stream and the two integers <code>value</code> and <code>k</code>.</li>
+	<li><code>boolean consec(int num)</code> Adds <code>num</code> to the stream of integers. Returns <code>true</code> if the last <code>k</code> integers are equal to <code>value</code>, and <code>false</code> otherwise. If there are less than <code>k</code> integers, the condition does not hold true, so returns <code>false</code>.</li>
+</ul>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+
+<pre>
+<strong>Input</strong>
+[&quot;DataStream&quot;, &quot;consec&quot;, &quot;consec&quot;, &quot;consec&quot;, &quot;consec&quot;]
+[[4, 3], [4], [4], [4], [3]]
+<strong>Output</strong>
+[null, false, false, true, false]
+
+<strong>Explanation</strong>
+DataStream dataStream = new DataStream(4, 3); //value = 4, k = 3 
+dataStream.consec(4); // Only 1 integer is parsed, so returns False. 
+dataStream.consec(4); // Only 2 integers are parsed.
+                      // Since 2 is less than k, returns False. 
+dataStream.consec(4); // The 3 integers parsed are all equal to value, so returns True. 
+dataStream.consec(3); // The last k integers parsed in the stream are [4,4,3].
+                      // Since 3 is not equal to value, it returns False.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= value, num &lt;= 10<sup>9</sup></code></li>
+	<li><code>1 &lt;= k &lt;= 10<sup>5</sup></code></li>
+	<li>At most <code>10<sup>5</sup></code> calls will be made to <code>consec</code>.</li>
+</ul>
+</div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-4">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.leetcode.com/problems/finding-mk-average/description" target="_blank" rel="noopener noreferrer">Finding MK Average</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">LeetCode</span>
+						<span class="difficulty-badge hard">Hard</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">data stream</span> <span class="topic-badge">design</span> <span class="topic-badge">ordered set</span> <span class="topic-badge">queue</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p>You are given two integers, <code>m</code> and <code>k</code>, and a stream of integers. You are tasked to implement a data structure that calculates the <strong>MKAverage</strong> for the stream.</p>
+
+<p>The <strong>MKAverage</strong> can be calculated using these steps:</p>
+
+<ol>
+	<li>If the number of the elements in the stream is less than <code>m</code> you should consider the <strong>MKAverage</strong> to be <code>-1</code>. Otherwise, copy the last <code>m</code> elements of the stream to a separate container.</li>
+	<li>Remove the smallest <code>k</code> elements and the largest <code>k</code> elements from the container.</li>
+	<li>Calculate the average value for the rest of the elements <strong>rounded down to the nearest integer</strong>.</li>
+</ol>
+
+<p>Implement the <code>MKAverage</code> class:</p>
+
+<ul>
+	<li><code>MKAverage(int m, int k)</code> Initializes the <strong>MKAverage</strong> object with an empty stream and the two integers <code>m</code> and <code>k</code>.</li>
+	<li><code>void addElement(int num)</code> Inserts a new element <code>num</code> into the stream.</li>
+	<li><code>int calculateMKAverage()</code> Calculates and returns the <strong>MKAverage</strong> for the current stream <strong>rounded down to the nearest integer</strong>.</li>
+</ul>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+
+<pre>
+<strong>Input</strong>
+[&quot;MKAverage&quot;, &quot;addElement&quot;, &quot;addElement&quot;, &quot;calculateMKAverage&quot;, &quot;addElement&quot;, &quot;calculateMKAverage&quot;, &quot;addElement&quot;, &quot;addElement&quot;, &quot;addElement&quot;, &quot;calculateMKAverage&quot;]
+[[3, 1], [3], [1], [], [10], [], [5], [5], [5], []]
+<strong>Output</strong>
+[null, null, null, -1, null, 3, null, null, null, 5]
+
+<strong>Explanation</strong>
+<code>MKAverage obj = new MKAverage(3, 1); 
+obj.addElement(3);        // current elements are [3]
+obj.addElement(1);        // current elements are [3,1]
+obj.calculateMKAverage(); // return -1, because m = 3 and only 2 elements exist.
+obj.addElement(10);       // current elements are [3,1,10]
+obj.calculateMKAverage(); // The last 3 elements are [3,1,10].
+                          // After removing smallest and largest 1 element the container will be [3].
+                          // The average of [3] equals 3/1 = 3, return 3
+obj.addElement(5);        // current elements are [3,1,10,5]
+obj.addElement(5);        // current elements are [3,1,10,5,5]
+obj.addElement(5);        // current elements are [3,1,10,5,5,5]
+obj.calculateMKAverage(); // The last 3 elements are [5,5,5].
+                          // After removing smallest and largest 1 element the container will be [5].
+                          // The average of [5] equals 5/1 = 5, return 5
+</code></pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>3 &lt;= m &lt;= 10<sup>5</sup></code></li>
+	<li><code>1 &lt; k*2 &lt; m</code></li>
+	<li><code>1 &lt;= num &lt;= 10<sup>5</sup></code></li>
+	<li>At most <code>10<sup>5</sup></code> calls will be made to <code>addElement</code> and <code>calculateMKAverage</code>.</li>
+</ul>
+</div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-5">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.leetcode.com/problems/find-median-from-data-stream/description" target="_blank" rel="noopener noreferrer">Find Median from Data Stream</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">LeetCode</span>
+						<span class="difficulty-badge hard">Hard</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">data stream</span> <span class="topic-badge">design</span> <span class="topic-badge">sorting</span> <span class="topic-badge">two pointers</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p>The <strong>median</strong> is the middle value in an ordered integer list. If the size of the list is even, there is no middle value, and the median is the mean of the two middle values.</p>
+
+<ul>
+	<li>For example, for <code>arr = [2,3,4]</code>, the median is <code>3</code>.</li>
+	<li>For example, for <code>arr = [2,3]</code>, the median is <code>(2 + 3) / 2 = 2.5</code>.</li>
+</ul>
+
+<p>Implement the MedianFinder class:</p>
+
+<ul>
+	<li><code>MedianFinder()</code> initializes the <code>MedianFinder</code> object.</li>
+	<li><code>void addNum(int num)</code> adds the integer <code>num</code> from the data stream to the data structure.</li>
+	<li><code>double findMedian()</code> returns the median of all elements so far. Answers within <code>10<sup>-5</sup></code> of the actual answer will be accepted.</li>
+</ul>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+
+<pre>
+<strong>Input</strong>
+[&quot;MedianFinder&quot;, &quot;addNum&quot;, &quot;addNum&quot;, &quot;findMedian&quot;, &quot;addNum&quot;, &quot;findMedian&quot;]
+[[], [1], [2], [], [3], []]
+<strong>Output</strong>
+[null, null, null, 1.5, null, 2.0]
+
+<strong>Explanation</strong>
+MedianFinder medianFinder = new MedianFinder();
+medianFinder.addNum(1);    // arr = [1]
+medianFinder.addNum(2);    // arr = [1, 2]
+medianFinder.findMedian(); // return 1.5 (i.e., (1 + 2) / 2)
+medianFinder.addNum(3);    // arr[1, 2, 3]
+medianFinder.findMedian(); // return 2.0
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>-10<sup>5</sup> &lt;= num &lt;= 10<sup>5</sup></code></li>
+	<li>There will be at least one element in the data structure before calling <code>findMedian</code>.</li>
+	<li>At most <code>5 * 10<sup>4</sup></code> calls will be made to <code>addNum</code> and <code>findMedian</code>.</li>
+</ul>
+
+<p>&nbsp;</p>
+<p><strong>Follow up:</strong></p>
+
+<ul>
+	<li>If all integer numbers from the stream are in the range <code>[0, 100]</code>, how would you optimize your solution?</li>
+	<li>If <code>99%</code> of all integer numbers from the stream are in the range <code>[0, 100]</code>, how would you optimize your solution?</li>
+</ul>
+</div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-6">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.leetcode.com/problems/kth-largest-element-in-a-stream/description" target="_blank" rel="noopener noreferrer">Kth Largest Element in a Stream</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">LeetCode</span>
+						<span class="difficulty-badge easy">Easy</span>
+						<span class="availability-badge solution">Solution</span>
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">binary search tree</span> <span class="topic-badge">binary tree</span> <span class="topic-badge">data stream</span> <span class="topic-badge">design</span> <span class="topic-badge">tree</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p>You are part of a university admissions office and need to keep track of the <code>kth</code> highest test score from applicants in real-time. This helps to determine cut-off marks for interviews and admissions dynamically as new applicants submit their scores.</p>
+
+<p>You are tasked to implement a class which, for a given integer&nbsp;<code>k</code>, maintains a stream of test scores and continuously returns the&nbsp;<code>k</code>th highest test score&nbsp;<strong>after</strong>&nbsp;a new score has been submitted. More specifically, we are looking for the <code>k</code>th highest score in the sorted list of all scores.</p>
+
+<p>Implement the&nbsp;<code>KthLargest</code> class:</p>
+
+<ul>
+	<li><code>KthLargest(int k, int[] nums)</code> Initializes the object with the integer <code>k</code> and the stream of test scores&nbsp;<code>nums</code>.</li>
+	<li><code>int add(int val)</code> Adds a new test score&nbsp;<code>val</code> to the stream and returns the element representing the <code>k<sup>th</sup></code> largest element in the pool of test scores so far.</li>
+</ul>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong><br />
+<span class="example-io">[&quot;KthLargest&quot;, &quot;add&quot;, &quot;add&quot;, &quot;add&quot;, &quot;add&quot;, &quot;add&quot;]<br />
+[[3, [4, 5, 8, 2]], [3], [5], [10], [9], [4]]</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">[null, 4, 5, 5, 8, 8]</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>KthLargest kthLargest = new KthLargest(3, [4, 5, 8, 2]);<br />
+kthLargest.add(3); // return 4<br />
+kthLargest.add(5); // return 5<br />
+kthLargest.add(10); // return 5<br />
+kthLargest.add(9); // return 8<br />
+kthLargest.add(4); // return 8</p>
+</div>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong><br />
+<span class="example-io">[&quot;KthLargest&quot;, &quot;add&quot;, &quot;add&quot;, &quot;add&quot;, &quot;add&quot;]<br />
+[[4, [7, 7, 7, 7, 8, 3]], [2], [10], [9], [9]]</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">[null, 7, 7, 7, 8]</span></p>
+
+<p><strong>Explanation:</strong></p>
+KthLargest kthLargest = new KthLargest(4, [7, 7, 7, 7, 8, 3]);<br />
+kthLargest.add(2); // return 7<br />
+kthLargest.add(10); // return 7<br />
+kthLargest.add(9); // return 7<br />
+kthLargest.add(9); // return 8</div>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>0 &lt;= nums.length &lt;= 10<sup>4</sup></code></li>
+	<li><code>1 &lt;= k &lt;= nums.length + 1</code></li>
+	<li><code>-10<sup>4</sup> &lt;= nums[i] &lt;= 10<sup>4</sup></code></li>
+	<li><code>-10<sup>4</sup> &lt;= val &lt;= 10<sup>4</sup></code></li>
+	<li>At most <code>10<sup>4</sup></code> calls will be made to <code>add</code>.</li>
+</ul>
+</div>
+			</div>
+			
+			<div class="solution-section">
+					<h3>Solution</h3>
+					<div class="content-section"><p>[TOC]</p>
+<h2 id="solution">Solution</h2>
+<hr />
+<h3 id="overview">Overview</h3>
+<p>Imagine a university admissions office wants to keep track of the <code>k-th</code> highest test scores from applicants in real time. This allows them to dynamically determine the cut-off score as new applications come in. To achieve this, we'll create a class <code>KthLargest</code> that can return the <code>k-th</code> largest element for an incoming stream of numbers. Specifically, we need to implement:</p>
+<ol>
+<li>The constructor <code>KthLargest(int k, int[] nums)</code>, which initializes the class with <code>k</code> and the initial stream of numbers <code>num</code>,</li>
+<li>The function <code>add(int val)</code>, which adds a new number <code>val</code> into the existing stream of numbers, and returns the <code>k-th</code> largest element of the updated stream.</li>
+</ol>
+<h3 id="approach-1-maintain-sorted-list">Approach 1: Maintain Sorted List</h3>
+<h3 id="intuition">Intuition</h3>
+<p>In this problem, we need to be able to repeatedly fetch the <code>k-th</code> largest element from a growing stream of numbers. Suppose we assume that the stream of numbers is always sorted in ascending order. In that case, returning the <code>k-th</code> largest element becomes a straightforward operation of fetching the <code>k-th</code> element from the end of the stream.</p>
+<p>Thus, one approach is to maintain a list that stores the entire stream of numbers seen so far, and ensure the list remains sorted each time we add a new element. This allows us to fetch the <code>k-th</code> largest element with no extra work.</p>
+<p>For our constructor, we can initialize our list <code>stream</code> with the initial set of numbers <code>nums</code> provided, and then sort <code>stream</code> in ascending order.</p>
+<p>For every new <code>val</code> added to the <code>stream</code> by the <code>add(int val)</code> call, we ensure <code>val</code> is inserted at the correct position so that <code>stream</code> remains sorted. Because <code>stream</code> is sorted beforehand, we can efficiently find the correct position for <code>val</code> by using <a href="https://leetcode.com/explore/learn/card/binary-search/">binary search</a>.</p>
+<p>For this binary search insertion:</p>
+<ol>
+<li>We start with the entirety of <code>stream</code> as our search space</li>
+<li>We check the middle element <code>stream[mid]</code>
+<ul>
+<li>If <code>stream[mid] == val</code> then we know that we can add <code>val</code> at index <code>mid</code></li>
+<li>If <code>stream[mid] &lt; val</code>, then <code>val</code> needs to be added to the right of <code>stream[mid]</code>, so we limit the search space to the right half of <code>stream</code>.</li>
+<li>If <code>stream[mid]</code> is greater than <code>val</code>,<code>val</code> needs to be added to the left of <code>stream[mid]</code>, so we limit the search space to the left half of <code>stream</code>.</li>
+</ul>
+</li>
+<li>We can repeat this procedure until we narrow down our search space to the correct index to add <code>val</code>.</li>
+</ol>
+<p>After inserting <code>val</code> in the correct position, we can return <code>stream[stream.length - k]</code>, which is the <code>k-th</code> largest element in the stream.</p>
+<h3 id="algorithm">Algorithm</h3>
+<ol>
+<li>In the constructor:
+<ul>
+<li>Initialize class variable <code>k</code></li>
+<li>Initialize class variable list <code>stream</code></li>
+<li>Add all of <code>nums</code> to <code>stream</code>, used to keep track of the total stream.</li>
+<li>Sort <code>stream</code> in ascending order</li>
+</ul>
+</li>
+<li>In the <code>add(int val)</code> function:
+<ul>
+<li>Call helper function <code>getIndex(int val)</code> to find the index <code>i</code> to add <code>val</code></li>
+<li>Insert <code>val</code> in <code>stream</code> at index <code>i</code></li>
+<li>Return the <code>k-th</code> largest element in <code>stream</code>, at index <code>stream.size() - k</code></li>
+</ul>
+</li>
+<li>In the <code>getIndex(int val)</code>:
+<ul>
+<li><strong>Define starting search space</strong>: Initialize <code>left</code> to <code>0</code> and <code>right</code> to <code>stream.size() - 1</code></li>
+<li>While <code>left &lt;= right</code>:
+<ul>
+<li><strong>Calculate index for middle element</strong>: Initialize <code>mid</code> to <code>(left + right) / 2</code></li>
+<li><strong>Get middle element</strong>: Initialize <code>midElement</code> to <code>stream.get(mid)</code></li>
+<li>If <code>midElement == val</code> return <code>mid</code></li>
+<li>If <code>midElement &gt; val</code>:
+<ul>
+<li><strong>Go to left half of search space</strong>: Reassign <code>right</code> to <code>mid - 1</code></li>
+</ul>
+</li>
+<li>If <code>midElement &lt; val</code>:
+<ul>
+<li><strong>Go to right half of search space</strong>: Reassign <code>left</code> to <code>mid + 1</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="implementation">Implementation</h3>
+<p><a href="https://leetcode.com/playground/eBbNQ3hn/shared">code</a></p>
+<h3 id="complexity-analysis">Complexity Analysis</h3>
+<p>Let <span class="math inline">\(M\)</span> be the size of the initial stream <code>nums</code> given in the constructor. Let <span class="math inline">\(N\)</span> be the number of calls of <code>add</code>.</p>
+<ul>
+<li>
+<p>Time Complexity: <span class="math inline">\(O(N^2 + N \cdot M)\)</span></p>
+<p>The constructor involves creating a list <code>stream</code> from <code>nums</code>, which takes <span class="math inline">\(O(M)\)</span> time. Then, sorting this list takes <span class="math inline">\(O(M \cdot \log M)\)</span> time. Thus, the time complexity of the constructor is <span class="math inline">\(O(M \cdot \log M)\)</span> time.</p>
+<p>The <code>add</code> function involves running a binary search on <code>stream</code>. Because the total size of <code>stream</code> at the end would be <span class="math inline">\(O(M + N)\)</span>, each binary search is bounded by a time complexity of <span class="math inline">\(O(\log(M + N))\)</span>. Moreover, adding a number in <code>stream</code> can take worst-case <span class="math inline">\(O(M + N)\)</span> time, as adding an element in the middle of a list can offset all the elements to its right. Then, the time complexity of a single <code>add</code> call would be <span class="math inline">\(O(M + N + \log(M + N))\)</span>. Because <code>add</code> is called <span class="math inline">\(N\)</span> times, the time complexity of all the <code>add</code> calls would be <span class="math inline">\(O(N \cdot (M + N + \log(M + N)))\)</span>.</p>
+<p>We see that after expanding the time complexity for the <code>add</code> function, the <span class="math inline">\(N \cdot M\)</span> and <span class="math inline">\(N^2\)</span> terms dominate all the other <span class="math inline">\(\log\)</span> terms in our calculations, so the total time complexity is <span class="math inline">\(O(N^2 + N \cdot M)\)</span></p>
+</li>
+<li>
+<p>Space Complexity: <span class="math inline">\(O(M + N)\)</span></p>
+<p>The maximum size for <code>stream</code> is <span class="math inline">\(M + N\)</span>, so the total space complexity is <span class="math inline">\(O(M + N)\)</span>.</p>
+</li>
+</ul>
+<h3 id="approach-2-heap">Approach 2: Heap</h3>
+<h3 id="intuition-1">Intuition</h3>
+<p>In Approach 1, sorting the entire stream of numbers seems unnecessary because we only need the <code>k-th</code> largest element. Maintaining a sorted list becomes costly as its size increases. To optimize, we can focus on only the necessary elements for retrieving and updating the <code>k-th</code> largest element.</p>
+<p>!?!../Documents/703/slideshow1.json:960,540!?!</p>
+<p>Consider a stream of numbers <code>[0, 4, 6, 9]</code> where <code>k = 3</code> and incoming <code>val = 2</code>. Before adding <code>2</code>, the <code>k-th</code> largest element is <code>4</code>. Adding <code>2</code> does not affect <code>4</code>'s position since <code>2</code> is smaller. Now, if the incoming value is <code>7</code>, which is greater than both <code>4</code> and <code>6</code>, <code>7</code> would become the 2nd largest number, pushing <code>6</code> to be the new <code>k-th</code> largest element, and <code>4</code> is no longer in the top <code>k</code>.</p>
+<p>!?!../Documents/703/slideshow2.json:960,540!?!</p>
+<p>From this example, we see that keeping track of just the <code>k</code> largest elements allows us to efficiently maintain the <code>k-th</code> largest element:</p>
+<ol>
+<li><strong>If an incoming element <code>val</code> is smaller than or equal to the existing <code>k-th</code> largest element</strong>: The <code>k</code> largest elements remain unchanged, and we can return the current <code>k-th</code> largest element.</li>
+<li><strong>If <code>val</code> is larger than the current <code>k-th</code> largest element</strong>: It replaces the current <code>k-th</code> largest element. After adding <code>val</code>, the new <code>k-th</code> largest element is the next largest element.</li>
+</ol>
+<p>To efficiently maintain the <code>k</code> largest elements, we use a min-heap. In a min-heap, elements are organized such that the smallest element is always at the top (root node), providing <span class="math inline">\(O(1)\)</span> access time. Adding elements and removing the top element from the min-heap can be done in <span class="math inline">\(O(\log n)\)</span> time.</p>
+<p>For our problem, the min-heap will contain the <code>k</code> largest elements, with the <code>k-th</code> largest element at the top. If a new <code>val</code> is greater than the <code>k-th</code> largest element, we add <code>val</code> to the heap and remove the top element, keeping the heap size at <code>k</code> and updating the <code>k-th</code> largest element.</p>
+<p>In our optimized approach, we initialize the min-heap with the initial stream <code>nums</code> in the constructor and ensure it contains only the <code>k</code> largest elements. In the <code>add(int val)</code> function, if <code>val</code> is smaller than the current <code>k-th</code> largest element and the heap already contains <code>k</code> elements, we return the top element. Otherwise, we add <code>val</code>, remove the top element if the heap size exceeds <code>k</code>, and return the updated top element.</p>
+<p>This approach is more efficient in both time and space complexity compared to maintaining a fully sorted list, as the relaxed ordering of a heap allows quick access and updates to the <code>k</code> largest elements without the overhead of sorting the entire stream.</p>
+<h3 id="algorithm-1">Algorithm</h3>
+<ol>
+<li>In the constructor:
+<ul>
+<li>Initialize class variable <code>k</code> to the input value <code>k</code></li>
+<li>Initialize a class <code>PriorityQueue</code> <code>minHeap</code> to hold the <code>k</code> largest elements</li>
+<li>Iterate through each element <code>num</code> in the initial stream <code>nums</code>:
+<ul>
+<li>Call <code>add(num)</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>In the <code>add(int val)</code> function:
+<ul>
+<li>If <code>val</code> is greater than the smallest element in <code>minHeap</code> or the size of <code>minHeap</code> is less than <code>k</code> elements:
+<ul>
+<li>Add <code>val</code> to <code>minHeap</code></li>
+<li>If the size of <code>minHeap</code> is greater than <code>k</code>, then remove the top element</li>
+</ul>
+</li>
+<li>Return the top element as the <code>k-th</code> largest element in the stream</li>
+</ul>
+</li>
+</ol>
+<h3 id="implementation-1">Implementation</h3>
+<p><a href="https://leetcode.com/playground/7W8gK6JG/shared">code</a></p>
+<h3 id="complexity-analysis-1">Complexity Analysis</h3>
+<p>Let <span class="math inline">\(M\)</span> be the size of the initial stream <code>nums</code> given in the constructor, and let <span class="math inline">\(N\)</span> be the number of calls to <code>add</code>.</p>
+<ul>
+<li>
+<p>Time Complexity: <span class="math inline">\(O((M + N) \cdot \log k)\)</span></p>
+<p>The <code>add</code> function involves adding and removing an element from a heap of size <span class="math inline">\(k\)</span>, which is an <span class="math inline">\(O( \log k)\)</span> operation. Since the <code>add</code> function is called <span class="math inline">\(N\)</span> times, the total time complexity for all <code>add</code> calls is <span class="math inline">\(O(N \cdot \log k)\)</span>.</p>
+<p>The constructor also calls <code>add</code> <span class="math inline">\(M\)</span> times to initialize the heap, leading to a time complexity of <span class="math inline">\(O(M \cdot \log k)\)</span>.</p>
+<p>Therefore, the overall time complexity is <span class="math inline">\(O((M + N) \cdot \log k)\)</span>.</p>
+</li>
+<li>
+<p>Space Complexity: <span class="math inline">\(O(k)\)</span></p>
+<p>The <code>minHeap</code> maintains at most <span class="math inline">\(k\)</span> elements, so the space complexity is <span class="math inline">\(O(k)\)</span>.</p>
+</li>
+</ul>
+</div>
+				</div>
+		</div>
+
+<div class="question-card" id="question-7">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.leetcode.com/problems/number-of-recent-calls/description" target="_blank" rel="noopener noreferrer">Number of Recent Calls</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">LeetCode</span>
+						<span class="difficulty-badge easy">Easy</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">data stream</span> <span class="topic-badge">design</span> <span class="topic-badge">queue</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p>You have a <code>RecentCounter</code> class which counts the number of recent requests within a certain time frame.</p>
+
+<p>Implement the <code>RecentCounter</code> class:</p>
+
+<ul>
+	<li><code>RecentCounter()</code> Initializes the counter with zero recent requests.</li>
+	<li><code>int ping(int t)</code> Adds a new request at time <code>t</code>, where <code>t</code> represents some time in milliseconds, and returns the number of requests that has happened in the past <code>3000</code> milliseconds (including the new request). Specifically, return the number of requests that have happened in the inclusive range <code>[t - 3000, t]</code>.</li>
+</ul>
+
+<p>It is <strong>guaranteed</strong> that every call to <code>ping</code> uses a strictly larger value of <code>t</code> than the previous call.</p>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+
+<pre>
+<strong>Input</strong>
+[&quot;RecentCounter&quot;, &quot;ping&quot;, &quot;ping&quot;, &quot;ping&quot;, &quot;ping&quot;]
+[[], [1], [100], [3001], [3002]]
+<strong>Output</strong>
+[null, 1, 2, 3, 3]
+
+<strong>Explanation</strong>
+RecentCounter recentCounter = new RecentCounter();
+recentCounter.ping(1);     // requests = [<u>1</u>], range is [-2999,1], return 1
+recentCounter.ping(100);   // requests = [<u>1</u>, <u>100</u>], range is [-2900,100], return 2
+recentCounter.ping(3001);  // requests = [<u>1</u>, <u>100</u>, <u>3001</u>], range is [1,3001], return 3
+recentCounter.ping(3002);  // requests = [1, <u>100</u>, <u>3001</u>, <u>3002</u>], range is [2,3002], return 3
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= t &lt;= 10<sup>9</sup></code></li>
+	<li>Each test case will call <code>ping</code> with <strong>strictly increasing</strong> values of <code>t</code>.</li>
+	<li>At most <code>10<sup>4</sup></code> calls will be made to <code>ping</code>.</li>
+</ul>
+</div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-8">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.leetcode.com/problems/online-stock-span/description" target="_blank" rel="noopener noreferrer">Online Stock Span</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">LeetCode</span>
+						<span class="difficulty-badge medium">Medium</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">data stream</span> <span class="topic-badge">design</span> <span class="topic-badge">monotonic stack</span> <span class="topic-badge">stack</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p>Design an algorithm that collects daily price quotes for some stock and returns <strong>the span</strong> of that stock&#39;s price for the current day.</p>
+
+<p>The <strong>span</strong> of the stock&#39;s price in one day is the maximum number of consecutive days (starting from that day and going backward) for which the stock price was less than or equal to the price of that day.</p>
+
+<ul>
+	<li>For example, if the prices of the stock in the last four days is <code>[7,2,1,2]</code> and the price of the stock today is <code>2</code>, then the span of today is <code>4</code> because starting from today, the price of the stock was less than or equal <code>2</code> for <code>4</code> consecutive days.</li>
+	<li>Also, if the prices of the stock in the last four days is <code>[7,34,1,2]</code> and the price of the stock today is <code>8</code>, then the span of today is <code>3</code> because starting from today, the price of the stock was less than or equal <code>8</code> for <code>3</code> consecutive days.</li>
+</ul>
+
+<p>Implement the <code>StockSpanner</code> class:</p>
+
+<ul>
+	<li><code>StockSpanner()</code> Initializes the object of the class.</li>
+	<li><code>int next(int price)</code> Returns the <strong>span</strong> of the stock&#39;s price given that today&#39;s price is <code>price</code>.</li>
+</ul>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+
+<pre>
+<strong>Input</strong>
+[&quot;StockSpanner&quot;, &quot;next&quot;, &quot;next&quot;, &quot;next&quot;, &quot;next&quot;, &quot;next&quot;, &quot;next&quot;, &quot;next&quot;]
+[[], [100], [80], [60], [70], [60], [75], [85]]
+<strong>Output</strong>
+[null, 1, 1, 1, 2, 1, 4, 6]
+
+<strong>Explanation</strong>
+StockSpanner stockSpanner = new StockSpanner();
+stockSpanner.next(100); // return 1
+stockSpanner.next(80);  // return 1
+stockSpanner.next(60);  // return 1
+stockSpanner.next(70);  // return 2
+stockSpanner.next(60);  // return 1
+stockSpanner.next(75);  // return 4, because the last 4 prices (including today&#39;s price of 75) were less than or equal to today&#39;s price.
+stockSpanner.next(85);  // return 6
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= price &lt;= 10<sup>5</sup></code></li>
+	<li>At most <code>10<sup>4</sup></code> calls will be made to <code>next</code>.</li>
+</ul>
+</div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-9">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.leetcode.com/problems/product-of-the-last-k-numbers/description" target="_blank" rel="noopener noreferrer">Product of the Last K Numbers</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">LeetCode</span>
+						<span class="difficulty-badge medium">Medium</span>
+						<span class="availability-badge solution">Solution</span>
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">array</span> <span class="topic-badge">data stream</span> <span class="topic-badge">design</span> <span class="topic-badge">math</span> <span class="topic-badge">prefix sum</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p>Design an algorithm that accepts a stream of integers and retrieves the product of the last <code>k</code> integers of the stream.</p>
+
+<p>Implement the <code>ProductOfNumbers</code> class:</p>
+
+<ul>
+	<li><code>ProductOfNumbers()</code> Initializes the object with an empty stream.</li>
+	<li><code>void add(int num)</code> Appends the integer <code>num</code> to the stream.</li>
+	<li><code>int getProduct(int k)</code> Returns the product of the last <code>k</code> numbers in the current list. You can assume that always the current list has at least <code>k</code> numbers.</li>
+</ul>
+
+<p>The test cases are generated so that, at any time, the product of any contiguous sequence of numbers will fit into a single 32-bit integer without overflowing.</p>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example:</strong></p>
+
+<pre>
+<strong>Input</strong>
+[&quot;ProductOfNumbers&quot;,&quot;add&quot;,&quot;add&quot;,&quot;add&quot;,&quot;add&quot;,&quot;add&quot;,&quot;getProduct&quot;,&quot;getProduct&quot;,&quot;getProduct&quot;,&quot;add&quot;,&quot;getProduct&quot;]
+[[],[3],[0],[2],[5],[4],[2],[3],[4],[8],[2]]
+
+<strong>Output</strong>
+[null,null,null,null,null,null,20,40,0,null,32]
+
+<strong>Explanation</strong>
+ProductOfNumbers productOfNumbers = new ProductOfNumbers();
+productOfNumbers.add(3);        // [3]
+productOfNumbers.add(0);        // [3,0]
+productOfNumbers.add(2);        // [3,0,2]
+productOfNumbers.add(5);        // [3,0,2,5]
+productOfNumbers.add(4);        // [3,0,2,5,4]
+productOfNumbers.getProduct(2); // return 20. The product of the last 2 numbers is 5 * 4 = 20
+productOfNumbers.getProduct(3); // return 40. The product of the last 3 numbers is 2 * 5 * 4 = 40
+productOfNumbers.getProduct(4); // return 0. The product of the last 4 numbers is 0 * 2 * 5 * 4 = 0
+productOfNumbers.add(8);        // [3,0,2,5,4,8]
+productOfNumbers.getProduct(2); // return 32. The product of the last 2 numbers is 4 * 8 = 32 
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>0 &lt;= num &lt;= 100</code></li>
+	<li><code>1 &lt;= k &lt;= 4 * 10<sup>4</sup></code></li>
+	<li>At most <code>4 * 10<sup>4</sup></code> calls will be made to <code>add</code> and <code>getProduct</code>.</li>
+	<li>The product of the stream at any point in time will fit in a <strong>32-bit</strong> integer.</li>
+</ul>
+
+<p>&nbsp;</p>
+<strong>Follow-up: </strong>Can you implement <strong>both</strong> <code>GetProduct</code> and <code>Add</code> to work in <code>O(1)</code> time complexity instead of <code>O(k)</code> time complexity?</div>
+			</div>
+			
+			<div class="solution-section">
+					<h3>Solution</h3>
+					<div class="content-section"><p>[TOC]</p>
+<h2 id="solution">Solution</h2>
+<hr />
+<h3 id="approach-prefix-product">Approach: Prefix Product</h3>
+<h4 id="intuition">Intuition</h4>
+<p>We need to implement the <code>ProductOfNumbers</code> class initialized with an empty integer stream that supports two operations:</p>
+<ol>
+<li><code>add(int num)</code>: Add <code>num</code> to the stream.</li>
+<li><code>getProduct(int k)</code>: Return the product of the last <code>k</code> integers in the stream. It's guaranteed that the product of the last <code>k</code> integers would fit into a 32-bit integer.</li>
+</ol>
+<p>While the problem seems simple, the constraints - especially the potential size of the stream - make it clear that a brute force solution won’t work. A brute force approach would involve iterating over the last <code>k</code> integers each time a query is made, but this would be inefficient given the constraints of the problem (the stream size and <code>k</code> are both bound by <code>4 * 10^4</code>).</p>
+<p>To think of an optimized approach, let’s first consider the <code>add</code> function in which we need to find the sum of the last <code>k</code> integers. A natural solution here is a prefix sum approach. <strong>Prefix sum</strong> refers to an array where each element at index <code>i</code> represents the sum of the elements in the original array from the beginning up to the <code>i</code>-th element. This allows us to efficiently compute the sum of any subarray by subtracting two prefix sums. More specifically, by storing the cumulative sum of all integers up to the current index in an array, we can quickly compute the sum of the last <code>k</code> integers by simply taking the difference between two prefix sums: <code>prefixSum[size] - prefixSum[size - k]</code>. This gives us the sum in constant time.</p>
+<p>Now, let’s apply a similar idea for the product. Instead of maintaining a prefix sum, we can maintain a <strong>prefix product</strong> array. This array will store the product of all integers encountered in the stream up to the current index. When we need the product of the last <code>k</code> integers, we can calculate it in constant time using the formula <code>prefixProduct[size] / prefixProduct[size - k]</code>, just like we did for the sum.</p>
+<p>But there's one edge case here: the presence of a <code>0</code> in the stream complicates things. If we encounter a <code>0</code>, it nullifies all the products that come after it. For example, if the last <code>k</code> integers include a <code>0</code>, the product of those integers will always be <code>0</code>, regardless of the other numbers. This creates an issue when trying to calculate the product of the last <code>k</code> integers, especially if the <code>0</code> occurred earlier in the stream, long before the last <code>k</code> elements.</p>
+<p>To address this, we can reset the <strong>prefix product array</strong> whenever we encounter a <code>0</code>. This ensures that once a <code>0</code> is encountered, the product calculation is reset, and any future products that involve the <code>0</code> will correctly result in <code>0</code>. When the product array is reset, we initialize it with <code>1</code> to start fresh.</p>
+<p>Now, when answering a query to return the product of the last <code>k</code> integers, we can check the size of the prefix product array. If the size is less than or equal to <code>k</code>, we know that the last <code>k</code> integers must include a <code>0</code>, so we return <code>0</code>. Otherwise, we simply compute the product using the formula <code>prefixProduct[size] / prefixProduct[size - k]</code>.</p>
+<h4 id="algorithm">Algorithm</h4>
+<p>Constructor - <code>ProductOfNumbers()</code></p>
+<ul>
+<li>Initialize the <code>prefixProduct</code> list with <code>{1}</code> to handle multiplication logic without special cases for the initial product.</li>
+<li>Set <code>size</code> to <code>0</code> to indicate that the product list is initially empty.</li>
+</ul>
+<p>Helper Function - <code>add(int num)</code></p>
+<ul>
+<li>If <code>num == 0</code>:
+<ul>
+<li>Reset the <code>prefixProduct</code> list to <code>{1}</code>.</li>
+<li>Reset <code>size</code> to <code>0</code> to indicate an empty product list.</li>
+</ul>
+</li>
+<li>Otherwise:
+<ul>
+<li>Append the cumulative product of the current number by multiplying it with the last value in the <code>prefixProduct</code> list.</li>
+<li>Increment <code>size</code>.</li>
+</ul>
+</li>
+</ul>
+<p>Helper Function - <code>getProduct(int k)</code></p>
+<ul>
+<li>If <code>k &gt; size</code>:
+<ul>
+<li>Return <code>0</code> because this implies that a <code>0</code> had appeared within the last <code>k</code> elements, making the product <code>0</code>.</li>
+</ul>
+</li>
+<li>Otherwise:
+<ul>
+<li>Return the result of dividing <code>prefixProduct[size]</code> by <code>prefixProduct[size - k]</code> to get the product of the last <code>k</code> elements.</li>
+</ul>
+</li>
+</ul>
+<h4 id="implementation">Implementation</h4>
+<p><a href="https://leetcode.com/playground/kDeYBmvc/shared">code</a></p>
+<h4 id="complexity-analysis">Complexity Analysis</h4>
+<p>Let <span class="math inline">\(n\)</span> be the number of elements added to the <code>ProductOfNumbers</code> object using the <code>add</code> method, and let <span class="math inline">\(k\)</span> be the parameter passed to the <code>getProduct</code> method.</p>
+<ul>
+<li>
+<p>Time Complexity: <span class="math inline">\(O(n)\)</span></p>
+<p><code>add</code> method:</p>
+<ul>
+<li>When adding a number, the operation involves appending to the <code>prefix_product</code> list and updating the <code>size</code>. If the number is <code>0</code>, the list is reset.</li>
+<li>Appending to a list and resetting the list are both <span class="math inline">\(O(1)\)</span> operations.</li>
+<li>Therefore, the time complexity of the <code>add</code> method is <span class="math inline">\(O(1)\)</span>.</li>
+</ul>
+<p><code>getProduct</code> method:</p>
+<ul>
+<li>
+<p>The <code>getProduct</code> method involves a division operation to compute the product of the last <span class="math inline">\(k\)</span> elements.</p>
+</li>
+<li>
+<p>Division and accessing elements in a list are <span class="math inline">\(O(1)\)</span> operations.</p>
+</li>
+<li>
+<p>Therefore, the time complexity of the <code>getProduct</code> method is <span class="math inline">\(O(1)\)</span>.</p>
+<p>Therefore the <code>add</code> method runs in <span class="math inline">\(O(1)\)</span> time per operation, and the <code>getProduct</code> method also runs in <span class="math inline">\(O(1)\)</span> time per operation. For <span class="math inline">\(n\)</span> operations, the total time complexity is <span class="math inline">\(O(n)\)</span>.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Space Complexity: <span class="math inline">\(O(n)\)</span></p>
+<p>The <code>prefixProduct</code> list stores the cumulative product of the numbers added. In the worst case, when no <code>0</code> is added, the list grows linearly with the number of elements added. Therefore, the space complexity is <span class="math inline">\(O(n)\)</span>.</p>
+</li>
+</ul>
+<hr />
+</div>
+				</div>
+		</div>
+
+<div class="question-card" id="question-10">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.leetcode.com/problems/sequentially-ordinal-rank-tracker/description" target="_blank" rel="noopener noreferrer">Sequentially Ordinal Rank Tracker</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">LeetCode</span>
+						<span class="difficulty-badge hard">Hard</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">data stream</span> <span class="topic-badge">design</span> <span class="topic-badge">ordered set</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p>A scenic location is represented by its <code>name</code> and attractiveness <code>score</code>, where <code>name</code> is a <strong>unique</strong> string among all locations and <code>score</code> is an integer. Locations can be ranked from the best to the worst. The <strong>higher</strong> the score, the better the location. If the scores of two locations are equal, then the location with the <strong>lexicographically smaller</strong> name is better.</p>
+
+<p>You are building a system that tracks the ranking of locations with the system initially starting with no locations. It supports:</p>
+
+<ul>
+	<li><strong>Adding</strong> scenic locations, <strong>one at a time</strong>.</li>
+	<li><strong>Querying</strong> the <code>i<sup>th</sup></code> <strong>best</strong> location of <strong>all locations already added</strong>, where <code>i</code> is the number of times the system has been queried (including the current query).
+	<ul>
+		<li>For example, when the system is queried for the <code>4<sup>th</sup></code> time, it returns the <code>4<sup>th</sup></code> best location of all locations already added.</li>
+	</ul>
+	</li>
+</ul>
+
+<p>Note that the test data are generated so that <strong>at any time</strong>, the number of queries <strong>does not exceed</strong> the number of locations added to the system.</p>
+
+<p>Implement the <code>SORTracker</code> class:</p>
+
+<ul>
+	<li><code>SORTracker()</code> Initializes the tracker system.</li>
+	<li><code>void add(string name, int score)</code> Adds a scenic location with <code>name</code> and <code>score</code> to the system.</li>
+	<li><code>string get()</code> Queries and returns the <code>i<sup>th</sup></code> best location, where <code>i</code> is the number of times this method has been invoked (including this invocation).</li>
+</ul>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+
+<pre>
+<strong>Input</strong>
+[&quot;SORTracker&quot;, &quot;add&quot;, &quot;add&quot;, &quot;get&quot;, &quot;add&quot;, &quot;get&quot;, &quot;add&quot;, &quot;get&quot;, &quot;add&quot;, &quot;get&quot;, &quot;add&quot;, &quot;get&quot;, &quot;get&quot;]
+[[], [&quot;bradford&quot;, 2], [&quot;branford&quot;, 3], [], [&quot;alps&quot;, 2], [], [&quot;orland&quot;, 2], [], [&quot;orlando&quot;, 3], [], [&quot;alpine&quot;, 2], [], []]
+<strong>Output</strong>
+[null, null, null, &quot;branford&quot;, null, &quot;alps&quot;, null, &quot;bradford&quot;, null, &quot;bradford&quot;, null, &quot;bradford&quot;, &quot;orland&quot;]
+
+<strong>Explanation</strong>
+SORTracker tracker = new SORTracker(); // Initialize the tracker system.
+tracker.add(&quot;bradford&quot;, 2); // Add location with name=&quot;bradford&quot; and score=2 to the system.
+tracker.add(&quot;branford&quot;, 3); // Add location with name=&quot;branford&quot; and score=3 to the system.
+tracker.get();              // The sorted locations, from best to worst, are: branford, bradford.
+                            // Note that branford precedes bradford due to its <strong>higher score</strong> (3 &gt; 2).
+                            // This is the 1<sup>st</sup> time get() is called, so return the best location: &quot;branford&quot;.
+tracker.add(&quot;alps&quot;, 2);     // Add location with name=&quot;alps&quot; and score=2 to the system.
+tracker.get();              // Sorted locations: branford, alps, bradford.
+                            // Note that alps precedes bradford even though they have the same score (2).
+                            // This is because &quot;alps&quot; is <strong>lexicographically smaller</strong> than &quot;bradford&quot;.
+                            // Return the 2<sup>nd</sup> best location &quot;alps&quot;, as it is the 2<sup>nd</sup> time get() is called.
+tracker.add(&quot;orland&quot;, 2);   // Add location with name=&quot;orland&quot; and score=2 to the system.
+tracker.get();              // Sorted locations: branford, alps, bradford, orland.
+                            // Return &quot;bradford&quot;, as it is the 3<sup>rd</sup> time get() is called.
+tracker.add(&quot;orlando&quot;, 3);  // Add location with name=&quot;orlando&quot; and score=3 to the system.
+tracker.get();              // Sorted locations: branford, orlando, alps, bradford, orland.
+                            // Return &quot;bradford&quot;.
+tracker.add(&quot;alpine&quot;, 2);   // Add location with name=&quot;alpine&quot; and score=2 to the system.
+tracker.get();              // Sorted locations: branford, orlando, alpine, alps, bradford, orland.
+                            // Return &quot;bradford&quot;.
+tracker.get();              // Sorted locations: branford, orlando, alpine, alps, bradford, orland.
+                            // Return &quot;orland&quot;.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>name</code> consists of lowercase English letters, and is unique among all locations.</li>
+	<li><code>1 &lt;= name.length &lt;= 10</code></li>
+	<li><code>1 &lt;= score &lt;= 10<sup>5</sup></code></li>
+	<li>At any time, the number of calls to <code>get</code> does not exceed the number of calls to <code>add</code>.</li>
+	<li>At most <code>4 * 10<sup>4</sup></code> calls <strong>in total</strong> will be made to <code>add</code> and <code>get</code>.</li>
+</ul>
+</div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-11">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.leetcode.com/problems/stock-price-fluctuation/description" target="_blank" rel="noopener noreferrer">Stock Price Fluctuation </a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">LeetCode</span>
+						<span class="difficulty-badge medium">Medium</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">data stream</span> <span class="topic-badge">design</span> <span class="topic-badge">ordered set</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p>You are given a stream of <strong>records</strong> about a particular stock. Each record contains a <strong>timestamp</strong> and the corresponding <strong>price</strong> of the stock at that timestamp.</p>
+
+<p>Unfortunately due to the volatile nature of the stock market, the records do not come in order. Even worse, some records may be incorrect. Another record with the same timestamp may appear later in the stream <strong>correcting</strong> the price of the previous wrong record.</p>
+
+<p>Design an algorithm that:</p>
+
+<ul>
+	<li><strong>Updates</strong> the price of the stock at a particular timestamp, <strong>correcting</strong> the price from any previous records at the timestamp.</li>
+	<li>Finds the <strong>latest price</strong> of the stock based on the current records. The <strong>latest price</strong> is the price at the latest timestamp recorded.</li>
+	<li>Finds the <strong>maximum price</strong> the stock has been based on the current records.</li>
+	<li>Finds the <strong>minimum price</strong> the stock has been based on the current records.</li>
+</ul>
+
+<p>Implement the <code>StockPrice</code> class:</p>
+
+<ul>
+	<li><code>StockPrice()</code> Initializes the object with no price records.</li>
+	<li><code>void update(int timestamp, int price)</code> Updates the <code>price</code> of the stock at the given <code>timestamp</code>.</li>
+	<li><code>int current()</code> Returns the <strong>latest price</strong> of the stock.</li>
+	<li><code>int maximum()</code> Returns the <strong>maximum price</strong> of the stock.</li>
+	<li><code>int minimum()</code> Returns the <strong>minimum price</strong> of the stock.</li>
+</ul>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+
+<pre>
+<strong>Input</strong>
+[&quot;StockPrice&quot;, &quot;update&quot;, &quot;update&quot;, &quot;current&quot;, &quot;maximum&quot;, &quot;update&quot;, &quot;maximum&quot;, &quot;update&quot;, &quot;minimum&quot;]
+[[], [1, 10], [2, 5], [], [], [1, 3], [], [4, 2], []]
+<strong>Output</strong>
+[null, null, null, 5, 10, null, 5, null, 2]
+
+<strong>Explanation</strong>
+StockPrice stockPrice = new StockPrice();
+stockPrice.update(1, 10); // Timestamps are [1] with corresponding prices [10].
+stockPrice.update(2, 5);  // Timestamps are [1,2] with corresponding prices [10,5].
+stockPrice.current();     // return 5, the latest timestamp is 2 with the price being 5.
+stockPrice.maximum();     // return 10, the maximum price is 10 at timestamp 1.
+stockPrice.update(1, 3);  // The previous timestamp 1 had the wrong price, so it is updated to 3.
+                          // Timestamps are [1,2] with corresponding prices [3,5].
+stockPrice.maximum();     // return 5, the maximum price is 5 after the correction.
+stockPrice.update(4, 2);  // Timestamps are [1,2,4] with corresponding prices [3,5,2].
+stockPrice.minimum();     // return 2, the minimum price is 2 at timestamp 4.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= timestamp, price &lt;= 10<sup>9</sup></code></li>
+	<li>At most <code>10<sup>5</sup></code> calls will be made <strong>in total</strong> to <code>update</code>, <code>current</code>, <code>maximum</code>, and <code>minimum</code>.</li>
+	<li><code>current</code>, <code>maximum</code>, and <code>minimum</code> will be called <strong>only after</strong> <code>update</code> has been called <strong>at least once</strong>.</li>
+</ul>
+</div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-12">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.leetcode.com/problems/stream-of-characters/description" target="_blank" rel="noopener noreferrer">Stream of Characters</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">LeetCode</span>
+						<span class="difficulty-badge hard">Hard</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">array</span> <span class="topic-badge">data stream</span> <span class="topic-badge">design</span> <span class="topic-badge">string</span> <span class="topic-badge">trie</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p>Design an algorithm that accepts a stream of characters and checks if a suffix of these characters is a string of a given array of strings <code>words</code>.</p>
+
+<p>For example, if <code>words = [&quot;abc&quot;, &quot;xyz&quot;]</code>&nbsp;and the stream added the four characters (one by one) <code>&#39;a&#39;</code>, <code>&#39;x&#39;</code>, <code>&#39;y&#39;</code>, and <code>&#39;z&#39;</code>, your algorithm should detect that the suffix <code>&quot;xyz&quot;</code> of the characters <code>&quot;axyz&quot;</code> matches <code>&quot;xyz&quot;</code> from <code>words</code>.</p>
+
+<p>Implement the <code>StreamChecker</code> class:</p>
+
+<ul>
+	<li><code>StreamChecker(String[] words)</code> Initializes the object with the strings array <code>words</code>.</li>
+	<li><code>boolean query(char letter)</code> Accepts a new character from the stream and returns <code>true</code> if any non-empty suffix from the stream forms a word that is in <code>words</code>.</li>
+</ul>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+
+<pre>
+<strong>Input</strong>
+[&quot;StreamChecker&quot;, &quot;query&quot;, &quot;query&quot;, &quot;query&quot;, &quot;query&quot;, &quot;query&quot;, &quot;query&quot;, &quot;query&quot;, &quot;query&quot;, &quot;query&quot;, &quot;query&quot;, &quot;query&quot;, &quot;query&quot;]
+[[[&quot;cd&quot;, &quot;f&quot;, &quot;kl&quot;]], [&quot;a&quot;], [&quot;b&quot;], [&quot;c&quot;], [&quot;d&quot;], [&quot;e&quot;], [&quot;f&quot;], [&quot;g&quot;], [&quot;h&quot;], [&quot;i&quot;], [&quot;j&quot;], [&quot;k&quot;], [&quot;l&quot;]]
+<strong>Output</strong>
+[null, false, false, false, true, false, true, false, false, false, false, false, true]
+
+<strong>Explanation</strong>
+StreamChecker streamChecker = new StreamChecker([&quot;cd&quot;, &quot;f&quot;, &quot;kl&quot;]);
+streamChecker.query(&quot;a&quot;); // return False
+streamChecker.query(&quot;b&quot;); // return False
+streamChecker.query(&quot;c&quot;); // return False
+streamChecker.query(&quot;d&quot;); // return True, because &#39;cd&#39; is in the wordlist
+streamChecker.query(&quot;e&quot;); // return False
+streamChecker.query(&quot;f&quot;); // return True, because &#39;f&#39; is in the wordlist
+streamChecker.query(&quot;g&quot;); // return False
+streamChecker.query(&quot;h&quot;); // return False
+streamChecker.query(&quot;i&quot;); // return False
+streamChecker.query(&quot;j&quot;); // return False
+streamChecker.query(&quot;k&quot;); // return False
+streamChecker.query(&quot;l&quot;); // return True, because &#39;kl&#39; is in the wordlist
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= words.length &lt;= 2000</code></li>
+	<li><code>1 &lt;= words[i].length &lt;= 200</code></li>
+	<li><code>words[i]</code> consists of lowercase English letters.</li>
+	<li><code>letter</code> is a lowercase English letter.</li>
+	<li>At most <code>4 * 10<sup>4</sup></code> calls will be made to query.</li>
+</ul>
+</div>
+			</div>
+			
+			
+		</div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>Generated by pushkar</p>
+        <p>Programming Questions Collection</p>
+    </div>
+    
+    <script>
+        // Smooth scrolling for TOC links
+        document.querySelectorAll('.toc-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // Add scroll-to-top functionality
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 300) {
+                if (!document.querySelector('.scroll-top')) {
+                    const scrollTop = document.createElement('button');
+                    scrollTop.className = 'scroll-top';
+                    scrollTop.innerHTML = '↑';
+                    scrollTop.style.cssText = 'position: fixed; bottom: 20px; right: 20px; background: #58a6ff; color: white; border: none; border-radius: 50%; width: 50px; height: 50px; cursor: pointer; font-size: 20px; z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.3); transition: all 0.3s ease;';
+                    scrollTop.addEventListener('click', () => window.scrollTo({top: 0, behavior: 'smooth'}));
+                    document.body.appendChild(scrollTop);
+                }
+            } else {
+                const scrollTop = document.querySelector('.scroll-top');
+                if (scrollTop) scrollTop.remove();
+            }
+        });
+    </script>
+    
+    <style>
+        .footer {
+            background: linear-gradient(135deg, #21262d 0%, #30363d 100%);
+            color: #8b949e;
+            text-align: center;
+            padding: 30px;
+            margin-top: 50px;
+            border-top: 2px solid #30363d;
+        }
+        
+        .footer p {
+            margin: 8px 0;
+            font-size: 1rem;
+        }
+        
+        .footer p:first-child {
+            color: #f0f6fc;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+    </style>
+</body>
+</html>

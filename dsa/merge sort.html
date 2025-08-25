@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>merge sort - Programming Questions</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+                'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+                sans-serif;
+            line-height: 1.6;
+            color: #e0e0e0;
+            background-color: #0d1117;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #161b22;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #21262d 0%, #30363d 100%);
+            color: #f0f6fc;
+            padding: 40px 30px;
+            border-bottom: 2px solid #30363d;
+        }
+        
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+            color: #58a6ff;
+            text-transform: capitalize;
+            letter-spacing: -0.02em;
+        }
+        
+        .header-info {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-top: 15px;
+        }
+        
+        .header-info p {
+            font-size: 1.1rem;
+            color: #8b949e;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .header-info strong {
+            color: #f0f6fc;
+            font-weight: 600;
+        }
+        
+        .header-badge {
+            background-color: #238636;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .content {
+            padding: 40px 30px;
+        }
+        
+        .toc {
+            background: linear-gradient(135deg, #21262d 0%, #30363d 100%);
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 40px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .toc h2 {
+            color: #58a6ff;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .toc ul {
+            list-style: none;
+            max-height: 400px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            word-wrap: break-word;
+        }
+        
+        .toc li {
+            padding: 12px 0;
+            border-bottom: 1px solid #30363d;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.2s ease;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+        
+        .toc li:last-child {
+            border-bottom: none;
+        }
+        
+        .toc li:hover {
+            background-color: rgba(88, 166, 255, 0.1);
+            border-radius: 6px;
+            margin: 0 -10px;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+        
+        .toc-link {
+            color: #e0e0e0;
+            text-decoration: none;
+            flex: 1;
+            font-weight: 500;
+            transition: color 0.2s ease;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            margin-right: 10px;
+        }
+        
+        .toc-link:hover {
+            color: #58a6ff;
+        }
+        
+        .toc-platform {
+            color: #8b949e;
+            font-size: 0.85rem;
+            background-color: #30363d;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-weight: 500;
+            flex-shrink: 0;
+        }
+        
+        .question-card {
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            padding: 30px;
+            background: linear-gradient(135deg, #21262d 0%, #161b22 100%);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .question-title-section {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .question-title {
+            margin: 0;
+        }
+        
+        .question-title a {
+            color: #58a6ff;
+            text-decoration: none;
+            font-size: 1.4rem;
+            font-weight: 600;
+            line-height: 1.3;
+            transition: color 0.2s ease;
+        }
+        
+        .question-title a:hover {
+            color: #79c0ff;
+            text-decoration: underline;
+        }
+        
+        .question-meta {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+        
+        .platform-badge {
+            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .difficulty-badge {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .difficulty-badge.easy {
+            background: linear-gradient(135deg, #238636 0%, #2ea043 100%);
+        }
+        
+        .difficulty-badge.medium {
+            background: linear-gradient(135deg, #da7633 0%, #fb8500 100%);
+        }
+        
+        .difficulty-badge.hard {
+            background: linear-gradient(135deg, #da3633 0%, #f85149 100%);
+        }
+        
+        .availability-badge {
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        
+        .availability-badge.solution {
+            background: linear-gradient(135deg, #7c3aed 0%, #8b5cf6 100%);
+        }
+        
+        .availability-badge.explanation {
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+        }
+        
+        .topics-section {
+            margin-bottom: 25px;
+            padding: 20px;
+            background-color: #0d1117;
+            border-radius: 8px;
+            border: 1px solid #30363d;
+        }
+        
+        .topics-section strong {
+            color: #f0f6fc;
+            font-weight: 600;
+        }
+        
+        .topic-badge {
+            background: linear-gradient(135deg, #30363d 0%, #21262d 100%);
+            color: #e0e0e0;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin-right: 8px;
+            margin-bottom: 6px;
+            display: inline-block;
+            font-weight: 500;
+            border: 1px solid #30363d;
+            transition: all 0.2s ease;
+        }
+        
+        .topic-badge:hover {
+            background: linear-gradient(135deg, #58a6ff 0%, #79c0ff 100%);
+            color: white;
+            transform: translateY(-1px);
+        }
+        
+        .content-section {
+            background-color: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+        
+        .solution-section, .explanation-section {
+            margin: 25px 0;
+        }
+        
+        .solution-section h3, .explanation-section h3 {
+            color: #58a6ff;
+            margin-bottom: 15px;
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+        
+        /* Enhanced content styling */
+        .content-section h1, .content-section h2, .content-section h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: #f0f6fc;
+            font-weight: 600;
+        }
+        
+        .content-section p {
+            margin-bottom: 15px;
+            color: #e0e0e0;
+            line-height: 1.7;
+        }
+        
+        .content-section ul, .content-section ol {
+            margin-left: 25px;
+            margin-bottom: 15px;
+        }
+        
+        .content-section li {
+            margin-bottom: 8px;
+        }
+        
+        .content-section pre {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 20px;
+            overflow-x: auto;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin: 15px 0;
+            color: #e0e0e0;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .content-section code {
+            background-color: #21262d;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            padding: 0.3em 0.5em;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            color: #f85149;
+            border: 1px solid #30363d;
+        }
+        
+        .content-section pre code {
+            background-color: transparent;
+            padding: 0;
+            color: #e0e0e0;
+            border: none;
+        }
+        
+        .content-section a {
+            color: #58a6ff;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        
+        .content-section a:hover {
+            color: #79c0ff;
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .header {
+                padding: 30px 20px;
+            }
+            
+            .header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .header-info {
+                gap: 15px;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .content {
+                padding: 25px 20px;
+            }
+            
+            .question-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .question-meta {
+                width: 100%;
+            }
+            
+            .toc {
+                padding: 20px;
+            }
+            
+            .question-card {
+                padding: 25px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>merge sort</h1>
+            <div class="header-info">
+                <p><strong>Total Questions:</strong> <span class="header-badge">16</span></p>
+                <p><strong>Generated by:</strong> pushkar</p>
+                <p><strong>Date:</strong> August 24, 2025</p>
+            </div>
+        </header>
+        
+        <div class="content">
+            <div class="toc">
+                <h2>📋 Table of Contents</h2>
+                <ul>
+                    <li><a href="#question-0" class="toc-link">Count Good Triplets in an Array</a> <span class="toc-platform">LeetCode</span></li>
+<li><a href="#question-1" class="toc-link">Count of Range Sum</a> <span class="toc-platform">LeetCode</span></li>
+<li><a href="#question-2" class="toc-link">Count of Smaller Numbers After Self</a> <span class="toc-platform">LeetCode</span></li>
+<li><a href="#question-3" class="toc-link">Create Sorted Array through Instructions</a> <span class="toc-platform">LeetCode</span></li>
+<li><a href="#question-4" class="toc-link">Hamming Sort</a> <span class="toc-platform">HackerEarth</span></li>
+<li><a href="#question-5" class="toc-link">Merge and Sort</a> <span class="toc-platform">GeeksForGeeks</span></li>
+<li><a href="#question-6" class="toc-link">Merge k Sorted Lists</a> <span class="toc-platform">LeetCode</span></li>
+<li><a href="#question-7" class="toc-link">Merge Sort for Linked List</a> <span class="toc-platform">GeeksForGeeks</span></li>
+<li><a href="#question-8" class="toc-link">Merge Sort on Doubly Linked List</a> <span class="toc-platform">GeeksForGeeks</span></li>
+<li><a href="#question-9" class="toc-link">Number of overtakes</a> <span class="toc-platform">HackerEarth</span></li>
+<li><a href="#question-10" class="toc-link">Number of Pairs Satisfying Inequality</a> <span class="toc-platform">LeetCode</span></li>
+<li><a href="#question-11" class="toc-link">Parity-Binary Sort</a> <span class="toc-platform">HackerEarth</span></li>
+<li><a href="#question-12" class="toc-link">Reverse Pairs</a> <span class="toc-platform">LeetCode</span></li>
+<li><a href="#question-13" class="toc-link">Sort an Array</a> <span class="toc-platform">LeetCode</span></li>
+<li><a href="#question-14" class="toc-link">Sort last M elements</a> <span class="toc-platform">GeeksForGeeks</span></li>
+<li><a href="#question-15" class="toc-link">Sort List</a> <span class="toc-platform">LeetCode</span></li>
+                </ul>
+            </div>
+            
+            <div class="question-card" id="question-0">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.leetcode.com/problems/count-good-triplets-in-an-array/description" target="_blank" rel="noopener noreferrer">Count Good Triplets in an Array</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">LeetCode</span>
+						<span class="difficulty-badge hard">Hard</span>
+						<span class="availability-badge solution">Solution</span>
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">array</span> <span class="topic-badge">binary indexed tree</span> <span class="topic-badge">binary search</span> <span class="topic-badge">divide and conquer</span> <span class="topic-badge">merge sort</span> <span class="topic-badge">ordered set</span> <span class="topic-badge">segment tree</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p>You are given two <strong>0-indexed</strong> arrays <code>nums1</code> and <code>nums2</code> of length <code>n</code>, both of which are <strong>permutations</strong> of <code>[0, 1, ..., n - 1]</code>.</p>
+
+<p>A <strong>good triplet</strong> is a set of <code>3</code> <strong>distinct</strong> values which are present in <strong>increasing order</strong> by position both in <code>nums1</code> and <code>nums2</code>. In other words, if we consider <code>pos1<sub>v</sub></code> as the index of the value <code>v</code> in <code>nums1</code> and <code>pos2<sub>v</sub></code> as the index of the value <code>v</code> in <code>nums2</code>, then a good triplet will be a set <code>(x, y, z)</code> where <code>0 &lt;= x, y, z &lt;= n - 1</code>, such that <code>pos1<sub>x</sub> &lt; pos1<sub>y</sub> &lt; pos1<sub>z</sub></code> and <code>pos2<sub>x</sub> &lt; pos2<sub>y</sub> &lt; pos2<sub>z</sub></code>.</p>
+
+<p>Return <em>the <strong>total number</strong> of good triplets</em>.</p>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums1 = [2,0,1,3], nums2 = [0,1,2,3]
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> 
+There are 4 triplets (x,y,z) such that pos1<sub>x</sub> &lt; pos1<sub>y</sub> &lt; pos1<sub>z</sub>. They are (2,0,1), (2,0,3), (2,1,3), and (0,1,3). 
+Out of those triplets, only the triplet (0,1,3) satisfies pos2<sub>x</sub> &lt; pos2<sub>y</sub> &lt; pos2<sub>z</sub>. Hence, there is only 1 good triplet.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums1 = [4,0,1,3,2], nums2 = [4,1,0,2,3]
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> The 4 good triplets are (4,0,3), (4,0,2), (4,1,3), and (4,1,2).
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>n == nums1.length == nums2.length</code></li>
+	<li><code>3 &lt;= n &lt;= 10<sup>5</sup></code></li>
+	<li><code>0 &lt;= nums1[i], nums2[i] &lt;= n - 1</code></li>
+	<li><code>nums1</code> and <code>nums2</code> are permutations of <code>[0, 1, ..., n - 1]</code>.</li>
+</ul>
+</div>
+			</div>
+			
+			<div class="solution-section">
+					<h3>Solution</h3>
+					<div class="content-section"><p>[TOC]</p>
+<h2 id="solution">Solution</h2>
+<hr />
+<h3 id="approach-1-binary-indexed-tree">Approach 1: Binary Indexed Tree</h3>
+<h4 id="intuition">Intuition</h4>
+<p>If <span class="math inline">\(i, j, k\)</span> satisfy <span class="math inline">\(0 \leq i < j < k < n\)</span> and <span class="math inline">\(0 \leq \textit{pos2}_{\textit{nums1}[i]} < \textit{pos2}_{\textit{nums1}[j]} < \textit{pos2}_{\textit{nums1}[k]} < n\)</span>, then <span class="math inline">\(\textit{nums1}[i]\)</span>, <span class="math inline">\(\textit{nums1}[j]\)</span>, <span class="math inline">\(\textit{nums1}[k]\)</span> form a good triplet. Because both <span class="math inline">\(\textit{nums1}\)</span> and <span class="math inline">\(\textit{nums2}\)</span> are permutations of <span class="math inline">\(0\)</span> to <span class="math inline">\(n-1\)</span>, we can count the number of good triplets by calculating the number of triplets <span class="math inline">\(i, j, k\)</span> that meet the conditions.</p>
+<p>An array <span class="math inline">\(\textit{indexMapping}\)</span> is used to express the above relationship, where <span class="math inline">\(\textit{indexMapping}[i] = \textit{pos2}_{\textit{nums1}[i]}\)</span>, and <span class="math inline">\(\textit{indexMapping}\)</span> is also a permutation of <span class="math inline">\(0\)</span> to <span class="math inline">\(n-1\)</span>. When calculating the number of triplets <span class="math inline">\(i, j, k\)</span> that meet the conditions, we can first fix <span class="math inline">\(j\)</span>, then count how many numbers are less than <span class="math inline">\(\textit{indexMapping}[j]\)</span> in the <span class="math inline">\(\textit{indexMapping}\)</span> array to the left of index <span class="math inline">\(j\)</span>, and denote it as <span class="math inline">\(\textit{left}\)</span>. Next, count how many numbers are greater than <span class="math inline">\(\textit{indexMapping}[j]\)</span> to the right of index <span class="math inline">\(j\)</span>, and denote it as <span class="math inline">\(\textit{right}\)</span>. Thus, <span class="math inline">\(\textit{left}\times\textit{right}\)</span> represents the number of triplets with the middle element as <span class="math inline">\(j\)</span>. By traversing all <span class="math inline">\(j\)</span>, the answer can be calculated.</p>
+<p>The above calculation process can be referred to <a href="https://leetcode.com/problems/count-of-smaller-numbers-after-self/description/">315. Count of Smaller Numbers After Self</a>, using a binary indexed tree to solve. The binary indexed tree can complete increment and prefix sum operations for a certain index in <span class="math inline">\(O(\log{n})\)</span> time. When applying the binary indexed tree, we need to traverse the values in <span class="math inline">\(\textit{indexMapping}\)</span> from small to large, and calculate the prefix sum for the current index <span class="math inline">\(\textit{pos}\)</span>, which represents how many numbers are less than <span class="math inline">\(\textit{indexMapping}[pos]\)</span> to the left of index <span class="math inline">\(pos\)</span>. We can also calculate how many numbers are greater than <span class="math inline">\(\textit{indexMapping}[pos]\)</span> to the right of index <span class="math inline">\(pos\)</span>, and then add <span class="math inline">\(1\)</span> to the value of the current index. Since we are traversing according to the value size, we need another array <span class="math inline">\(\textit{reversedIndexMapping}\)</span> to save the indices of each value in <span class="math inline">\(\textit{indexMapping}\)</span>. In the code, the variable <span class="math inline">\(\textit{indexMapping}\)</span> can be omitted. The result can be returned after the traversal is completed.</p>
+<h4 id="implementation">Implementation</h4>
+<p><a href="https://leetcode.com/playground/CL98TQtb/shared">code</a></p>
+<h4 id="complexity-analysis">Complexity Analysis</h4>
+<ul>
+<li>Time complexity: <span class="math inline">\(O(n\times\log{n})\)</span>.</li>
+</ul>
+<p>The binary indexed tree requires <span class="math inline">\(O(\log{n})\)</span> for each query and update operation, and we need to perform query and update operations on each index of the array during traversal.</p>
+<ul>
+<li>Space complexity: <span class="math inline">\(O(n)\)</span>.</li>
+</ul>
+<p>The binary indexed tree requires <span class="math inline">\(O(n)\)</span> space.</p>
+</div>
+				</div>
+		</div>
+
+<div class="question-card" id="question-1">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.leetcode.com/problems/count-of-range-sum/description" target="_blank" rel="noopener noreferrer">Count of Range Sum</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">LeetCode</span>
+						<span class="difficulty-badge hard">Hard</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">array</span> <span class="topic-badge">binary indexed tree</span> <span class="topic-badge">binary search</span> <span class="topic-badge">divide and conquer</span> <span class="topic-badge">merge sort</span> <span class="topic-badge">ordered set</span> <span class="topic-badge">segment tree</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p>Given an integer array <code>nums</code> and two integers <code>lower</code> and <code>upper</code>, return <em>the number of range sums that lie in</em> <code>[lower, upper]</code> <em>inclusive</em>.</p>
+
+<p>Range sum <code>S(i, j)</code> is defined as the sum of the elements in <code>nums</code> between indices <code>i</code> and <code>j</code> inclusive, where <code>i &lt;= j</code>.</p>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [-2,5,-1], lower = -2, upper = 2
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> The three ranges are: [0,0], [2,2], and [0,2] and their respective sums are: -2, -1, 2.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [0], lower = 0, upper = 0
+<strong>Output:</strong> 1
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>-2<sup>31</sup> &lt;= nums[i] &lt;= 2<sup>31</sup> - 1</code></li>
+	<li><code>-10<sup>5</sup> &lt;= lower &lt;= upper &lt;= 10<sup>5</sup></code></li>
+	<li>The answer is <strong>guaranteed</strong> to fit in a <strong>32-bit</strong> integer.</li>
+</ul>
+</div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-2">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.leetcode.com/problems/count-of-smaller-numbers-after-self/description" target="_blank" rel="noopener noreferrer">Count of Smaller Numbers After Self</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">LeetCode</span>
+						<span class="difficulty-badge hard">Hard</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">array</span> <span class="topic-badge">binary indexed tree</span> <span class="topic-badge">binary search</span> <span class="topic-badge">divide and conquer</span> <span class="topic-badge">merge sort</span> <span class="topic-badge">ordered set</span> <span class="topic-badge">segment tree</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p>Given an integer array <code>nums</code>, return<em> an integer array </em><code>counts</code><em> where </em><code>counts[i]</code><em> is the number of smaller elements to the right of </em><code>nums[i]</code>.</p>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [5,2,6,1]
+<strong>Output:</strong> [2,1,1,0]
+<strong>Explanation:</strong>
+To the right of 5 there are <b>2</b> smaller elements (2 and 1).
+To the right of 2 there is only <b>1</b> smaller element (1).
+To the right of 6 there is <b>1</b> smaller element (1).
+To the right of 1 there is <b>0</b> smaller element.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [-1]
+<strong>Output:</strong> [0]
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [-1,-1]
+<strong>Output:</strong> [0,0]
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>-10<sup>4</sup> &lt;= nums[i] &lt;= 10<sup>4</sup></code></li>
+</ul>
+</div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-3">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.leetcode.com/problems/create-sorted-array-through-instructions/description" target="_blank" rel="noopener noreferrer">Create Sorted Array through Instructions</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">LeetCode</span>
+						<span class="difficulty-badge hard">Hard</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">array</span> <span class="topic-badge">binary indexed tree</span> <span class="topic-badge">binary search</span> <span class="topic-badge">divide and conquer</span> <span class="topic-badge">merge sort</span> <span class="topic-badge">ordered set</span> <span class="topic-badge">segment tree</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p>Given an integer array <code>instructions</code>, you are asked to create a sorted array from the elements in <code>instructions</code>. You start with an empty container <code>nums</code>. For each element from <strong>left to right</strong> in <code>instructions</code>, insert it into <code>nums</code>. The <strong>cost</strong> of each insertion is the <b>minimum</b> of the following:</p>
+
+<ul>
+	<li>The number of elements currently in <code>nums</code> that are <strong>strictly less than</strong> <code>instructions[i]</code>.</li>
+	<li>The number of elements currently in <code>nums</code> that are <strong>strictly greater than</strong> <code>instructions[i]</code>.</li>
+</ul>
+
+<p>For example, if inserting element <code>3</code> into <code>nums = [1,2,3,5]</code>, the <strong>cost</strong> of insertion is <code>min(2, 1)</code> (elements <code>1</code> and <code>2</code> are less than <code>3</code>, element <code>5</code> is greater than <code>3</code>) and <code>nums</code> will become <code>[1,2,3,3,5]</code>.</p>
+
+<p>Return <em>the <strong>total cost</strong> to insert all elements from </em><code>instructions</code><em> into </em><code>nums</code>. Since the answer may be large, return it <strong>modulo</strong> <code>10<sup>9</sup> + 7</code></p>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+
+<pre>
+<strong>Input:</strong> instructions = [1,5,6,2]
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> Begin with nums = [].
+Insert 1 with cost min(0, 0) = 0, now nums = [1].
+Insert 5 with cost min(1, 0) = 0, now nums = [1,5].
+Insert 6 with cost min(2, 0) = 0, now nums = [1,5,6].
+Insert 2 with cost min(1, 2) = 1, now nums = [1,2,5,6].
+The total cost is 0 + 0 + 0 + 1 = 1.</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> instructions = [1,2,3,6,5,4]
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> Begin with nums = [].
+Insert 1 with cost min(0, 0) = 0, now nums = [1].
+Insert 2 with cost min(1, 0) = 0, now nums = [1,2].
+Insert 3 with cost min(2, 0) = 0, now nums = [1,2,3].
+Insert 6 with cost min(3, 0) = 0, now nums = [1,2,3,6].
+Insert 5 with cost min(3, 1) = 1, now nums = [1,2,3,5,6].
+Insert 4 with cost min(3, 2) = 2, now nums = [1,2,3,4,5,6].
+The total cost is 0 + 0 + 0 + 0 + 1 + 2 = 3.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> instructions = [1,3,3,3,2,4,2,1,2]
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> Begin with nums = [].
+Insert 1 with cost min(0, 0) = 0, now nums = [1].
+Insert 3 with cost min(1, 0) = 0, now nums = [1,3].
+Insert 3 with cost min(1, 0) = 0, now nums = [1,3,3].
+Insert 3 with cost min(1, 0) = 0, now nums = [1,3,3,3].
+Insert 2 with cost min(1, 3) = 1, now nums = [1,2,3,3,3].
+Insert 4 with cost min(5, 0) = 0, now nums = [1,2,3,3,3,4].
+​​​​​​​Insert 2 with cost min(1, 4) = 1, now nums = [1,2,2,3,3,3,4].
+​​​​​​​Insert 1 with cost min(0, 6) = 0, now nums = [1,1,2,2,3,3,3,4].
+​​​​​​​Insert 2 with cost min(2, 4) = 2, now nums = [1,1,2,2,2,3,3,3,4].
+The total cost is 0 + 0 + 0 + 0 + 1 + 0 + 1 + 0 + 2 = 4.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= instructions.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>1 &lt;= instructions[i] &lt;= 10<sup>5</sup></code></li>
+</ul></div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-4">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.hackerearth.com/problem/algorithm/hamming-sort-09045827/" target="_blank" rel="noopener noreferrer">Hamming Sort</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">HackerEarth</span>
+						<span class="difficulty-badge easy">Easy</span>
+						<span class="availability-badge explanation">Explanation</span>
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">algorithms</span> <span class="topic-badge">basicprogramming</span> <span class="topic-badge">bitmask</span> <span class="topic-badge">merge sort</span> <span class="topic-badge">sorting</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p>Given an array of integers, denoted as <span class="mathjax-latex">\(A\)</span>, and an integer <span class="mathjax-latex">\(K\)</span>, your task is to implement a sorting algorithm. The goal is to arrange the elements in <span class="mathjax-latex">\(A\)</span> based on their Hamming Distance from the integer <span class="mathjax-latex">\(K\)</span>.</p>
+<p>The <strong>Hamming Distance</strong> is defined as the count of differing bits in the binary representations of two integers.</p>
+<p>The sorting should be done in ascending order of Hamming distance, and in case of a tie in Hamming Distances, the elements should be sorted in ascending numerical order.</p>
+<p><u><strong>Input Format:</strong></u></p>
+<p><strong><em>Note</em>:</strong> <em>This is the input format that you must use to provide custom input (available above the Compile and Test button).</em></p>
+<p>The first line contains <em><em><em><em><em><em><em><em><span class="mathjax-latex">\(T\)</span></em></em></em></em></em></em></em></em> denoting the number of test cases. <em><em><em><em><em><em><em><em><span class="mathjax-latex">\(T\)</span></em></em></em></em></em></em></em></em> also specifies the number of times you have to run the solve function on a different set of inputs. For each test case:</p>
+<ul>
+<li>The first line contains the integer <em><em><em><em><em><em><em><em><span class="mathjax-latex">\(N\)</span></em></em></em></em></em></em></em></em> and <span class="mathjax-latex">\(K\)</span>.</li>
+<li>The second line contains the array <span class="mathjax-latex">\(A\)</span> of length <em><em><em><em><em><em><em><em><span class="mathjax-latex">\(N\)</span></em></em></em></em></em></em></em></em></li>
+</ul>
+<p><u><strong>Output Format:</strong></u> For each test case, print the answer in a new line. </p>
+<p><u><strong>Constraints:</strong></u></p>
+<p><strong><strong><strong><strong><strong><strong><strong><strong><span class="mathjax-latex">\(1 \leq T \leq 10 \\ 1 \leq N \leq 10^5 \\ 1 \leq K \leq 10^5 \\ 1 \leq A[i] \leq 10^5\)</span></strong></strong></strong></strong></strong></strong></strong></strong></p></div>
+			</div>
+			<div class="explanation-section">
+					<h3>Explanation</h3>
+					<div class="content-section"><p>In the example, binary representation of <span class="mathjax-latex">\(K = 2\)</span> is "<span class="mathjax-latex">\(10\)</span>". Similarly for array <span class="mathjax-latex">\([4,5,6]\)</span>, the binary representation is <span class="mathjax-latex">\( [100, 101, 110]\)</span>. Now the hamming distance of each element of the array with <span class="mathjax-latex">\(K\)</span> are <span class="mathjax-latex">\([2,3,1]\)</span>. Hence sorting on the basis of Hamming Distance, the final output comes out to be <span class="mathjax-latex">\([6,4,5]\)</span>.</p></div>
+				</div>
+			
+		</div>
+
+<div class="question-card" id="question-5">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.geeksforgeeks.org/problems/merge-and-sort5821/1" target="_blank" rel="noopener noreferrer">Merge and Sort</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">GeeksForGeeks</span>
+						<span class="difficulty-badge easy">Easy</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">algorithms</span> <span class="topic-badge">array</span> <span class="topic-badge">datastructures</span> <span class="topic-badge">merge sort</span> <span class="topic-badge">sorting</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p><span style="font-size: 18px;">Given two arrays <strong>arr1[] </strong>and <strong>arr2[]</strong>, return the merged array in ascending order containing unique elements.</span></p>
+<p><span style="font-size: 18px;"><strong>Examples:</strong></span></p>
+<pre><span style="font-size: 18px;"><strong>Input: </strong>arr1[] = [11, 1, 8], arr2[] = [10, 11]
+<strong>Output: </strong>[1, 8, 10, 11]
+<strong>Explanation: </strong>The ouput array after merging both the arrays and removing duplicates is [1, 8, 10, 11]<br /></span></pre>
+<pre><span style="font-size: 18px;"><strong>Input: </strong>arr1[] = [7, 1, 5, 3, 9], arr2[]  = [8, 4, 3, 5, 2, 6]
+<strong>Output: </strong>[1, 2, 3, 4, 5, 6, 7, 8, 9] </span></pre>
+<p><span style="font-size: 18px;"><strong>Constraints:</strong><br />1 &le; arr1.size(), arr2.size() &le; 10<sup>4</sup><br />0 &le; arr1[i], arr2[i] &le; 10<sup>9</sup><br /></span></p></div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-6">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.leetcode.com/problems/merge-k-sorted-lists/description" target="_blank" rel="noopener noreferrer">Merge k Sorted Lists</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">LeetCode</span>
+						<span class="difficulty-badge hard">Hard</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">divide and conquer</span> <span class="topic-badge">linked list</span> <span class="topic-badge">merge sort</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p>You are given an array of <code>k</code> linked-lists <code>lists</code>, each linked-list is sorted in ascending order.</p>
+
+<p><em>Merge all the linked-lists into one sorted linked-list and return it.</em></p>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+
+<pre>
+<strong>Input:</strong> lists = [[1,4,5],[1,3,4],[2,6]]
+<strong>Output:</strong> [1,1,2,3,4,4,5,6]
+<strong>Explanation:</strong> The linked-lists are:
+[
+  1-&gt;4-&gt;5,
+  1-&gt;3-&gt;4,
+  2-&gt;6
+]
+merging them into one sorted linked list:
+1-&gt;1-&gt;2-&gt;3-&gt;4-&gt;4-&gt;5-&gt;6
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> lists = []
+<strong>Output:</strong> []
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> lists = [[]]
+<strong>Output:</strong> []
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>k == lists.length</code></li>
+	<li><code>0 &lt;= k &lt;= 10<sup>4</sup></code></li>
+	<li><code>0 &lt;= lists[i].length &lt;= 500</code></li>
+	<li><code>-10<sup>4</sup> &lt;= lists[i][j] &lt;= 10<sup>4</sup></code></li>
+	<li><code>lists[i]</code> is sorted in <strong>ascending order</strong>.</li>
+	<li>The sum of <code>lists[i].length</code> will not exceed <code>10<sup>4</sup></code>.</li>
+</ul>
+</div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-7">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.geeksforgeeks.org/problems/sort-a-linked-list/1" target="_blank" rel="noopener noreferrer">Merge Sort for Linked List</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">GeeksForGeeks</span>
+						<span class="difficulty-badge medium">Medium</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">algorithms</span> <span class="topic-badge">datastructures</span> <span class="topic-badge">linked list</span> <span class="topic-badge">merge sort</span> <span class="topic-badge">sorting</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p><span style="font-size: 18px;">Given a pointer/reference to the head of the linked list, the task is to <strong>sort the given linked list using Merge Sort</strong>.</span><br /><span style="font-size: 18px;"><strong>Note:</strong> If the length of the linked list is odd, then the extra node should go into the first list while splitting.</span></p>
+<p><span style="font-size: 18px;"><strong>Examples:</strong></span></p>
+<pre><span style="font-size: 18px;"><strong>Input: </strong>LinkedList: 3-&gt;5-&gt;2-&gt;4-&gt;1
+<strong>Output: </strong>1-&gt;2-&gt;3-&gt;4-&gt;5<strong>
+Explanation: </strong>After sorting the given linked list, the resultant matrix will be 1-&gt;2-&gt;3-&gt;4-&gt;5.<br /><img src="https://media.geeksforgeeks.org/img-practice/prod/addEditProblem/700523/Web/Other/blobid0_1722065236.png" width="400" height="180" /></span>
+</pre>
+<pre><span style="font-size: 18px;"><strong>Input: </strong>LinkedList: 9-&gt;15-&gt;0
+<strong>Output: </strong>0-&gt;9-&gt;15<strong>
+Explanation: </strong>After sorting the given linked list , resultant will be 0-&gt;9-&gt;15.<br /><img src="https://media.geeksforgeeks.org/img-practice/prod/addEditProblem/700523/Web/Other/blobid1_1722065301.png" width="393" height="177" /><br /></span></pre>
+<p><span style="font-size: 18px;"><strong>Expected Time Complexity:</strong> O(n*log(n))<br /><strong>Expected Auxiliary Space:</strong> O(n)</span></p>
+<p><span style="font-size: 18px;"><strong>Constraints:</strong><br />1 &lt;= number of nodes &lt;= 10<sup>5<br /></sup>0 &lt;= node-&gt;data &lt;= 10<sup>6</sup></span></p></div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-8">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.geeksforgeeks.org/problems/merge-sort-on-doubly-linked-list/1" target="_blank" rel="noopener noreferrer">Merge Sort on Doubly Linked List</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">GeeksForGeeks</span>
+						<span class="difficulty-badge hard">Hard</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">algorithms</span> <span class="topic-badge">datastructures</span> <span class="topic-badge">doubly-linked list</span> <span class="topic-badge">linked list</span> <span class="topic-badge">merge sort</span> <span class="topic-badge">sorting</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p><span style="font-size: 14pt;">Given Pointer/Reference to the <strong>head</strong> of a<strong> </strong>doubly linked list, the task is to Sort<strong> </strong>the<strong> </strong>given doubly linked list<strong> </strong>using<strong> Merge Sort&nbsp;</strong>in both <strong>non-decreasing</strong> and <strong>non-increasing</strong> order.</span></p>
+<p><span style="font-size: 14pt;"><strong>Note:</strong> Return the head of the sorted&nbsp;non-decreasing&nbsp;doubly linked list. The driver code will print it forward and backward in both directions.</span></p>
+<p><span style="font-size: 14pt;"><strong>Examples:</strong></span></p>
+<pre><span style="font-size: 14pt;"><strong>Input: </strong>LinkedList:<strong> </strong>7 &harr; 3 &harr; 5 &harr; 2 &harr; 6 &harr; 4 &harr; 1 &harr; 8
+<strong>Output:
+</strong>LinkedList: 1 &harr; 2 &harr; 3 &harr; 4 &harr; 5 &harr; 6 &harr; 7 &harr; 8
+LinkedList: 8 &harr; 7 &harr; 6 &harr; 5 &harr; 4 &harr; 3 &harr; 2 &harr; 1<strong>
+Explanation: </strong>After sorting the given linked list in both ways, the resultant matrix will be as shown in the first two lines of the output. The first line shows the output for non-decreasing order, and the next line shows the output for non-increasing order.<br /><img src="https://media.geeksforgeeks.org/img-practice/prod/addEditProblem/700538/Web/Other/blobid0_1725342004.png" width="371" height="139" /><br /></span></pre>
+<pre><span style="font-size: 14pt;"><strong>Input: </strong>LinkedList: 9 &harr; 15 &harr; 0 &harr; -1 &harr; 0<br /><strong>Output:</strong>
+LinkedList: -1 &harr; 0 &harr; 0 &harr; 9 &harr; 15
+LinkedList: 15 &harr; 9 &harr; 0 &harr; 0 &harr; -1<strong>
+Explanation: </strong>After sorting the given linked list in both ways, the resultant list will be -1 &rarr; 0 &rarr; 0 &rarr; 9 &rarr; 15 in non-decreasing order and 15 &rarr; 9 &rarr; 0 &rarr; 0 &rarr; -1 in non-increasing order.<br /><img src="https://media.geeksforgeeks.org/img-practice/prod/addEditProblem/700538/Web/Other/blobid1_1725342021.png" width="363" height="136" /></span></pre>
+<p><span style="font-size: 14pt;"><strong>Constraints:</strong><br />1 &lt;=&nbsp;<span style="font-family: Arial; white-space-collapse: preserve; background-color: #ffffff;">number of nodes</span> &lt;= 10<sup>5<br /></sup>-10<sup>5</sup> &lt;= node-&gt;data &lt;= 10<sup>5<br /></sup></span></p></div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-9">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.hackerearth.com/problem/algorithm/overtakes-count-33746e3a/" target="_blank" rel="noopener noreferrer">Number of overtakes</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">HackerEarth</span>
+						<span class="difficulty-badge medium">Medium</span>
+						<span class="availability-badge explanation">Explanation</span>
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">algorithms</span> <span class="topic-badge">countingandarrangements</span> <span class="topic-badge">divide and conquer</span> <span class="topic-badge">merge sort</span> <span class="topic-badge">sorting</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p>A race is organized among <span class="mathjax-latex">\(N\)</span> horses of a kingdom. Every horse has a velocity (in <span class="mathjax-latex">\(m/sec\)</span>) that is denoted by an array <span class="mathjax-latex">\(Velocity[\ ]\)</span> where <span class="mathjax-latex">\(Velocity[i]\)</span> represents the velocity of the <span class="mathjax-latex">\(i^{th}\)</span> horse. The indexing of the array is <strong>0-based</strong>.</p>
+
+<p>All the horses are standing at different starting positions. The starting position of every horse is represented by an array <span class="mathjax-latex">\(pos[\ ]\)</span> where <span class="mathjax-latex">\(pos[i]\)</span> denotes the starting position of the <span class="mathjax-latex">\(i^{th}\)</span> horse. The indexing of the array is <strong>0-based</strong>. The <span class="mathjax-latex">\(pos[\ ]\)</span> array is a permutation of integers <span class="mathjax-latex">\(1\)</span> to <span class="mathjax-latex">\(N\)</span>. A horse who is standing at <span class="mathjax-latex">\(i\)</span> position is considered to be ahead of the horse who is standing at position <span class="mathjax-latex">\(j\)</span> if and only if <span class="mathjax-latex">\(i &gt; j\)</span>.</p>
+
+<p>The finish line of the race is <span class="mathjax-latex">\(10^{100000}\)</span> meters ahead. An overtake occurs when horse <strong>A</strong>, whose starting position is less than horse <strong>B</strong>, finishes the race earlier than horse <strong>B</strong>. Your task is to determine the number of overtakes that has occurred during the race.</p>
+
+<p><strong>Input format</strong></p>
+
+<ul>
+	<li>First line: An integer <span class="mathjax-latex">\(N\)</span> denoting the number of horses that are participating in the race (<span class="mathjax-latex">\(2 \le N \le 10^5\)</span>)</li>
+	<li>Next line: <span class="mathjax-latex">\(N\)</span> space-separated integers denoting the velocity of the <span class="mathjax-latex">\(i^{th}\)</span> horse (<span class="mathjax-latex">\(1 \le Velocity[i] \le 10^7\)</span>)</li>
+	<li>Next line: <span class="mathjax-latex">\(N\)</span> space-separated integers denoting the starting position of <span class="mathjax-latex">\(i^{th}\)</span> horse (<span class="mathjax-latex">\(1 \le pos[i] \le N\)</span>)<br>
+	<strong>Note</strong>: Array is a permutation of integers <span class="mathjax-latex">\(1\)</span> to <span class="mathjax-latex">\(N\)</span> integers</li>
+</ul>
+
+<p><strong>Output format</strong></p>
+
+<p>Print a single integer denoting the number of overtakes that has occurred during the race.</p></div>
+			</div>
+			<div class="explanation-section">
+					<h3>Explanation</h3>
+					<div class="content-section"><p>Horse at start point 1 will overtake Horse at start point 2. Horse at start point 3 will overtake Horse at start point 4.</p></div>
+				</div>
+			
+		</div>
+
+<div class="question-card" id="question-10">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.leetcode.com/problems/number-of-pairs-satisfying-inequality/description" target="_blank" rel="noopener noreferrer">Number of Pairs Satisfying Inequality</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">LeetCode</span>
+						<span class="difficulty-badge hard">Hard</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">array</span> <span class="topic-badge">binary indexed tree</span> <span class="topic-badge">binary search</span> <span class="topic-badge">divide and conquer</span> <span class="topic-badge">merge sort</span> <span class="topic-badge">ordered set</span> <span class="topic-badge">segment tree</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p>You are given two <strong>0-indexed</strong> integer arrays <code>nums1</code> and <code>nums2</code>, each of size <code>n</code>, and an integer <code>diff</code>. Find the number of <strong>pairs</strong> <code>(i, j)</code> such that:</p>
+
+<ul>
+	<li><code>0 &lt;= i &lt; j &lt;= n - 1</code> <strong>and</strong></li>
+	<li><code>nums1[i] - nums1[j] &lt;= nums2[i] - nums2[j] + diff</code>.</li>
+</ul>
+
+<p>Return<em> the <strong>number of pairs</strong> that satisfy the conditions.</em></p>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums1 = [3,2,5], nums2 = [2,2,1], diff = 1
+<strong>Output:</strong> 3
+<strong>Explanation:</strong>
+There are 3 pairs that satisfy the conditions:
+1. i = 0, j = 1: 3 - 2 &lt;= 2 - 2 + 1. Since i &lt; j and 1 &lt;= 1, this pair satisfies the conditions.
+2. i = 0, j = 2: 3 - 5 &lt;= 2 - 1 + 1. Since i &lt; j and -2 &lt;= 2, this pair satisfies the conditions.
+3. i = 1, j = 2: 2 - 5 &lt;= 2 - 1 + 1. Since i &lt; j and -3 &lt;= 2, this pair satisfies the conditions.
+Therefore, we return 3.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums1 = [3,-1], nums2 = [-2,2], diff = -1
+<strong>Output:</strong> 0
+<strong>Explanation:</strong>
+Since there does not exist any pair that satisfies the conditions, we return 0.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>n == nums1.length == nums2.length</code></li>
+	<li><code>2 &lt;= n &lt;= 10<sup>5</sup></code></li>
+	<li><code>-10<sup>4</sup> &lt;= nums1[i], nums2[i] &lt;= 10<sup>4</sup></code></li>
+	<li><code>-10<sup>4</sup> &lt;= diff &lt;= 10<sup>4</sup></code></li>
+</ul>
+</div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-11">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.hackerearth.com/problem/algorithm/parity-binary-sort-ea768e57/" target="_blank" rel="noopener noreferrer">Parity-Binary Sort</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">HackerEarth</span>
+						<span class="difficulty-badge easy">Easy</span>
+						<span class="availability-badge explanation">Explanation</span>
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">algorithms</span> <span class="topic-badge">basicprogramming</span> <span class="topic-badge">bitmask</span> <span class="topic-badge">implementation</span> <span class="topic-badge">merge sort</span> <span class="topic-badge">sorting</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p>You are given an array <span class="mathjax-latex">\(A \)</span>&nbsp;of <span class="mathjax-latex">\(N\)</span> integers. Your task is to implement a sorting algorithm that arranges the numbers in the array based on following conditions and return that array:<br>
+1. Numbers with an <strong>even </strong>count of set bits should appear first in <strong>ascending </strong>order.<br>
+2. Following that, numbers with an <strong>odd</strong> count of set bits should be arranged in <strong>ascending </strong>order.</p>
+
+<p><u><strong>Input Format:</strong></u></p>
+
+<p><strong><em>Note</em>:</strong> <em>This is the input format that you must use to provide custom input (available above the Compile and Test button).</em></p>
+
+<p>The first line contains <em><em><em><em><span class="mathjax-latex">\(T\)</span></em></em></em></em> denoting the number of test cases. <em><em><em><em><span class="mathjax-latex">\(T\)</span></em></em></em></em> also specifies the number of times you have to run the solve function on a different set of inputs.<br>
+For each test case:</p>
+
+<ul>
+	<li>The first line contains the integer <em><em><em><em><span class="mathjax-latex">\(N\)</span></em></em></em></em>.</li>
+	<li>The second line contains the array&nbsp;<span class="mathjax-latex">\(A\)</span>&nbsp;of length&nbsp;<em><em><em><em><span class="mathjax-latex">\(N\)</span></em></em></em></em></li>
+</ul>
+
+<p><u><strong>Output Format:</strong></u><br>
+For each test case, print the answer in a new line.&nbsp;</p>
+
+<p><u><strong>Constraints:</strong></u></p>
+
+<p><strong><strong><strong><strong><span class="mathjax-latex">\(1 \leq T \leq 10 \\ 1 \leq N \leq 10^5 \\ 1 \leq A[i] \leq 10^5\)</span></strong></strong></strong></strong></p></div>
+			</div>
+			<div class="explanation-section">
+					<h3>Explanation</h3>
+					<div class="content-section"><p>Given the input array [5, 2, 8, 12, 7, 6], the output should be [5, 6, 12, 2, 7, 8], as:<br>
+Numbers with an even count of set bits: 5(101), 6(110), 12(1100)<br>
+Numbers with an odd count of set bits: 2(10), 7(111), 8(100)</p></div>
+				</div>
+			
+		</div>
+
+<div class="question-card" id="question-12">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.leetcode.com/problems/reverse-pairs/description" target="_blank" rel="noopener noreferrer">Reverse Pairs</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">LeetCode</span>
+						<span class="difficulty-badge hard">Hard</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">array</span> <span class="topic-badge">binary indexed tree</span> <span class="topic-badge">binary search</span> <span class="topic-badge">divide and conquer</span> <span class="topic-badge">merge sort</span> <span class="topic-badge">ordered set</span> <span class="topic-badge">segment tree</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p>Given an integer array <code>nums</code>, return <em>the number of <strong>reverse pairs</strong> in the array</em>.</p>
+
+<p>A <strong>reverse pair</strong> is a pair <code>(i, j)</code> where:</p>
+
+<ul>
+	<li><code>0 &lt;= i &lt; j &lt; nums.length</code> and</li>
+	<li><code>nums[i] &gt; 2 * nums[j]</code>.</li>
+</ul>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [1,3,2,3,1]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> The reverse pairs are:
+(1, 4) --&gt; nums[1] = 3, nums[4] = 1, 3 &gt; 2 * 1
+(3, 4) --&gt; nums[3] = 3, nums[4] = 1, 3 &gt; 2 * 1
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [2,4,3,5,1]
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> The reverse pairs are:
+(1, 4) --&gt; nums[1] = 4, nums[4] = 1, 4 &gt; 2 * 1
+(2, 4) --&gt; nums[2] = 3, nums[4] = 1, 3 &gt; 2 * 1
+(3, 4) --&gt; nums[3] = 5, nums[4] = 1, 5 &gt; 2 * 1
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= nums.length &lt;= 5 * 10<sup>4</sup></code></li>
+	<li><code>-2<sup>31</sup> &lt;= nums[i] &lt;= 2<sup>31</sup> - 1</code></li>
+</ul>
+</div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-13">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.leetcode.com/problems/sort-an-array/description" target="_blank" rel="noopener noreferrer">Sort an Array</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">LeetCode</span>
+						<span class="difficulty-badge medium">Medium</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">array</span> <span class="topic-badge">bucket sort</span> <span class="topic-badge">counting sort</span> <span class="topic-badge">divide and conquer</span> <span class="topic-badge">merge sort</span> <span class="topic-badge">radix-sort</span> <span class="topic-badge">sorting</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p>Given an array of integers <code>nums</code>, sort the array in ascending order and return it.</p>
+
+<p>You must solve the problem <strong>without using any built-in</strong> functions in <code>O(nlog(n))</code> time complexity and with the smallest space complexity possible.</p>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [5,2,3,1]
+<strong>Output:</strong> [1,2,3,5]
+<strong>Explanation:</strong> After sorting the array, the positions of some numbers are not changed (for example, 2 and 3), while the positions of other numbers are changed (for example, 1 and 5).
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [5,1,1,2,0,0]
+<strong>Output:</strong> [0,0,1,1,2,5]
+<strong>Explanation:</strong> Note that the values of nums are not necessarily unique.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= nums.length &lt;= 5 * 10<sup>4</sup></code></li>
+	<li><code>-5 * 10<sup>4</sup> &lt;= nums[i] &lt;= 5 * 10<sup>4</sup></code></li>
+</ul>
+</div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-14">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.geeksforgeeks.org/problems/sort-last-m-elements--155156/1" target="_blank" rel="noopener noreferrer">Sort last M elements</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">GeeksForGeeks</span>
+						<span class="difficulty-badge medium">Medium</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">algorithms</span> <span class="topic-badge">merge sort</span> <span class="topic-badge">sorting</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p><span style="font-size: 18px;">Given an array <strong>nums </strong>of length <strong>n + m</strong> where first <strong>n</strong> elements are sorted. Your task is to sort the last <strong>m</strong><strong> </strong>elements <strong>in-place&nbsp;</strong>so that the whole array becomes sorted.</span></p>
+<p><span style="font-size: 18px;"><strong>Example 1:</strong></span></p>
+<pre><span style="font-size: 18px;"><strong>Input: 
+</strong>nums = {1, 3, 6, 19, 11, 16</span><span style="font-size: 18px;">},
+n = 3 
+m = 3
+<strong>Output: 
+</strong>1, 3, 6, 11, 16, 19</span>
+</pre>
+<p><span style="font-size: 18px;"><strong>Example 2:</strong></span></p>
+<pre><span style="font-size: 18px;"><strong>Input: 
+</strong>nums = {7, 8, 11} 
+n = 2 
+m = 1
+<strong>Output: 
+</strong>7, 8, 11</span>
+</pre>
+<p><span style="font-size: 18px;"><strong>Your Task:</strong><br />You don't need to read or print anything, Your task is to complete the function <strong>sortLastMelements() </strong>which takes <strong>nums, n </strong>and <strong>m </strong>as input parameters and sort <strong>nums</strong><strong> in-place</strong>.</span></p>
+<p><span style="font-size: 18px;"><strong>Expected Time Complexity:&nbsp;</strong>O(m * Log(m))<br /><strong>Expected Auxilary Space:&nbsp;</strong>O(m)</span></p>
+<p><span style="font-size: 18px;"><strong>Constraints:</strong><br />1 &le; n, m &le; 10<sup>5</sup><br />1 &le; nums[i] &le; 10<sup>6</sup></span></p></div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-15">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.leetcode.com/problems/sort-list/description" target="_blank" rel="noopener noreferrer">Sort List</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">LeetCode</span>
+						<span class="difficulty-badge medium">Medium</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">divide and conquer</span> <span class="topic-badge">linked list</span> <span class="topic-badge">merge sort</span> <span class="topic-badge">sorting</span> <span class="topic-badge">two pointers</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p>Given the <code>head</code> of a linked list, return <em>the list after sorting it in <strong>ascending order</strong></em>.</p>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://assets.leetcode.com/uploads/2020/09/14/sort_list_1.jpg" style="width: 450px; height: 194px;" />
+<pre>
+<strong>Input:</strong> head = [4,2,1,3]
+<strong>Output:</strong> [1,2,3,4]
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://assets.leetcode.com/uploads/2020/09/14/sort_list_2.jpg" style="width: 550px; height: 184px;" />
+<pre>
+<strong>Input:</strong> head = [-1,5,3,4,0]
+<strong>Output:</strong> [-1,0,3,4,5]
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> head = []
+<strong>Output:</strong> []
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li>The number of nodes in the list is in the range <code>[0, 5 * 10<sup>4</sup>]</code>.</li>
+	<li><code>-10<sup>5</sup> &lt;= Node.val &lt;= 10<sup>5</sup></code></li>
+</ul>
+
+<p>&nbsp;</p>
+<p><strong>Follow up:</strong> Can you sort the linked list in <code>O(n logn)</code> time and <code>O(1)</code> memory (i.e. constant space)?</p>
+</div>
+			</div>
+			
+			
+		</div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>Generated by pushkar</p>
+        <p>Programming Questions Collection</p>
+    </div>
+    
+    <script>
+        // Smooth scrolling for TOC links
+        document.querySelectorAll('.toc-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // Add scroll-to-top functionality
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 300) {
+                if (!document.querySelector('.scroll-top')) {
+                    const scrollTop = document.createElement('button');
+                    scrollTop.className = 'scroll-top';
+                    scrollTop.innerHTML = '↑';
+                    scrollTop.style.cssText = 'position: fixed; bottom: 20px; right: 20px; background: #58a6ff; color: white; border: none; border-radius: 50%; width: 50px; height: 50px; cursor: pointer; font-size: 20px; z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.3); transition: all 0.3s ease;';
+                    scrollTop.addEventListener('click', () => window.scrollTo({top: 0, behavior: 'smooth'}));
+                    document.body.appendChild(scrollTop);
+                }
+            } else {
+                const scrollTop = document.querySelector('.scroll-top');
+                if (scrollTop) scrollTop.remove();
+            }
+        });
+    </script>
+    
+    <style>
+        .footer {
+            background: linear-gradient(135deg, #21262d 0%, #30363d 100%);
+            color: #8b949e;
+            text-align: center;
+            padding: 30px;
+            margin-top: 50px;
+            border-top: 2px solid #30363d;
+        }
+        
+        .footer p {
+            margin: 8px 0;
+            font-size: 1rem;
+        }
+        
+        .footer p:first-child {
+            color: #f0f6fc;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+    </style>
+</body>
+</html>

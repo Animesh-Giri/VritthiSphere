@@ -1,0 +1,1763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>counting sort - Programming Questions</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+                'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+                sans-serif;
+            line-height: 1.6;
+            color: #e0e0e0;
+            background-color: #0d1117;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #161b22;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #21262d 0%, #30363d 100%);
+            color: #f0f6fc;
+            padding: 40px 30px;
+            border-bottom: 2px solid #30363d;
+        }
+        
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+            color: #58a6ff;
+            text-transform: capitalize;
+            letter-spacing: -0.02em;
+        }
+        
+        .header-info {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-top: 15px;
+        }
+        
+        .header-info p {
+            font-size: 1.1rem;
+            color: #8b949e;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .header-info strong {
+            color: #f0f6fc;
+            font-weight: 600;
+        }
+        
+        .header-badge {
+            background-color: #238636;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .content {
+            padding: 40px 30px;
+        }
+        
+        .toc {
+            background: linear-gradient(135deg, #21262d 0%, #30363d 100%);
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 40px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .toc h2 {
+            color: #58a6ff;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .toc ul {
+            list-style: none;
+            max-height: 400px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            word-wrap: break-word;
+        }
+        
+        .toc li {
+            padding: 12px 0;
+            border-bottom: 1px solid #30363d;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.2s ease;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+        
+        .toc li:last-child {
+            border-bottom: none;
+        }
+        
+        .toc li:hover {
+            background-color: rgba(88, 166, 255, 0.1);
+            border-radius: 6px;
+            margin: 0 -10px;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+        
+        .toc-link {
+            color: #e0e0e0;
+            text-decoration: none;
+            flex: 1;
+            font-weight: 500;
+            transition: color 0.2s ease;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            margin-right: 10px;
+        }
+        
+        .toc-link:hover {
+            color: #58a6ff;
+        }
+        
+        .toc-platform {
+            color: #8b949e;
+            font-size: 0.85rem;
+            background-color: #30363d;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-weight: 500;
+            flex-shrink: 0;
+        }
+        
+        .question-card {
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            padding: 30px;
+            background: linear-gradient(135deg, #21262d 0%, #161b22 100%);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .question-title-section {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .question-title {
+            margin: 0;
+        }
+        
+        .question-title a {
+            color: #58a6ff;
+            text-decoration: none;
+            font-size: 1.4rem;
+            font-weight: 600;
+            line-height: 1.3;
+            transition: color 0.2s ease;
+        }
+        
+        .question-title a:hover {
+            color: #79c0ff;
+            text-decoration: underline;
+        }
+        
+        .question-meta {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+        
+        .platform-badge {
+            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .difficulty-badge {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .difficulty-badge.easy {
+            background: linear-gradient(135deg, #238636 0%, #2ea043 100%);
+        }
+        
+        .difficulty-badge.medium {
+            background: linear-gradient(135deg, #da7633 0%, #fb8500 100%);
+        }
+        
+        .difficulty-badge.hard {
+            background: linear-gradient(135deg, #da3633 0%, #f85149 100%);
+        }
+        
+        .availability-badge {
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        
+        .availability-badge.solution {
+            background: linear-gradient(135deg, #7c3aed 0%, #8b5cf6 100%);
+        }
+        
+        .availability-badge.explanation {
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+        }
+        
+        .topics-section {
+            margin-bottom: 25px;
+            padding: 20px;
+            background-color: #0d1117;
+            border-radius: 8px;
+            border: 1px solid #30363d;
+        }
+        
+        .topics-section strong {
+            color: #f0f6fc;
+            font-weight: 600;
+        }
+        
+        .topic-badge {
+            background: linear-gradient(135deg, #30363d 0%, #21262d 100%);
+            color: #e0e0e0;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin-right: 8px;
+            margin-bottom: 6px;
+            display: inline-block;
+            font-weight: 500;
+            border: 1px solid #30363d;
+            transition: all 0.2s ease;
+        }
+        
+        .topic-badge:hover {
+            background: linear-gradient(135deg, #58a6ff 0%, #79c0ff 100%);
+            color: white;
+            transform: translateY(-1px);
+        }
+        
+        .content-section {
+            background-color: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+        
+        .solution-section, .explanation-section {
+            margin: 25px 0;
+        }
+        
+        .solution-section h3, .explanation-section h3 {
+            color: #58a6ff;
+            margin-bottom: 15px;
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+        
+        /* Enhanced content styling */
+        .content-section h1, .content-section h2, .content-section h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: #f0f6fc;
+            font-weight: 600;
+        }
+        
+        .content-section p {
+            margin-bottom: 15px;
+            color: #e0e0e0;
+            line-height: 1.7;
+        }
+        
+        .content-section ul, .content-section ol {
+            margin-left: 25px;
+            margin-bottom: 15px;
+        }
+        
+        .content-section li {
+            margin-bottom: 8px;
+        }
+        
+        .content-section pre {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 20px;
+            overflow-x: auto;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin: 15px 0;
+            color: #e0e0e0;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .content-section code {
+            background-color: #21262d;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            padding: 0.3em 0.5em;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            color: #f85149;
+            border: 1px solid #30363d;
+        }
+        
+        .content-section pre code {
+            background-color: transparent;
+            padding: 0;
+            color: #e0e0e0;
+            border: none;
+        }
+        
+        .content-section a {
+            color: #58a6ff;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        
+        .content-section a:hover {
+            color: #79c0ff;
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .header {
+                padding: 30px 20px;
+            }
+            
+            .header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .header-info {
+                gap: 15px;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .content {
+                padding: 25px 20px;
+            }
+            
+            .question-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .question-meta {
+                width: 100%;
+            }
+            
+            .toc {
+                padding: 20px;
+            }
+            
+            .question-card {
+                padding: 25px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>counting sort</h1>
+            <div class="header-info">
+                <p><strong>Total Questions:</strong> <span class="header-badge">9</span></p>
+                <p><strong>Generated by:</strong> pushkar</p>
+                <p><strong>Date:</strong> August 24, 2025</p>
+            </div>
+        </header>
+        
+        <div class="content">
+            <div class="toc">
+                <h2>📋 Table of Contents</h2>
+                <ul>
+                    <li><a href="#question-0" class="toc-link">Array Partition</a> <span class="toc-platform">LeetCode</span></li>
+<li><a href="#question-1" class="toc-link">Height Checker</a> <span class="toc-platform">LeetCode</span></li>
+<li><a href="#question-2" class="toc-link">H-Index</a> <span class="toc-platform">LeetCode</span></li>
+<li><a href="#question-3" class="toc-link">How Many Numbers Are Smaller Than the Current Number</a> <span class="toc-platform">LeetCode</span></li>
+<li><a href="#question-4" class="toc-link">Maximum Ice Cream Bars</a> <span class="toc-platform">LeetCode</span></li>
+<li><a href="#question-5" class="toc-link">Minimum Number of Moves to Seat Everyone</a> <span class="toc-platform">LeetCode</span></li>
+<li><a href="#question-6" class="toc-link">Relative Sort Array</a> <span class="toc-platform">LeetCode</span></li>
+<li><a href="#question-7" class="toc-link">Smallest Palindromic Rearrangement I</a> <span class="toc-platform">LeetCode</span></li>
+<li><a href="#question-8" class="toc-link">Sort an Array</a> <span class="toc-platform">LeetCode</span></li>
+                </ul>
+            </div>
+            
+            <div class="question-card" id="question-0">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.leetcode.com/problems/array-partition/description" target="_blank" rel="noopener noreferrer">Array Partition</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">LeetCode</span>
+						<span class="difficulty-badge easy">Easy</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">array</span> <span class="topic-badge">counting sort</span> <span class="topic-badge">greedy</span> <span class="topic-badge">sorting</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p>Given an integer array <code>nums</code> of <code>2n</code> integers, group these integers into <code>n</code> pairs <code>(a<sub>1</sub>, b<sub>1</sub>), (a<sub>2</sub>, b<sub>2</sub>), ..., (a<sub>n</sub>, b<sub>n</sub>)</code> such that the sum of <code>min(a<sub>i</sub>, b<sub>i</sub>)</code> for all <code>i</code> is <strong>maximized</strong>. Return<em> the maximized sum</em>.</p>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [1,4,3,2]
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> All possible pairings (ignoring the ordering of elements) are:
+1. (1, 4), (2, 3) -&gt; min(1, 4) + min(2, 3) = 1 + 2 = 3
+2. (1, 3), (2, 4) -&gt; min(1, 3) + min(2, 4) = 1 + 2 = 3
+3. (1, 2), (3, 4) -&gt; min(1, 2) + min(3, 4) = 1 + 3 = 4
+So the maximum possible sum is 4.</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [6,2,6,5,1,2]
+<strong>Output:</strong> 9
+<strong>Explanation:</strong> The optimal pairing is (2, 1), (2, 5), (6, 6). min(2, 1) + min(2, 5) + min(6, 6) = 1 + 2 + 6 = 9.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= n &lt;= 10<sup>4</sup></code></li>
+	<li><code>nums.length == 2 * n</code></li>
+	<li><code>-10<sup>4</sup> &lt;= nums[i] &lt;= 10<sup>4</sup></code></li>
+</ul>
+</div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-1">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.leetcode.com/problems/height-checker/description" target="_blank" rel="noopener noreferrer">Height Checker</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">LeetCode</span>
+						<span class="difficulty-badge easy">Easy</span>
+						<span class="availability-badge solution">Solution</span>
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">array</span> <span class="topic-badge">counting sort</span> <span class="topic-badge">sorting</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p>A school is trying to take an annual photo of all the students. The students are asked to stand in a single file line in <strong>non-decreasing order</strong> by height. Let this ordering be represented by the integer array <code>expected</code> where <code>expected[i]</code> is the expected height of the <code>i<sup>th</sup></code> student in line.</p>
+
+<p>You are given an integer array <code>heights</code> representing the <strong>current order</strong> that the students are standing in. Each <code>heights[i]</code> is the height of the <code>i<sup>th</sup></code> student in line (<strong>0-indexed</strong>).</p>
+
+<p>Return <em>the <strong>number of indices</strong> where </em><code>heights[i] != expected[i]</code>.</p>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+
+<pre>
+<strong>Input:</strong> heights = [1,1,4,2,1,3]
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> 
+heights:  [1,1,<u>4</u>,2,<u>1</u>,<u>3</u>]
+expected: [1,1,<u>1</u>,2,<u>3</u>,<u>4</u>]
+Indices 2, 4, and 5 do not match.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> heights = [5,1,2,3,4]
+<strong>Output:</strong> 5
+<strong>Explanation:</strong>
+heights:  [<u>5</u>,<u>1</u>,<u>2</u>,<u>3</u>,<u>4</u>]
+expected: [<u>1</u>,<u>2</u>,<u>3</u>,<u>4</u>,<u>5</u>]
+All indices do not match.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> heights = [1,2,3,4,5]
+<strong>Output:</strong> 0
+<strong>Explanation:</strong>
+heights:  [1,2,3,4,5]
+expected: [1,2,3,4,5]
+All indices match.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= heights.length &lt;= 100</code></li>
+	<li><code>1 &lt;= heights[i] &lt;= 100</code></li>
+</ul>
+</div>
+			</div>
+			
+			<div class="solution-section">
+					<h3>Solution</h3>
+					<div class="content-section"><p>[TOC]</p>
+<h2 id="solution">Solution</h2>
+<hr />
+<h3 id="overview">Overview</h3>
+<p>In this problem, we are required to find the number of elements that are different than the respective index if the array is sorted. We must sort the given array and compare the sorted and unsorted arrays.</p>
+<p><img src="../Figures/1051/Slide1.jpg" alt="slide1" /></p>
+<p><strong>Key Observation:</strong> The purpose of this problem is to evaluate the interviewee's understanding of sorting algorithms and their ability to implement these algorithms without relying on built-in sort methods.</p>
+<p>There are a variety of sorting algorithms such as Bubble Sort, Insertion Sort, Selection Sort, Merge Sort, Heap Sort, Quick Sort, Counting Sort, Radix Sort, and others.</p>
+<p><img src="../Figures/1051/Slide2.jpg" alt="slide1" /></p>
+<p>We attached a list of time complexities of some popular sorting algorithms. Here, <code>n</code> is the number of elements in the array, <code>k</code> is the size of buckets used, and <code>d</code> is the number of digits in the maximum element in the array.</p>
+<p>In this article, we will concentrate on five algorithms that are deemed efficient and reasonable to implement during a real interview setting for this particular problem - <strong>Bubble Sort, Merge Sort, Heap Sort, Counting Sort, and Radix Sort</strong>. We will give brief descriptions of these algorithms but won't cover them in great detail.<br />
+For those who would like to explore these and other sorting algorithms in greater detail, we are providing a link to our <a href="https://leetcode.com/explore/learn/card/sorting/693/introduction/4431/">Sorting Leetbook</a>.</p>
+<p><strong>Note:</strong> We highly recommend implementing the other sorting algorithms on your own, too, for more practice.</p>
+<hr />
+<h3 id="approach-1-bubble-sort">Approach 1: Bubble Sort</h3>
+<h4 id="intuition">Intuition</h4>
+<p>Bubble Sort is a classic sorting algorithm known for its simplicity. Bubble Sort operates by repeatedly stepping through the list, comparing adjacent elements, and swapping them if they are in the wrong order. The pass through the list is repeated until the list is sorted.</p>
+<p>Here's a breakdown of how Bubble Sort works:</p>
+<ul>
+<li>
+<p><strong>Iterate through the list:</strong> Bubble Sort starts at the beginning of the list and compares adjacent pairs of elements.</p>
+</li>
+<li>
+<p><strong>Compare adjacent elements:</strong> For each pair of adjacent elements, Bubble Sort compares them and swaps them if they are in the wrong order.</p>
+</li>
+<li>
+<p><strong>Repeat until sorted:</strong> Bubble Sort continues making passes through the list, comparing and swapping adjacent elements until the entire list is sorted.</p>
+</li>
+</ul>
+<p><img src="../Figures/1051/Slide3.jpg" alt="slide0" /></p>
+<h4 id="algorithm">Algorithm</h4>
+<ol>
+<li>
+<p>Create a function called <code>bubbleSort</code> which takes in the original array <code>arr</code> as a parameter.</p>
+<ul>
+<li>Initialize the variable <code>n</code> with the length of the array <code>arr</code>.</li>
+<li>Iterate through the array <code>arr</code> from index <code>i = 0</code> to <code>n - 1</code>.
+<ul>
+<li>Initialize a nested loop from index <code>j = 0</code> to <code>n - i - 1</code>.
+<ul>
+<li>In each iteration, compare the current element <code>arr[j]</code> with the next element <code>arr[j + 1]</code>.</li>
+<li>If <code>arr[j]</code> is greater than <code>arr[j + 1]</code>, swap the elements to place the smaller element before the larger one.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Create a new array, <code>sortedHeights</code>, with the same elements as the <code>heights</code> array.</p>
+</li>
+<li>
+<p>Sort the <code>sortedHeights</code> array using the <code>bubbleSort</code> function.</p>
+</li>
+<li>
+<p>Iterate through all indices of the <code>heights</code> array, comparing each element with the corresponding element in the <code>sortedHeights</code> array. Count the number of indices where the elements differ.</p>
+</li>
+<li>
+<p>Return the total count of indices with differing elements.</p>
+</li>
+</ol>
+<h4 id="implementation">Implementation</h4>
+<p><a href="https://leetcode.com/playground/NRF5s4bC/shared">code</a></p>
+<h4 id="complexity-analysis">Complexity Analysis</h4>
+<p>Here, <span class="math inline">\(n\)</span> is the number of elements in the <code>heights</code> array.</p>
+<ul>
+<li>
+<p>Time complexity: <span class="math inline">\(O(n^2)\)</span></p>
+<ul>
+<li>To sort the array we iterate on the array <span class="math inline">\(n - 1\)</span> times, each iteration will take <span class="math inline">\(O(n)\)</span> time. Thus, sorting will take <span class="math inline">\(O(n^2)\)</span> time.</li>
+<li>While comparing sorted and unsorted arrays, we again iterate on <span class="math inline">\(n\)</span> elements, which will take <span class="math inline">\(O(n)\)</span> time.</li>
+<li>Thus, overall it takes <span class="math inline">\(O(n + n^2) = O(n^2)\)</span> time.</li>
+</ul>
+</li>
+<li>
+<p>Space complexity: <span class="math inline">\(O(n)\)</span></p>
+<ul>
+<li>The sorting happens in place, but we created an additional array <code>sortedHeights</code> of size <span class="math inline">\(n\)</span>.</li>
+<li>Thus, overall we use <span class="math inline">\(O(n)\)</span> space.</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h3 id="approach-2-merge-sort">Approach 2: Merge Sort</h3>
+<h4 id="intuition-1">Intuition</h4>
+<p>Merge Sort is a divide-and-conquer sorting algorithm. The intuition behind it is to divide the data set into smaller and smaller sub-arrays until it is easy to sort, and then merge the sorted sub-arrays back into a larger sorted array.</p>
+<p>The steps for implementing Merge Sort are as follows:</p>
+<ul>
+<li>
+<p><strong>Divide the data set into two equal parts:</strong> The first step in the Merge Sort algorithm is to divide the data set into two equal halves. This is done by finding the middle point of the data set and splitting the data into two parts.</p>
+</li>
+<li>
+<p><strong>Recursively sort each half:</strong> Once the data set is divided into two halves, the Merge Sort function is called recursively on each half. The recursive calls continue until each half of the data is sorted into single-element arrays.</p>
+</li>
+<li>
+<p><strong>Merge the sorted halves:</strong> Once each half of the data is sorted, the two halves are merged back into one final sorted array. The merging process involves comparing the first elements of each half and inserting the smaller element into the final array. This process continues until one of the halves is empty. The remaining elements of the other half are then inserted into the final array.</p>
+</li>
+<li>
+<p><strong>Repeat the process until the entire data is sorted:</strong> The Merge Sort function is called recursively until the entire data set is sorted.</p>
+</li>
+</ul>
+<p><img src="../Figures/1051/Slide4.jpg" alt="slide2" /></p>
+<h4 id="algorithm-1">Algorithm</h4>
+<ol>
+<li>
+<p>Create a helper function called <code>merge</code> which takes in the original array <code>arr</code>, indices <code>left</code>, <code>mid</code>, <code>right</code>, and a temporary array <code>tempArr</code> as parameters.</p>
+<ul>
+<li>Calculate the start indices and sizes of the two halves of the array. The first half starts from the <code>left</code> index and the second half starts from <code>mid + 1</code>.</li>
+<li>Copy elements of both halves into the temporary array.</li>
+<li>Merge the sub-arrays from the temporary array <code>tempArr</code> back into the array <code>arr</code> in a sorted order using a while loop. The loop runs until either the first half or second half is completely merged. In each iteration, the smaller of the two elements from the first and second half is copied into the array <code>arr</code>.</li>
+<li>Copy any remaining elements from the first half or second half into the array <code>arr</code>.</li>
+</ul>
+</li>
+<li>
+<p>Create a recursive function called <code>mergeSort</code>, which takes in the original array <code>arr</code>, indices <code>left</code> and <code>right</code>, and a temporary array <code>tempArr</code> as parameters.</p>
+<ul>
+<li>Check if the <code>left</code> index is greater than or equal to the <code>right</code> index. If it is, we return from the function.</li>
+<li>Calculate the <code>mid</code> index.</li>
+<li>Sort the first and second halves of the array recursively by calling the <code>mergeSort</code> function.</li>
+<li>Merge the sorted halves by calling the <code>merge</code> function.</li>
+</ul>
+</li>
+<li>
+<p>Create a temporary array <code>temporaryArray</code> with the same size as the <code>heights</code> array.</p>
+</li>
+<li>
+<p>Create a new array, <code>sortedHeights</code>, with the same elements as the <code>heights</code> array.</p>
+</li>
+<li>
+<p>Sort the <code>sortedHeights</code> array using the <code>mergeSort</code> function.</p>
+</li>
+<li>
+<p>Iterate through all indices of the <code>heights</code> array, comparing each element with the corresponding element in the <code>sortedHeights</code> array. Count the number of indices where the elements differ.</p>
+</li>
+<li>
+<p>Return the total count of indices with differing elements.</p>
+</li>
+</ol>
+<h4 id="implementation-1">Implementation</h4>
+<p><a href="https://leetcode.com/playground/Aw5jM37K/shared">code</a></p>
+<h4 id="complexity-analysis-1">Complexity Analysis</h4>
+<p>Here, <span class="math inline">\(n\)</span> is the number of elements in the <code>heights</code> array.</p>
+<ul>
+<li>
+<p>Time complexity: <span class="math inline">\(O(n \log n)\)</span></p>
+<ul>
+<li>While sorting, we divide the <code>arr</code> array into two halves till there is only one element in the array, which will lead to <span class="math inline">\(O(\log n)\)</span> steps.<br />
+<span class="math inline">\(n \rarr n/2 \rarr n/4 \rarr ... \rarr 1 \space (\text{k steps}) \)</span><br />
+<span class="math inline">\(n / 2^{(k-1)} = 1 \implies $\)</span>k \approx \log n$</li>
+<li>After each division, we merge those respective halves which will take <span class="math inline">\(O(n)\)</span> time each. Thus, sorting will take <span class="math inline">\(O(n \log n)\)</span> time.</li>
+<li>While comparing sorted and unsorted arrays, we again iterate on <span class="math inline">\(n\)</span> elements, which will take <span class="math inline">\(O(n)\)</span> time.</li>
+<li>Thus, overall it takes <span class="math inline">\(O(n + n \log n) = O(n \log n)\)</span> time.</li>
+</ul>
+</li>
+<li>
+<p>Space complexity: <span class="math inline">\(O(n)\)</span></p>
+<ul>
+<li>The recursive stack will take <span class="math inline">\(O(\log n)\)</span> space, and we used additional arrays, <code>temporaryArray</code> and <code>sortedHeights</code> of size <span class="math inline">\(n\)</span> each.</li>
+<li>Thus, overall we use <span class="math inline">\(O(\log n + 2n) = O(n)\)</span> space.</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h3 id="approach-3-heap-sort">Approach 3: Heap Sort</h3>
+<h4 id="intuition-2">Intuition</h4>
+<p>The intuition behind Heap Sort is to organize the elements of the data set into a binary heap (a max binary heap, or a min binary heap), which provides a fast way to access the largest (or smallest) element. We will implement Heap Sort using a max binary heap. A max binary heap is a complete binary tree-based data structure where a parent node must be greater than or equal to its children nodes. This property ensures that the largest element is always at the root node of the max binary heap.</p>
+<p>The steps for implementing Heap Sort are as follows:</p>
+<ul>
+<li>
+<p><strong>Build the binary heap:</strong> Organize the elements of the array into a max binary heap such that the parent node is either greater than or equal to its children nodes. In the resulting max binary heap we will have the largest element at the root node.</p>
+</li>
+<li>
+<p><strong>Swap the root node and the last element:</strong> Swap the root node (which is the largest element) with the last element in the heap. This places the largest element at the end of the array.</p>
+</li>
+<li>
+<p><strong>Rebuild the heap:</strong> Rebuild the heap with the new root node to satisfy the heap property without considering the already swapped elements from the array.</p>
+</li>
+<li>
+<p><strong>Repeat steps 2 and 3:</strong> Repeat steps 2 and 3 until the binary heap is empty and the array is sorted in ascending order.</p>
+</li>
+</ul>
+<p><img src="../Figures/1051/Slide5.jpg" alt="slide3" /></p>
+<p>!?!../Documents/1051/slideshow.json:1200,750!?!</p>
+<h4 id="algorithm-2">Algorithm</h4>
+<ol>
+<li>
+<p>Create a function <code>heapify</code> that takes the original array <code>arr</code>, size <code>n</code>, and index <code>i</code> as input.</p>
+<ul>
+<li>Initialize <code>largest</code> as <code>i</code>.</li>
+<li>Calculate the left child of node <code>i</code> as <code>2 * i + 1</code> and the right child as <code>2 * i + 2</code>.</li>
+<li>If the left child of node <code>i</code> is less than <code>n</code> and the value of the left child is greater than the value at <code>largest</code>, then set <code>largest</code> to <code>left</code>.</li>
+<li>If the right child of node <code>i</code> is less than <code>n</code> and the value of the right child is greater than the value at <code>largest</code>, then set <code>largest</code> to <code>right</code>.</li>
+<li>If <code>largest</code> is not equal to <code>i</code>, then swap the values at <code>i</code> and <code>largest</code>, and call <code>heapify</code> on the affected sub-tree rooted at <code>largest</code>.</li>
+</ul>
+</li>
+<li>
+<p>Create a function <code>heapSort</code> that takes an array <code>arr</code> as input.</p>
+<ul>
+<li>Initialize <code>n</code> as the size of the array.</li>
+<li>Build the max heap by calling <code>heapify</code> function on each node (except leaf nodes).</li>
+<li>Then, traverse the elements of the array <code>arr</code> from end to beginning, and for each element swap the root with the last element and call <code>heapify</code> on the reduced array to make sure it remains a max heap.</li>
+</ul>
+</li>
+<li>
+<p>Create a new array, <code>sortedHeights</code>, with the same elements as the <code>heights</code> array.</p>
+</li>
+<li>
+<p>Sort the <code>sortedHeights</code> array using the <code>heapSort</code> function.</p>
+</li>
+<li>
+<p>Iterate through all indices of the <code>heights</code> array, comparing each element with the corresponding element in the <code>sortedHeights</code> array. Count the number of indices where the elements differ.</p>
+</li>
+<li>
+<p>Return the total count of indices with differing elements.</p>
+</li>
+</ol>
+<h4 id="implementation-2">Implementation</h4>
+<p><a href="https://leetcode.com/playground/UaUiF6ng/shared">code</a></p>
+<h4 id="complexity-analysis-2">Complexity Analysis</h4>
+<p>Here, <span class="math inline">\(n\)</span> is the number of elements in the <code>heights</code> array.</p>
+<ul>
+<li>
+<p>Time complexity: <span class="math inline">\(O(n \log n)\)</span></p>
+<ul>
+<li>Initially, heapifying the whole <code>nums</code> array will take <span class="math inline">\(O(n)\)</span> time.</li>
+<li>While heapifying the <code>nums</code> array after swapping the first element with the last, we traverse the height of the complete binary tree made using <span class="math inline">\(n\)</span> elements, which leads to <span class="math inline">\(O(\log n)\)</span> time operations, and this heapifying is done <span class="math inline">\(n\)</span> times, once for each element. Thus, sorting will take <span class="math inline">\(O(n + n \log n) = O(n \log n)\)</span> time.</li>
+<li>While comparing sorted and unsorted arrays, we again iterate on <span class="math inline">\(n\)</span> elements, which will take <span class="math inline">\(O(n)\)</span> time.</li>
+<li>Thus, overall it takes <span class="math inline">\(O(n + n \log n) = O(n \log n)\)</span> time.</li>
+</ul>
+</li>
+<li>
+<p>Space complexity: <span class="math inline">\(O(n)\)</span></p>
+<ul>
+<li>The recursive stack will take <span class="math inline">\(O(\log n)\)</span> space, the sorting happens in place.</li>
+<li>We created an additional array <code>sortedHeights</code> of size <span class="math inline">\(n\)</span>.</li>
+<li>Thus, overall we use <span class="math inline">\(O(n)\)</span> space.</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h3 id="approach-4-counting-sort">Approach 4: Counting Sort</h3>
+<h4 id="intuition-3">Intuition</h4>
+<p>The intuition behind counting sort is to count the frequency of each element in the input array and then place the elements in their correct positions based on their values and frequencies. Counting sort is a non-comparative sorting algorithm and is useful in situations where the elements in the array have a limited range.</p>
+<p>The steps for implementing Counting Sort are as follows:</p>
+<ul>
+<li>
+<p><strong>Create a counting hash map:</strong> Create a hash map that stores the frequency of each element.</p>
+</li>
+<li>
+<p><strong>Find the minimum and maximum values:</strong> Iterate over the input array to find the minimum and maximum elements that will be used later on.</p>
+</li>
+<li>
+<p><strong>Count the frequency of each element:</strong> Loop through the input array and increase the count of the corresponding element in the counting hash map.</p>
+</li>
+<li>
+<p><strong>Place elements in the original array:</strong> Loop through the range of elements in the input array from the minimum value to the maximum value and place each element in its proper position in the original array based on the frequency in the hash map.</p>
+</li>
+</ul>
+<p><img src="../Figures/1051/Slide7.jpg" alt="slide4" /></p>
+<h4 id="algorithm-3">Algorithm</h4>
+<ol>
+<li>
+<p>Create a function <code>countingSort</code> to sort the original array <code>arr</code>.</p>
+<ul>
+<li>Create a counting hash map <code>counts</code> to store the count of each element of the array.</li>
+<li>Find the minimum and maximum values <code>minVal</code> and <code>maxVal</code> in the array.</li>
+<li>Iterate through the array <code>arr</code> and update the count of each element in the hash map.</li>
+<li>Initialize a variable <code>index</code> to zero, which will be used to store the sorted elements in the array <code>arr</code>.</li>
+<li>Start a loop that goes from the minimum value <code>minVal</code> to the maximum value <code>maxVal</code>.
+<ul>
+<li>For each value <code>val</code> in the loop, check if its count in the hash map <code>counts</code> is greater than zero. If it is, overwrite that value in the array <code>arr</code> starting at the <code>index</code> position. Update the <code>index</code> and decrease the count of the value in the hash map <code>counts</code> by <code>1</code>.</li>
+</ul>
+</li>
+<li>The input array <code>arr</code> should now be sorted.</li>
+</ul>
+</li>
+<li>
+<p>Create a new array, <code>sortedHeights</code>, with the same elements as the <code>heights</code> array.</p>
+</li>
+<li>
+<p>Sort the <code>sortedHeights</code> array using the <code>countingSort</code> function.</p>
+</li>
+<li>
+<p>Iterate through all indices of the <code>heights</code> array, comparing each element with the corresponding element in the <code>sortedHeights</code> array. Count the number of indices where the elements differ.</p>
+</li>
+<li>
+<p>Return the total count of indices with differing elements.</p>
+</li>
+</ol>
+<h4 id="implementation-3">Implementation</h4>
+<p><a href="https://leetcode.com/playground/PG3xMqqk/shared">code</a></p>
+<h4 id="complexity-analysis-3">Complexity Analysis</h4>
+<p>Here, <span class="math inline">\(n\)</span> is the number of elements in the <code>heights</code> array, and <span class="math inline">\(k\)</span> is the range of value of its elements (minimum value to maximum value).</p>
+<ul>
+<li>
+<p>Time complexity: <span class="math inline">\(O(n + k)\)</span></p>
+<ul>
+<li>We iterate on the array elements while counting the frequency and finding minimum and maximum values, taking <span class="math inline">\(O(n)\)</span> time.</li>
+<li>Then we iterate on the input array's element's range, which will take <span class="math inline">\(O(k)\)</span> time. Thus, sorting will take <span class="math inline">\(O(n + k)\)</span> time.</li>
+<li>While comparing sorted and unsorted arrays, we again iterate on <span class="math inline">\(n\)</span> elements, which will take <span class="math inline">\(O(n)\)</span> time.</li>
+<li>Thus, overall it takes <span class="math inline">\(O(n + n + k) = O(n + k)\)</span> time.</li>
+</ul>
+</li>
+<li>
+<p>Space complexity: <span class="math inline">\(O(n)\)</span></p>
+<ul>
+<li>We use a hash map <code>counts</code> which might store all <span class="math inline">\(O(n)\)</span> elements of the input array in worst-case.</li>
+<li>We created an additional array <code>sortedHeights</code> of size <span class="math inline">\(n\)</span>.</li>
+<li>Thus, overall we use <span class="math inline">\(O(n)\)</span> space.</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h3 id="approach-5-radix-sort">Approach 5: Radix Sort</h3>
+<h4 id="intuition-4">Intuition</h4>
+<p>The intuition behind radix sort is that it takes advantage of the fact that integers have a finite number of digits and each digit can have a limited number of values (0 to 9). Instead of comparing elements, it sorts elements by the individual digits of the integers.</p>
+<blockquote>
+<p>This approach is not expected by the interviewer and is a bit complex to code during an interview setting, but we are listing it here to show you how you can use a radix sort on integer arrays.</p>
+</blockquote>
+<p>The steps for implementing Radix Sort are as follows:</p>
+<ul>
+<li>
+<p><strong>Sort array using bucket sort:</strong> For each place value (unit place to last place) sort the array using counting/bucket sort.</p>
+</li>
+<li>
+<p><strong>Bucket Sort:</strong> We need 10 buckets for each digit (0 - 9), and we will push array elements into their respective bucket and fetch the elements from each bucket one by one in the order it was pushed in the bucket.</p>
+</li>
+</ul>
+<p><img src="../Figures/1051/Slide8.jpg" alt="slide5" /></p>
+<p><img src="../Figures/1051/Slide9.jpg" alt="slide5" /></p>
+<h4 id="algorithm-4">Algorithm</h4>
+<ol>
+<li>
+<p>Create a function, <code>bucketSort</code>, which takes an array <code>arr</code> and an integer <code>placeValue</code> (indicating the place according to which the array will be sorted) as input.</p>
+<ul>
+<li>Create 2D array <code>buckets</code> with <code>10</code> rows, to store respective bucket elements together.</li>
+<li>Loop through each element in <code>arr</code>, find the digit of the number based on the current place value, and store it in the respective bucket.</li>
+<li>Overwrite <code>arr</code> with the elements stored in each bucket in the correct order.</li>
+</ul>
+</li>
+<li>
+<p>Create a function <code>radixSort</code> which takes an array <code>arr</code> as input.</p>
+<ul>
+<li>Find the maximum absolute value <code>maxElement</code> in <code>arr</code> and find the number of digits <code>maxDigits</code> in the maximum element.</li>
+<li>Loop through the digits, starting from the least significant digit place, and call <code>bucketSort</code> for each place value.</li>
+</ul>
+</li>
+<li>
+<p>Create a new array, <code>sortedHeights</code>, with the same elements as the <code>heights</code> array.</p>
+</li>
+<li>
+<p>Sort the <code>sortedHeights</code> array using the <code>radixSort</code> function.</p>
+</li>
+<li>
+<p>Iterate through all indices of the <code>heights</code> array, comparing each element with the corresponding element in the <code>sortedHeights</code> array. Count the number of indices where the elements differ.</p>
+</li>
+<li>
+<p>Return the total count of indices with differing elements.</p>
+</li>
+</ol>
+<h4 id="implementation-4">Implementation</h4>
+<p><a href="https://leetcode.com/playground/8zBNPf5z/shared">code</a></p>
+<h4 id="complexity-analysis-4">Complexity Analysis</h4>
+<p>Here, <span class="math inline">\(n\)</span> is the number of elements in the <code>heights</code> array, <span class="math inline">\(d\)</span> is the number of digits in the maximum element, and <span class="math inline">\(b = 10\)</span> is the size of the bucket used.</p>
+<ul>
+<li>
+<p>Time complexity: <span class="math inline">\(O(d \cdot (n + b))\)</span></p>
+<ul>
+<li>We iterate on the array elements to find the maximum number and then find the count of its digits, taking <span class="math inline">\(O(n + d)\)</span> time.</li>
+<li>Then we sort the array for each integer place which will take <span class="math inline">\(O(n + b)\)</span> time, thus for all <span class="math inline">\(d\)</span> places it will take <span class="math inline">\(O(d \cdot (n + b))\)</span> time. Thus, sorting will take <span class="math inline">\(O((n + d) + d \cdot (n + b)) = O(d \cdot (n + b))\)</span> time.</li>
+<li>While comparing sorted and unsorted arrays, we again iterate on <span class="math inline">\(n\)</span> elements, which will take <span class="math inline">\(O(n)\)</span> time.</li>
+<li>Therefore, overall it takes <span class="math inline">\(O(n + d \cdot (n + b)) = O(d \cdot (n + b))\)</span> time.</li>
+</ul>
+</li>
+<li>
+<p>Space complexity: <span class="math inline">\(O(n + b)\)</span></p>
+<ul>
+<li>We create an additional array <code>sortedHeights</code> of size <span class="math inline">\(n\)</span> and <code>buckets</code> which use <span class="math inline">\(O(n + b)\)</span> space.</li>
+<li>Thus, overall we use <span class="math inline">\(O(n+ b)\)</span> space.</li>
+</ul>
+</li>
+</ul>
+</div>
+				</div>
+		</div>
+
+<div class="question-card" id="question-2">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.leetcode.com/problems/h-index/description" target="_blank" rel="noopener noreferrer">H-Index</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">LeetCode</span>
+						<span class="difficulty-badge medium">Medium</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">array</span> <span class="topic-badge">counting sort</span> <span class="topic-badge">sorting</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p>Given an array of integers <code>citations</code> where <code>citations[i]</code> is the number of citations a researcher received for their <code>i<sup>th</sup></code> paper, return <em>the researcher&#39;s h-index</em>.</p>
+
+<p>According to the <a href="https://en.wikipedia.org/wiki/H-index" target="_blank">definition of h-index on Wikipedia</a>: The h-index is defined as the maximum value of <code>h</code> such that the given researcher has published at least <code>h</code> papers that have each been cited at least <code>h</code> times.</p>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+
+<pre>
+<strong>Input:</strong> citations = [3,0,6,1,5]
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> [3,0,6,1,5] means the researcher has 5 papers in total and each of them had received 3, 0, 6, 1, 5 citations respectively.
+Since the researcher has 3 papers with at least 3 citations each and the remaining two with no more than 3 citations each, their h-index is 3.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> citations = [1,3,1]
+<strong>Output:</strong> 1
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>n == citations.length</code></li>
+	<li><code>1 &lt;= n &lt;= 5000</code></li>
+	<li><code>0 &lt;= citations[i] &lt;= 1000</code></li>
+</ul>
+</div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-3">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.leetcode.com/problems/how-many-numbers-are-smaller-than-the-current-number/description" target="_blank" rel="noopener noreferrer">How Many Numbers Are Smaller Than the Current Number</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">LeetCode</span>
+						<span class="difficulty-badge easy">Easy</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">array</span> <span class="topic-badge">counting sort</span> <span class="topic-badge">sorting</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p>Given the array <code>nums</code>, for each <code>nums[i]</code> find out how many numbers in the array are smaller than it. That is, for each <code>nums[i]</code> you have to count the number of valid <code>j&#39;s</code>&nbsp;such that&nbsp;<code>j != i</code> <strong>and</strong> <code>nums[j] &lt; nums[i]</code>.</p>
+
+<p>Return the answer in an array.</p>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [8,1,2,2,3]
+<strong>Output:</strong> [4,0,1,1,3]
+<strong>Explanation:</strong> 
+For nums[0]=8 there exist four smaller numbers than it (1, 2, 2 and 3). 
+For nums[1]=1 does not exist any smaller number than it.
+For nums[2]=2 there exist one smaller number than it (1). 
+For nums[3]=2 there exist one smaller number than it (1). 
+For nums[4]=3 there exist three smaller numbers than it (1, 2 and 2).
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [6,5,4,8]
+<strong>Output:</strong> [2,1,0,3]
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [7,7,7,7]
+<strong>Output:</strong> [0,0,0,0]
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>2 &lt;= nums.length &lt;= 500</code></li>
+	<li><code>0 &lt;= nums[i] &lt;= 100</code></li>
+</ul>
+</div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-4">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.leetcode.com/problems/maximum-ice-cream-bars/description" target="_blank" rel="noopener noreferrer">Maximum Ice Cream Bars</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">LeetCode</span>
+						<span class="difficulty-badge medium">Medium</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">array</span> <span class="topic-badge">counting sort</span> <span class="topic-badge">greedy</span> <span class="topic-badge">sorting</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p>It is a sweltering summer day, and a boy wants to buy some ice cream bars.</p>
+
+<p>At the store, there are <code>n</code> ice cream bars. You are given an array <code>costs</code> of length <code>n</code>, where <code>costs[i]</code> is the price of the <code>i<sup>th</sup></code> ice cream bar in coins. The boy initially has <code>coins</code> coins to spend, and he wants to buy as many ice cream bars as possible.&nbsp;</p>
+
+<p><strong>Note:</strong> The boy can buy the ice cream bars in any order.</p>
+
+<p>Return <em>the <strong>maximum</strong> number of ice cream bars the boy can buy with </em><code>coins</code><em> coins.</em></p>
+
+<p>You must solve the problem by counting sort.</p>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+
+<pre>
+<strong>Input:</strong> costs = [1,3,2,4,1], coins = 7
+<strong>Output:</strong> 4
+<strong>Explanation: </strong>The boy can buy ice cream bars at indices 0,1,2,4 for a total price of 1 + 3 + 2 + 1 = 7.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> costs = [10,6,8,7,7,8], coins = 5
+<strong>Output:</strong> 0
+<strong>Explanation: </strong>The boy cannot afford any of the ice cream bars.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> costs = [1,6,3,1,2,5], coins = 20
+<strong>Output:</strong> 6
+<strong>Explanation: </strong>The boy can buy all the ice cream bars for a total price of 1 + 6 + 3 + 1 + 2 + 5 = 18.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>costs.length == n</code></li>
+	<li><code>1 &lt;= n &lt;= 10<sup>5</sup></code></li>
+	<li><code>1 &lt;= costs[i] &lt;= 10<sup>5</sup></code></li>
+	<li><code>1 &lt;= coins &lt;= 10<sup>8</sup></code></li>
+</ul>
+</div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-5">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.leetcode.com/problems/minimum-number-of-moves-to-seat-everyone/description" target="_blank" rel="noopener noreferrer">Minimum Number of Moves to Seat Everyone</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">LeetCode</span>
+						<span class="difficulty-badge easy">Easy</span>
+						<span class="availability-badge solution">Solution</span>
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">array</span> <span class="topic-badge">counting sort</span> <span class="topic-badge">greedy</span> <span class="topic-badge">sorting</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p>There are <code>n</code> <strong>availabe </strong>seats and <code>n</code> students <strong>standing</strong> in a room. You are given an array <code>seats</code> of length <code>n</code>, where <code>seats[i]</code> is the position of the <code>i<sup>th</sup></code> seat. You are also given the array <code>students</code> of length <code>n</code>, where <code>students[j]</code> is the position of the <code>j<sup>th</sup></code> student.</p>
+
+<p>You may perform the following move any number of times:</p>
+
+<ul>
+	<li>Increase or decrease the position of the <code>i<sup>th</sup></code> student by <code>1</code> (i.e., moving the <code>i<sup>th</sup></code> student from position&nbsp;<code>x</code>&nbsp;to <code>x + 1</code> or <code>x - 1</code>)</li>
+</ul>
+
+<p>Return <em>the <strong>minimum number of moves</strong> required to move each student to a seat</em><em> such that no two students are in the same seat.</em></p>
+
+<p>Note that there may be <strong>multiple</strong> seats or students in the <strong>same </strong>position at the beginning.</p>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+
+<pre>
+<strong>Input:</strong> seats = [3,1,5], students = [2,7,4]
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> The students are moved as follows:
+- The first student is moved from position 2 to position 1 using 1 move.
+- The second student is moved from position 7 to position 5 using 2 moves.
+- The third student is moved from position 4 to position 3 using 1 move.
+In total, 1 + 2 + 1 = 4 moves were used.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> seats = [4,1,5,9], students = [1,3,2,6]
+<strong>Output:</strong> 7
+<strong>Explanation:</strong> The students are moved as follows:
+- The first student is not moved.
+- The second student is moved from position 3 to position 4 using 1 move.
+- The third student is moved from position 2 to position 5 using 3 moves.
+- The fourth student is moved from position 6 to position 9 using 3 moves.
+In total, 0 + 1 + 3 + 3 = 7 moves were used.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> seats = [2,2,6,6], students = [1,3,2,6]
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> Note that there are two seats at position 2 and two seats at position 6.
+The students are moved as follows:
+- The first student is moved from position 1 to position 2 using 1 move.
+- The second student is moved from position 3 to position 6 using 3 moves.
+- The third student is not moved.
+- The fourth student is not moved.
+In total, 1 + 3 + 0 + 0 = 4 moves were used.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>n == seats.length == students.length</code></li>
+	<li><code>1 &lt;= n &lt;= 100</code></li>
+	<li><code>1 &lt;= seats[i], students[j] &lt;= 100</code></li>
+</ul>
+</div>
+			</div>
+			
+			<div class="solution-section">
+					<h3>Solution</h3>
+					<div class="content-section"><p>[TOC]</p>
+<h2 id="solution">Solution</h2>
+<hr />
+<h3 id="overview">Overview</h3>
+<p>If you picture a classroom with rows of seats that represent positions, with students sitting in them, it will be hard to solve this problem.</p>
+<p>We can think of the problem like this:</p>
+<p>There are <code>n</code> <strong>available</strong> seats and <code>n</code> students <strong>standing</strong> in a room.</p>
+<p>If we think of the positions as areas in the room, then we can visualize the room as the following:</p>
+<blockquote>
+<p><strong>Input:</strong> seats = [3,3,1,5], students = [2,2,7,4]</p>
+</blockquote>
+<p><img src="../Figures/2037/room.png" alt="Room" /></p>
+<p>Note that the image shows some students who are already seated, but we aren't given information about these students in the input. This helps emphasize that the students we need to move are not currently seated. We can ignore any already filled seats.</p>
+<p>We need to move the standing students to empty seats in the minimum number of moves.</p>
+<hr />
+<h3 id="approach-1-sorting-greedy">Approach 1: Sorting (Greedy)</h3>
+<h4 id="intuition">Intuition</h4>
+<p>Here's a visualization of the first example from the problem description:</p>
+<p>!?!../Documents/2037/2037_slideshow1.json:960,250!?!</p>
+<p>It looks like we move each student to the nearest available seat. It takes 4 moves, which is the sum of the number of positions each student had to move to be seated.</p>
+<p>What if there are multiple nearest seats? What if the student at position 4 chose the seat at position 5?</p>
+<p><img src="../Figures/2037/notoptimal.png" alt="Not Optimal" /></p>
+<p>Then, the student at position 7 has to walk to the seat at position 3, which takes 4 moves, for a total of 6 moves, 2 more moves than in the above example.</p>
+<p>Let's refine our strategy. Upon further inspection, we can observe that in the first example, the student with the lowest position sat in the seat with the lowest position, and the student with the highest position sat in the seat with the highest position.</p>
+<p>We can develop a strategy based on this observation: Place the student with the lowest position in the seat with the lowest position, and repeat with the next student and the next lowest available seat until all of the students are seated. We need to process the students and seats in increasing order, so we will sort both arrays to facilitate this process.</p>
+<p>We can see strategy works for the third example from the problem description:</p>
+<p>!?!../Documents/2037/2037_slideshow3.json:960,250!?!</p>
+<p>Moving from left to right, we place the first student in the first seat. The second student remains in their current seat. Then, we move the third student to the next available seat, and the fourth student retains their current seat.</p>
+<p>This is a greedy strategy because, for each student, we choose the locally optimal seat.</p>
+<p>After sorting, the student at index <code>i</code> will occupy the seat at index <code>i</code>. We calculate the number of moves by subtracting the student's position from the seat's position. If the student needs to move left to reach their seat, the difference will be negative, but it still contributes to the total number of moves, so we take the absolute value of the difference.</p>
+<h4 id="algorithm">Algorithm</h4>
+<ol>
+<li>Sort the given arrays <code>seats</code> and <code>students</code>.</li>
+<li>Initialize a variable <code>moves</code> to <code>0</code> for storing the result.</li>
+<li>For each index in the <code>seats</code> array:
+<ul>
+<li>Add the absolute difference between the position of the seat at that index and the position of the student at that index to <code>moves</code>.</li>
+</ul>
+</li>
+<li>Return <code>moves</code>.</li>
+</ol>
+<h4 id="implementation">Implementation</h4>
+<p><a href="https://leetcode.com/playground/XvnQd25F/shared">code</a></p>
+<h4 id="complexity-analysis">Complexity Analysis</h4>
+<p>Let <span class="math inline">\(n\)</span> be the size of <code>seats</code> and <code>students</code>.</p>
+<ul>
+<li>
+<p>Time Complexity: <span class="math inline">\(O(n \log n)\)</span></p>
+<p>Sorting an array of length <span class="math inline">\(n\)</span> takes <span class="math inline">\(O(n \log n)\)</span>, and we need to sort two arrays. The for loop iterates over each index once, taking <span class="math inline">\(O(n)\)</span> time. <span class="math inline">\(O(n \log n)\)</span> is the dominating term.</p>
+</li>
+<li>
+<p>Space Complexity: <span class="math inline">\(O(n)\)</span> or <span class="math inline">\(O(\log n)\)</span></p>
+<p>Some extra space is used when we sort the arrays in place. The space complexity of the sorting algorithm depends on the programming language.</p>
+<ul>
+<li>In Python, the <code>sort</code> method sorts a list using the Tim Sort algorithm which is a combination of Merge Sort and Insertion Sort and has <span class="math inline">\(O(n)\)</span> additional space.</li>
+<li>In C++, the sort() function is implemented as a hybrid of Quick Sort, Heap Sort, and Insertion Sort, with a worse-case space complexity of <span class="math inline">\(O(\log n)\)</span>.</li>
+<li>In Java, Arrays.sort() is implemented using a variant of the Quick Sort algorithm which has a space complexity of <span class="math inline">\(O(\log n)\)</span> for sorting two arrays.</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h3 id="approach-2-counting-sort">Approach 2: Counting Sort</h3>
+<h4 id="intuition-1">Intuition</h4>
+<p>The sorting step in the above approach introduced a log-linear time complexity. We can use counting sort to develop an approach with linear complexity.</p>
+<blockquote>
+<p>The basic idea of counting sort is to use an array as a map, storing the number of occurrences of each element at the corresponding index in the array. If you are not familiar with counting sort, we recommend reading our <strong><a href="https://leetcode.com/explore/learn/card/sorting/695/non-comparison-based-sorts/4437/">Counting Sort Explore Card</a></strong>.</p>
+</blockquote>
+<p>The array used for counting sort needs to be able to store every possible element, so we start by finding <code>maxPosition</code>, the maximum element across both arrays. Then, we initialize an array <code>differences</code> of size <code>maxPosition</code>.</p>
+<p>To reduce the space needed, we can use a single array to sort both <code>seats</code> and <code>students</code> by representing <code>seats</code> with positive values and <code>students</code> with negative values. We iterate through <code>seats</code> and increment the value of <code>differences</code> at the corresponding position by <code>1</code>. Next, we iterate through <code>students</code> and decrease the <code>differences</code> at the corresponding position by <code>1</code>.</p>
+<p>!?!../Documents/2037/2037_slideshow4.json:720,360!?!</p>
+<p>Then, we can use the <code>differences</code> array to calculate the number of moves. We use the variable <code>unmatched</code> to keep track of the number of unseated students or empty seats we have encountered and have not yet matched. The <code>unmatched</code> variable is positive if there are extra seats and negative if there are extra students.</p>
+<p>If <code>unmatched</code> is <code>-1</code>, it means there is a student who needs a seat. Each position we encounter without a seat represents a position the student must move. For each position in the <code>differences</code> array, we add the absolute value of <code>unmatched</code> to the number of moves. Our goal is to match the student with any available seat we find, so we add the <code>difference</code> at the current position to <code>unmatched</code>.</p>
+<p>!?!../Documents/2037/2037_slideshow5.json:720,360!?!</p>
+<h4 id="algorithm-1">Algorithm</h4>
+<ol>
+<li>Declare the <code>findMax</code> function which finds the maximum element in an array.
+<ul>
+<li>Initialize a variable <code>maximum</code> to <code>0</code>.</li>
+<li>Iterate through each number in the array:
+<ul>
+<li>If the current number is greater than the <code>maximum</code>, update the <code>maximum</code>.</li>
+</ul>
+</li>
+<li>Return <code>maximum</code>.</li>
+</ul>
+</li>
+<li>Find the maximum element in each array <code>seats</code> and <code>students</code> and initialize a variable <code>maxPosition</code> to the larger maximum element.</li>
+<li>Declare an array <code>differences</code> of size <code>maxPosition</code>. This array will store the difference between the number of seats and the number of students at each position.</li>
+<li>Iterate through <code>seats</code> and count the number of seats available at each position. For each position, increment <code>difference[position - 1]</code> by <code>1</code>. We subtract <code>1</code> from the position because the positions are 1-indexed.</li>
+<li>Iterate through <code>students</code> and count the number of students standing at each position. For each position, decrement <code>difference[position - 1]</code> by <code>1</code>.</li>
+<li>Initialize a variable <code>moves</code> to <code>0</code> and a variable <code>unmatched</code> to <code>0</code>.</li>
+<li>For each <code>difference</code> in <code>differences</code>:
+<ul>
+<li>Add the absolute value of <code>unmatched</code> to <code>moves</code>.</li>
+<li>Add <code>difference</code> to <code>unmatched</code>.</li>
+</ul>
+</li>
+<li>Return <code>moves</code>.</li>
+</ol>
+<h4 id="implementation-1">Implementation</h4>
+<p><a href="https://leetcode.com/playground/2uFczDur/shared">code</a></p>
+<h4 id="complexity-analysis-1">Complexity Analysis</h4>
+<p>Let <span class="math inline">\(n\)</span> be the size of <code>seats</code> and <code>students</code>. Let <span class="math inline">\(m\)</span> be the maximum position stored in either of the arrays.</p>
+<ul>
+<li>
+<p>Time complexity: <span class="math inline">\(O(n + m)\)</span></p>
+<p>To find the maximum position, we iterate through both <code>seats</code> and <code>students</code>, which takes <span class="math inline">\(O(2n)\)</span>.</p>
+<p>Populating the <code>differences</code> array also takes <span class="math inline">\(O(2n)\)</span> because we iterate through both <code>seats</code> and <code>students</code>.</p>
+<p>We iterate through the <code>differences</code> array, which is size <span class="math inline">\(m\)</span>, to calculate the number of moves needed to seat the students, taking <span class="math inline">\(O(m)\)</span>.</p>
+<p>The overall time complexity is <span class="math inline">\(O(4n + m)\)</span>, which we can simplify to <span class="math inline">\(O(n + m)\)</span>.</p>
+</li>
+<li>
+<p>Space complexity: <span class="math inline">\(O(m)\)</span></p>
+<p>We use an auxiliary array <code>differences</code> of size <span class="math inline">\(O(m)\)</span>.</p>
+</li>
+</ul>
+</div>
+				</div>
+		</div>
+
+<div class="question-card" id="question-6">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.leetcode.com/problems/relative-sort-array/description" target="_blank" rel="noopener noreferrer">Relative Sort Array</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">LeetCode</span>
+						<span class="difficulty-badge easy">Easy</span>
+						<span class="availability-badge solution">Solution</span>
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">array</span> <span class="topic-badge">counting sort</span> <span class="topic-badge">sorting</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p>Given two arrays <code>arr1</code> and <code>arr2</code>, the elements of <code>arr2</code> are distinct, and all elements in <code>arr2</code> are also in <code>arr1</code>.</p>
+
+<p>Sort the elements of <code>arr1</code> such that the relative ordering of items in <code>arr1</code> are the same as in <code>arr2</code>. Elements that do not appear in <code>arr2</code> should be placed at the end of <code>arr1</code> in <strong>ascending</strong> order.</p>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+
+<pre>
+<strong>Input:</strong> arr1 = [2,3,1,3,2,4,6,7,9,2,19], arr2 = [2,1,4,3,9,6]
+<strong>Output:</strong> [2,2,2,1,4,3,3,9,6,7,19]
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> arr1 = [28,6,22,8,44,17], arr2 = [22,28,8,6]
+<strong>Output:</strong> [22,28,8,6,17,44]
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= arr1.length, arr2.length &lt;= 1000</code></li>
+	<li><code>0 &lt;= arr1[i], arr2[i] &lt;= 1000</code></li>
+	<li>All the elements of <code>arr2</code> are <strong>distinct</strong>.</li>
+	<li>Each&nbsp;<code>arr2[i]</code> is in <code>arr1</code>.</li>
+</ul>
+</div>
+			</div>
+			
+			<div class="solution-section">
+					<h3>Solution</h3>
+					<div class="content-section"><p>[TOC]</p>
+<h2 id="solution">Solution</h2>
+<hr />
+<h3 id="approach-1-using-two-loops-and-sorting">Approach 1: Using Two Loops and Sorting</h3>
+<h4 id="intuition">Intuition</h4>
+<p>One way to solve this problem is to use nested loops to find the elements in <code>arr1</code> that are present in <code>arr2</code>, and then sort the remaining elements.</p>
+<p>To start, we will create a new array <code>result</code> to store the sorted elements. The first step is to identify the elements present in both <code>arr1</code> and <code>arr2</code>. We iterate through <code>arr2</code> using a loop, and for each element in <code>arr2</code>, we check if the same element exists in <code>arr1</code>. If it does, we add that element to the result array and mark its position in <code>arr1</code> as -1 to avoid duplicates.</p>
+<p>After this step, the result array will contain all the elements from <code>arr1</code> that were present in <code>arr2</code>, in the order they appeared in <code>arr2</code>. Now, we need to add the remaining elements from <code>arr1</code> that were not present in <code>arr2</code>. We sort the <code>arr1</code> array which brings all the unmarked elements (-1) to the left end of the array. Then, we iterate through <code>arr1</code> again and add all the non-negative elements to the result array.</p>
+<p>After both steps, we return the result array, which now contains all the elements from <code>arr1</code> sorted according to the relative order specified by <code>arr2</code>, followed by the remaining elements in ascending order.</p>
+<h4 id="algorithm">Algorithm</h4>
+<ul>
+<li>Initialize an empty <code>result</code> array.</li>
+<li>Iterate through the relative order array (<code>arr2</code>).
+<ul>
+<li>For each element in <code>arr2</code>, iterate through the target array (<code>arr1</code>).
+<ul>
+<li>If the element in <code>arr1</code> matches the current element in <code>arr2</code>.
+<ul>
+<li>Add the element to the <code>result</code> array.</li>
+<li>Mark the element in <code>arr1</code> as visited (-1).</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Sort the remaining elements in <code>arr1</code> (elements not marked as visited).</li>
+<li>Iterate through <code>arr1</code> again.
+<ul>
+<li>If the element is not marked as visited, add it to the <code>result</code> array.</li>
+</ul>
+</li>
+<li>Return the <code>result</code> array.</li>
+</ul>
+<h4 id="implementation">Implementation</h4>
+<p><a href="https://leetcode.com/playground/MhcSKxtd/shared">code</a></p>
+<h4 id="complexity-analysis">Complexity Analysis</h4>
+<p>Let <span class="math inline">\(n\)</span> be the size of <code>arr1</code> and <span class="math inline">\(m\)</span> be the size of <code>arr2</code>.</p>
+<ul>
+<li>
+<p>Time complexity: <span class="math inline">\(O(m \cdot n + n \log n)\)</span></p>
+<p>We iterate through each element of <code>arr2</code> and for each element, we iterate through <code>arr1</code>. This results in <span class="math inline">\(O(m \cdot n)\)</span> time complexity.</p>
+<p>Sorting <code>arr1</code> has a time complexity of <span class="math inline">\(O(n \log n)\)</span>.</p>
+<p>Iterating through <code>arr1</code> to add non-marked elements to the result has a time complexity of <span class="math inline">\(O(n)\)</span>.</p>
+<p>Combining these steps, the overall time complexity is <span class="math inline">\(O(m \cdot n + n \log n + n)\)</span>, which we can simplify to <span class="math inline">\(O(m \cdot n + n \log n)\)</span>.</p>
+</li>
+<li>
+<p>Space complexity: <span class="math inline">\(O(n)\)</span> or <span class="math inline">\(O( \log n )\)</span></p>
+<p>Apart from the <code>result</code> array and a few variables, the algorithm doesn't use any additional data structures that scale with input size. We do not count <code>result</code> array in the space complexity as it's only used to store the output.</p>
+<p>Note that some extra space is used when we sort arrays in place. The space complexity of the sorting algorithm depends on the programming language.</p>
+<ul>
+<li>In Python, the sort method sorts a list using the Timsort algorithm which is a combination of Merge Sort and Insertion Sort and has <span class="math inline">\(O(n)\)</span> additional space.</li>
+<li>In Java, <code>Arrays.sort()</code> is implemented using a variant of the Quick Sort algorithm which has a space complexity of <span class="math inline">\(O( \log n )\)</span> for sorting two arrays.</li>
+<li>In C++, the <code>sort()</code> function is implemented as a hybrid of Quick Sort, Heap Sort, and Insertion Sort, with a worse-case space complexity of <span class="math inline">\(O( \log n )\)</span>.</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h3 id="approach-2-using-hash-map-for-counting-and-sorting">Approach 2: Using Hash Map for Counting and Sorting</h3>
+<h4 id="intuition-1">Intuition</h4>
+<p>We can improve upon the first approach by using a map to store the elements from <code>arr2</code> and their frequencies in <code>arr1</code>. This eliminates the need for nested loops and reduces the time complexity to <span class="math inline">\(O(m + n \log n)\)</span>. Also, we can use a temporary array <code>remaining</code> to store the remaining elements, avoiding the need for sorting the entire <code>arr1</code>, further improving efficiency.</p>
+<p>We will use a map to store the elements from <code>arr2</code> as keys and their frequencies in <code>arr1</code> as values. We will also create a temporary array <code>remaining</code> to store elements from <code>arr1</code> that are not present in <code>arr2</code>.</p>
+<p>Then, we will iterate through <code>arr1</code> and update the frequencies in the map for elements present in <code>arr2</code>. If an element is not present in <code>arr2</code>, we will add it to the <code>remaining</code> array. After processing all elements from <code>arr1</code>, we sort the <code>remaining</code> array in ascending order.</p>
+<p>Next, we create the final <code>result</code> array. We iterate through <code>arr2</code> and add each element to the result based on its frequency stored in the map. After processing all elements from <code>arr2</code>, we will add the elements from the <code>remaining</code> array to the <code>result</code>.</p>
+<h4 id="algorithm-1">Algorithm</h4>
+<ul>
+<li>Initialize an empty <code>result</code> array and an empty <code>remaining</code> array.</li>
+<li>Initialize an unordered map (<code>countMap</code>) with elements from <code>arr2</code> as keys and initial count as 0.</li>
+<li>Iterate through <code>arr1</code>.
+<ul>
+<li>If the element is present in <code>countMap</code> (i.e., present in <code>arr2</code>).
+<ul>
+<li>Increment the count in <code>countMap</code> for that element.</li>
+</ul>
+</li>
+<li>Else (element not present in <code>arr2</code>).
+<ul>
+<li>Add the element to the <code>remaining</code> array.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Sort the <code>remaining</code> array.</li>
+<li>Iterate through <code>arr2</code>.
+<ul>
+<li>For each element in <code>arr2</code>.
+<ul>
+<li>Add the element to the <code>result</code> array, <code>countMap[element]</code> times.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Iterate through the <code>remaining</code> array.
+<ul>
+<li>Add all elements from the <code>remaining</code> array to the <code>result</code> array.</li>
+</ul>
+</li>
+<li>Return the <code>result</code> array.</li>
+</ul>
+<h4 id="implementation-1">Implementation</h4>
+<p><a href="https://leetcode.com/playground/byQXHNt3/shared">code</a></p>
+<h4 id="complexity-analysis-1">Complexity Analysis</h4>
+<p>Let <span class="math inline">\(n\)</span> be the size of <code>arr1</code> and <span class="math inline">\(m\)</span> be the size of <code>arr2</code>.</p>
+<ul>
+<li>
+<p>Time complexity: <span class="math inline">\(O(m + n \log n)\)</span></p>
+<p>Initializing the map with elements from <code>arr2</code> takes <span class="math inline">\(O(m)\)</span> time.</p>
+<p>Counting occurrences of elements in <code>arr1</code> and updating the map or adding to the <code>remaining</code> array takes <span class="math inline">\(O(n)\)</span> time.</p>
+<p>Sorting the <code>remaining</code> array takes <span class="math inline">\(O(n \log n)\)</span> time.</p>
+<p>Adding elements to the <code>result</code> array based on the map and the relative order of <code>arr2</code> takes <span class="math inline">\(O(n)\)</span> time.</p>
+<p>Adding the sorted remaining elements to the result list takes <span class="math inline">\(O(n)\)</span> time.</p>
+<p>Combining these steps, the overall time complexity is <span class="math inline">\(O(m + n + n \log n + n)\)</span>, which we can simplify to <span class="math inline">\(O(m + n \log n)\)</span>.</p>
+</li>
+<li>
+<p>Space complexity: <span class="math inline">\(O(n + m)\)</span></p>
+<p>We use an unordered map to store the frequencies of elements in <code>arr2</code>. Since <code>arr2</code> has <code>m</code> unique elements, the space required is <span class="math inline">\(O(m)\)</span>.</p>
+<p>We store elements from <code>arr1</code> that are not present in <code>arr2</code>. In the worst case, all <code>n</code> elements of <code>arr1</code> are unique and not in <code>arr2</code>, requiring <span class="math inline">\(O(n)\)</span> space.</p>
+<p>Additionally some extra space is used when we sort arrays in place. The space complexity of the sorting algorithm depends on the programming language.</p>
+<ul>
+<li>In Python, the sort method sorts a list using the Timsort algorithm which is a combination of Merge Sort and Insertion Sort and has <span class="math inline">\(O(n)\)</span> additional space.</li>
+<li>In Java, <code>Arrays.sort()</code> is implemented using a variant of the Quick Sort algorithm which has a space complexity of <span class="math inline">\(O( \log n )\)</span> for sorting two arrays.</li>
+<li>In C++, the <code>sort()</code> function is implemented as a hybrid of Quick Sort, Heap Sort, and Insertion Sort, with a worse-case space complexity of <span class="math inline">\(O( \log n )\)</span>.</li>
+</ul>
+<p>Therefore, the overall space complexity depends on the language used for sorting:<br />
+Python: <span class="math inline">\(O(n + m)\)</span><br />
+Java/C++: <span class="math inline">\(O(n + m + \log n)\)</span>, which simplifies to <span class="math inline">\(O(n + m)\)</span></p>
+</li>
+</ul>
+<hr />
+<h3 id="approach-3-using-counting-sort">Approach 3: Using Counting Sort</h3>
+<h4 id="intuition-2">Intuition</h4>
+<p>In Approach 2, we used an unordered map to store the elements from <code>arr2</code> as keys and their frequencies in <code>arr1</code> as values. In this approach, we can use an array <code>count</code> to store the frequencies of elements in <code>arr1</code>. This is more memory-efficient than using an unordered map, as the elements in <code>arr1</code> are guaranteed to be in the range of 0 to 1000.</p>
+<p>We will find the maximum element in <code>arr1</code> and use an array <code>count</code> of size <code>maxElement + 1</code> to store the frequencies of elements in <code>arr1</code>. We iterate through <code>arr1</code> and update the frequencies in the <code>count</code> array.</p>
+<p>Next, we create the final result array. Then, we iterate through <code>arr2</code>, and for each element in <code>arr2</code>, we add it to the result as many times as its frequency in <code>count[element]</code>. We decrement <code>count[element]</code> after each addition to keep accurate track of the elements we still need to add.</p>
+<p>After processing all elements from <code>arr2</code>, we iterate through the remaining elements in the <code>count</code> array. For each index <code>num</code> where <code>count[num]</code> is non-zero, we add the element <code>num</code> to the result as many times as its frequency (<code>count[num]</code>).</p>
+<p>Finally, we return the result array, which now contains all the elements from the original <code>arr1</code>, sorted according to the relative order specified by <code>arr2</code>, followed by the remaining elements in ascending order.</p>
+<p>The approach is visualized below:</p>
+<p>!?!../Documents/1122/approach3.json:976,627!?!</p>
+<h4 id="algorithm-2">Algorithm</h4>
+<ul>
+<li>Find the <code>maxElement</code> in <code>arr1</code>.</li>
+<li>Initialize a <code>count</code> array of size <code>maxElement + 1</code> to store the count of occurrences of each element.</li>
+<li>Iterate through <code>arr1</code>.
+<ul>
+<li>Increment the count in the <code>count</code> array for each element.</li>
+</ul>
+</li>
+<li>Initialize an empty <code>result</code> array.</li>
+<li>Iterate through <code>arr2</code>.
+<ul>
+<li>For each element in <code>arr2</code>.
+<ul>
+<li>Add the element to the <code>result</code> array, <code>count[element]</code> times.</li>
+<li>Decrement the count in the <code>count</code> array for that element.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Iterate from 0 to <code>maxElement</code>.
+<ul>
+<li>For each index <code>i</code>.
+<ul>
+<li>Add the element i to the <code>result</code> array, <code>count[i]</code> times.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Return the <code>result</code> array.</li>
+</ul>
+<h4 id="implementation-2">Implementation</h4>
+<p><a href="https://leetcode.com/playground/8zYFp6ww/shared">code</a></p>
+<h4 id="complexity-analysis-2">Complexity Analysis</h4>
+<p>Let <span class="math inline">\(n\)</span> be the size of <code>arr1</code> and <span class="math inline">\(m\)</span> be the size of <code>arr2</code>. Let <span class="math inline">\(k\)</span> be the maximum element in <code>arr1</code>.</p>
+<ul>
+<li>
+<p>Time complexity: <span class="math inline">\(O(n + m + k)\)</span></p>
+<p>Finding the maximum element in <code>arr1</code> takes <span class="math inline">\(O(n)\)</span> time.</p>
+<p>Counting occurrences of each element in <code>arr1</code> using the count array takes <span class="math inline">\(O(n)\)</span> time.</p>
+<p>Adding elements to the <code>result</code> array based on the relative order of arr2 takes <span class="math inline">\(O(m + n)\)</span> time.</p>
+<p>Iterating through the count array to add remaining elements to the <code>result</code> array takes <span class="math inline">\(O(n + k)\)</span> time.</p>
+<p>Combining these steps, the overall time complexity is <span class="math inline">\(O(n + n + m + n + k) = O(n + m + k)\)</span>.</p>
+</li>
+<li>
+<p>Space complexity: <span class="math inline">\(O(k)\)</span></p>
+<p>The count array has a size of <code>maxElement + 1</code>, resulting in <span class="math inline">\(O(k)\)</span> space, where <span class="math inline">\(k\)</span> is the maximum element in <code>arr1</code>.</p>
+</li>
+</ul>
+<hr />
+</div>
+				</div>
+		</div>
+
+<div class="question-card" id="question-7">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.leetcode.com/problems/smallest-palindromic-rearrangement-i/description" target="_blank" rel="noopener noreferrer">Smallest Palindromic Rearrangement I</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">LeetCode</span>
+						<span class="difficulty-badge medium">Medium</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">counting sort</span> <span class="topic-badge">sorting</span> <span class="topic-badge">string</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p>You are given a <strong><span data-keyword="palindrome-string">palindromic</span></strong> string <code>s</code>.</p>
+
+<p>Return the <strong><span data-keyword="lexicographically-smaller-string">lexicographically smallest</span></strong> palindromic <span data-keyword="permutation-string">permutation</span> of <code>s</code>.</p>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">s = &quot;z&quot;</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">&quot;z&quot;</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>A string of only one character is already the lexicographically smallest palindrome.</p>
+</div>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">s = &quot;babab&quot;</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">&quot;abbba&quot;</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>Rearranging <code>&quot;babab&quot;</code> &rarr; <code>&quot;abbba&quot;</code> gives the smallest lexicographic palindrome.</p>
+</div>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">s = &quot;daccad&quot;</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">&quot;acddca&quot;</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>Rearranging <code>&quot;daccad&quot;</code> &rarr; <code>&quot;acddca&quot;</code> gives the smallest lexicographic palindrome.</p>
+</div>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= s.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>s</code> consists of lowercase English letters.</li>
+	<li><code>s</code> is guaranteed to be palindromic.</li>
+</ul>
+</div>
+			</div>
+			
+			
+		</div>
+
+<div class="question-card" id="question-8">
+			<div class="question-header">
+				<div class="question-title-section">
+					<h2 class="question-title">
+						<a href="https://www.leetcode.com/problems/sort-an-array/description" target="_blank" rel="noopener noreferrer">Sort an Array</a>
+					</h2>
+					<div class="question-meta">
+						<span class="platform-badge">LeetCode</span>
+						<span class="difficulty-badge medium">Medium</span>
+						
+					</div>
+				</div>
+			</div>
+			<div class="topics-section">
+				<strong>Topics:</strong> <span class="topic-badge">array</span> <span class="topic-badge">bucket sort</span> <span class="topic-badge">counting sort</span> <span class="topic-badge">divide and conquer</span> <span class="topic-badge">merge sort</span> <span class="topic-badge">radix-sort</span> <span class="topic-badge">sorting</span>
+			</div>
+			<div class="question-content">
+				<div class="content-section"><p>Given an array of integers <code>nums</code>, sort the array in ascending order and return it.</p>
+
+<p>You must solve the problem <strong>without using any built-in</strong> functions in <code>O(nlog(n))</code> time complexity and with the smallest space complexity possible.</p>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [5,2,3,1]
+<strong>Output:</strong> [1,2,3,5]
+<strong>Explanation:</strong> After sorting the array, the positions of some numbers are not changed (for example, 2 and 3), while the positions of other numbers are changed (for example, 1 and 5).
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [5,1,1,2,0,0]
+<strong>Output:</strong> [0,0,1,1,2,5]
+<strong>Explanation:</strong> Note that the values of nums are not necessarily unique.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= nums.length &lt;= 5 * 10<sup>4</sup></code></li>
+	<li><code>-5 * 10<sup>4</sup> &lt;= nums[i] &lt;= 5 * 10<sup>4</sup></code></li>
+</ul>
+</div>
+			</div>
+			
+			
+		</div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>Generated by pushkar</p>
+        <p>Programming Questions Collection</p>
+    </div>
+    
+    <script>
+        // Smooth scrolling for TOC links
+        document.querySelectorAll('.toc-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // Add scroll-to-top functionality
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 300) {
+                if (!document.querySelector('.scroll-top')) {
+                    const scrollTop = document.createElement('button');
+                    scrollTop.className = 'scroll-top';
+                    scrollTop.innerHTML = '↑';
+                    scrollTop.style.cssText = 'position: fixed; bottom: 20px; right: 20px; background: #58a6ff; color: white; border: none; border-radius: 50%; width: 50px; height: 50px; cursor: pointer; font-size: 20px; z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.3); transition: all 0.3s ease;';
+                    scrollTop.addEventListener('click', () => window.scrollTo({top: 0, behavior: 'smooth'}));
+                    document.body.appendChild(scrollTop);
+                }
+            } else {
+                const scrollTop = document.querySelector('.scroll-top');
+                if (scrollTop) scrollTop.remove();
+            }
+        });
+    </script>
+    
+    <style>
+        .footer {
+            background: linear-gradient(135deg, #21262d 0%, #30363d 100%);
+            color: #8b949e;
+            text-align: center;
+            padding: 30px;
+            margin-top: 50px;
+            border-top: 2px solid #30363d;
+        }
+        
+        .footer p {
+            margin: 8px 0;
+            font-size: 1rem;
+        }
+        
+        .footer p:first-child {
+            color: #f0f6fc;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+    </style>
+</body>
+</html>
